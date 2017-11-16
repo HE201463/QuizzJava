@@ -40,7 +40,7 @@ public class Joueur {
 			Statement st = db.createStatement();
 			st.executeQuery("INSERT INTO public.\"Identifiant\"(\r\n" + 
 											"	pseudo, prenom)\r\n" + 
-											"	VALUES ('"+ pseudo +"', '"+ prenom +"');");
+											"	VALUES ('"+ this.pseudo +"', '"+ this.prenom +"');");
 		} catch (SQLException | ClassNotFoundException e) {
 			
 		}
@@ -192,5 +192,14 @@ public class Joueur {
 		catch(ClassNotFoundException | SQLException e) {
 			
 		}
+	}
+	/**
+	 * 
+	 */
+	public String toString() {
+		return("Pseudo: " + this.pseudo +
+				"\nPrénom: " + this.prenom + 
+				"\nPoint: " + this.point +
+				"\nLevel: " + this.level);
 	}
 }
