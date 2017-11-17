@@ -27,9 +27,10 @@ public class VueIntro extends ProjetVue implements ActionListener{
 	private JLabel label;
 	private JButton creation;
 	private JButton connexion;
+	private JTextArea verif;
 	
-	public VueIntro(DemandeQuestions model, ProjetController controller) {
-		super(model, controller);
+	public VueIntro(Joueur modelJoueur, ProjetController controller) {
+		super(modelJoueur, controller);
 		pageIntro = new JFrame();
 		pageIntro.setTitle("Page d'introduction");
 		pageIntro.setSize(400, 200);
@@ -54,7 +55,7 @@ public class VueIntro extends ProjetVue implements ActionListener{
 		question.setEditable (false); 
 		main.add(question);
 		
-		JTextArea consignes = new JTextArea ("Création pour un nouveau joueur ou connexion si tu as déjà joué"); 
+		JTextArea consignes = new JTextArea ("S'enregistrer pour un nouveau joueur ou connexion si tu as déjà joué"); 
 		consignes.setPreferredSize (new Dimension (400, 50));
 		consignes.setBackground(c_bleu);
 		consignes.setForeground(Color.WHITE);
@@ -70,6 +71,13 @@ public class VueIntro extends ProjetVue implements ActionListener{
 		Box bottom2 = Box.createHorizontalBox();
 		bottom2.setBackground(Color.MAGENTA);  //Cette ligne ne fonctionne pas 
 		main.add(bottom2);
+		
+		verif = new JTextArea ("pour verifier"); 
+		verif.setPreferredSize (new Dimension (400, 50));
+		verif.setBackground(c_bleu);
+		verif.setForeground(Color.PINK);
+		verif.setEditable (false); 
+		main.add(verif);
 		
 		label = new JLabel("Identifiant: "); 
 		label.setPreferredSize (new Dimension (80, 20));
@@ -110,19 +118,28 @@ public class VueIntro extends ProjetVue implements ActionListener{
 
 	@Override
 	public void affiche(String msg) {
-		
+		verif.setText(msg);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == connexion) {
-			pageIntro.setVisible(false);
-			ProjetController ctrlSujet = new ProjetController(model);
-			ProjetVue sujet = new VueSujet(model, ctrlSujet);
-			ctrlSujet.addview(sujet);
+			if(controller.verifconnecte(identifiant.getText(), prenom.getText())) {
+				pageIntro.setVisible(false);
+				Joueur model = new Joueur();
+				ProjetController ctrlSujet = new ProjetController(model);
+				ProjetVue sujet = new VueSujet(model, ctrlSujet, identifiant.getText(), prenom.getText());
+				ctrlSujet.addview(sujet);
+			}			
 		}
 		if(e.getSource() == creation) {
-			Joueur model = new Joueur(identifiant.getText(), prenom.getText());
+			if(controller.verifIdentite(identifiant.getText())) {
+				Joueur model = new Joueur(identifiant.getText(), prenom.getText());
+				pageIntro.setVisible(false);
+				ProjetController ctrlSujet = new ProjetController(model);
+				ProjetVue sujet = new VueSujet(model, ctrlSujet, identifiant.getText(), prenom.getText());
+				ctrlSujet.addview(sujet);
+			}
 		}
 	}
 	

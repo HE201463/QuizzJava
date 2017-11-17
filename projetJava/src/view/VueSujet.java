@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.sql.SQLException;
 import java.util.Observable;
 
 import javax.swing.Box;
@@ -18,6 +19,8 @@ import javax.swing.JTextField;
 
 import controller.ProjetController;
 import model.DemandeQuestions;
+import model.Joueur;
+import projetJava.ProjetMVC;
 
 public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 	
@@ -30,9 +33,13 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 	private JButton niveau2;
 	private JButton niveau3;
 	private Box bottom2;
+	private String identifiant;
+	private String prenom;
 	
-	public VueSujet(DemandeQuestions model, ProjetController controller) {
+	public VueSujet(Joueur model, ProjetController controller, String identifiant, String prenom) {
 		super(model, controller);
+		this.identifiant = identifiant;
+		this.prenom = prenom;
 		pageSujet = new JFrame();
 		pageSujet.setTitle("Page des sujets");
 		pageSujet.setSize(400, 200);
@@ -49,7 +56,7 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		Box bottom = Box.createHorizontalBox();
 		main.add(bottom);
 		
-		text = new JTextField ("Prénom"); 
+		text = new JTextField (this.prenom); 
 		text.setBackground(Color.LIGHT_GRAY);
 		text.setHorizontalAlignment(JLabel.CENTER);
 		bottom.add(text);
@@ -107,9 +114,15 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == niveau1) {
 			pageSujet.setVisible(false);
-			ProjetController ctrlQuest = new ProjetController(model);
-			ProjetVue quest = new ProjetVueGUI(model, ctrlQuest);
-			ctrlQuest.addview(quest);
+			try {
+				new ProjetMVC(0, 2);
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}			
 		}
 	}
 
@@ -136,15 +149,8 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		bottom2.setVisible(true);
-		/*Box bottom2 = Box.createHorizontalBox(); 
-		main.add(bottom2);
-		bottom2.setVisible(true);
-		String texte = e.getItem() + "1";
-		niveau1 = new JButton (texte);
-		bottom2.add(niveau1);
-		niveau2 = new JButton ("niveau2");
-		bottom2.add(niveau2);
-		niveau3 = new JButton ("niveau3");
-		bottom2.add(niveau3);*/
+		niveau1.setText(e.getItem() + "1");
+		niveau2.setText(e.getItem() + "2");
+		niveau3.setText(e.getItem() + "3");
 	}
 }

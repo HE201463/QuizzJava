@@ -6,9 +6,11 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Observable;
 
 import lombok.Getter;
 import lombok.Setter;
+import view.ProjetVue;
 
 /**
  * Cette classe implémente un joueur qui a un pseudo, un prénom, des points et un level
@@ -19,7 +21,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Joueur {
+public class Joueur extends Observable{
 	private String pseudo;
 	private String prenom;
 	private int point;
@@ -33,11 +35,15 @@ public class Joueur {
 	 * @param pseudo unique
 	 * @param prenom 
 	 */
+	
+	public Joueur() {
+		
+	}
+	
 	public Joueur(String pseudo, String prenom) {
 		this.pseudo = pseudo;
 		this.prenom = prenom;
 		point = 0;
-		level = 1;
 		nivInfo = 1;
 		nivMath = 1;
 		nivElec = 1;
@@ -51,5 +57,43 @@ public class Joueur {
 		} catch (SQLException | ClassNotFoundException e) {
 			
 		}
-}
+	}
+	
+	
+	public boolean verifIdentifier(String pseudo) {
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
+			Statement st = db.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM public.\"Joueur\" ");
+			while(rs.next()) {
+				if(pseudo.equals(rs.getString(1))) {
+					return true;
+				}
+			} 
+		} 
+		catch (ClassNotFoundException | SQLException e) {
+			
+		}
+			return false;
+	}
+	
+	
+	public boolean verifConnecter(String pseudo, String prenom) {
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
+			Statement st = db.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM public.\"Joueur\" ");
+			while(rs.next()) {
+				if(pseudo.equals(rs.getString(1))&& prenom.equals(rs.getString(2))) {
+					return true;
+				}
+			} 
+		} 
+		catch (ClassNotFoundException | SQLException e) {
+			
+		}
+			return false;
+	}
 }

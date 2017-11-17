@@ -29,6 +29,8 @@ public class DemandeQuestions extends Observable{
 	protected String rep2;
 	protected String rep3;
 	protected String rep4;
+	
+	
 	protected List<String> questions = new ArrayList<String>();
 	protected List<String> rep = new ArrayList<String>();
 	
@@ -76,7 +78,7 @@ public class DemandeQuestions extends Observable{
 		rep3 = reponses.get(2);
 		rep4 = reponses.get(3);
 		
-		/**
+		/*
 		 * le code ci-dessous me permet de mettre dans la variable bonneReponse le texte qui m'interesse pour la correction.
 		 */
 		if (rep1.equals(bonneReponse)) {
