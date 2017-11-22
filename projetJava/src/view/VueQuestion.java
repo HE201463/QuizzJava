@@ -10,7 +10,6 @@ import java.util.Observable;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -19,16 +18,18 @@ import model.DemandeQuestions;
 
 public class VueQuestion extends ProjetVue implements ActionListener{
 	
-	private JFrame projetJFrame;
-	public JTextField text;
+	private JTextField text;
+	private JTextArea question;
 	private JButton rep1;
 	private JButton rep2;
 	private JButton rep3;
 	private JButton rep4;
-	
-	public VueQuestion(DemandeQuestions model, ProjetController controller) {
-		super(model, controller);
-		projetJFrame = new JFrame();
+	private int i=0;
+		
+	public VueQuestion(DemandeQuestions modelQuestion, ProjetController controller) {
+		super(modelQuestion, controller);
+		model.questionSuivante(i);
+		JFrame projetJFrame = new JFrame();
 		projetJFrame.setTitle("Page des questions");
 		//projetJFrame.setResizable(false); // impossible à redimensionner
 		projetJFrame.setSize(400, 200);
@@ -45,7 +46,7 @@ public class VueQuestion extends ProjetVue implements ActionListener{
 		
 		Color c_bleu = new Color(0,191,255);
 		
-		JTextArea question = new JTextArea (model.getQuestion()); 
+		question = new JTextArea (modelQuestion.getQuestion()); 
 		question.setPreferredSize (new Dimension (400, 100));
 		question.setBackground(c_bleu);
 		question.setForeground(Color.WHITE);
@@ -63,15 +64,16 @@ public class VueQuestion extends ProjetVue implements ActionListener{
 		text.setBackground(Color.lightGray);
 		main.add(text);
 		
-		rep1 = new JButton (model.getRep1());
+		rep1 = new JButton ();
 		bottom.add(rep1);
-		rep2 = new JButton (model.getRep2()); 
+		rep2 = new JButton (); 
 		bottom.add(rep2);
 		
-		rep3 = new JButton (model.getRep3()); 
+		rep3 = new JButton (); 
 		bottom1.add(rep3);
-		rep4 = new JButton (model.getRep4()); 
+		rep4 = new JButton (); 
 		bottom1.add(rep4);
+		afficherTexte();
 		
 		rep1.addActionListener(this);
 		rep2.addActionListener(this);
@@ -80,7 +82,13 @@ public class VueQuestion extends ProjetVue implements ActionListener{
 		
 	}
 	
-	
+	public void afficherTexte() {
+		question.setText(model.getQuestion());
+		rep1.setText(model.getRep1());
+		rep2.setText(model.getRep2());
+		rep3.setText(model.getRep3());
+		rep4.setText(model.getRep4());
+	}
 	
 	
 	
@@ -99,15 +107,47 @@ public class VueQuestion extends ProjetVue implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == rep1) {
 			controller.verification("rep" + 1);
+			if(i<2) {
+				i++;
+				model.questionSuivante(i);
+				afficherTexte();
+			}
+			else {
+				affiche("C'est terminé");
+			}
 		}
 		else if(e.getSource() == rep2) {
 			controller.verification("rep" + 2);
+			if(i<2) {
+				i++;
+				model.questionSuivante(i);
+				afficherTexte();
+			}
+			else {
+				affiche("C'est terminé");
+			}
 		}
 		else if(e.getSource() == rep3){
 			controller.verification("rep" + 3);
+			if(i<2) {
+				i++;
+				model.questionSuivante(i);
+				afficherTexte();
+			}
+			else {
+				affiche("C'est terminé");
+			}
 		}
 		else if(e.getSource() == rep4){
 			controller.verification("rep" + 4);
+			if(i<2) {
+				i++;
+				model.questionSuivante(i);
+				afficherTexte();
+			}
+			else {
+				affiche("C'est terminé");
+			}
 		}
 	}
 

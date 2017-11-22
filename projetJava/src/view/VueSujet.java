@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import controller.ProjetController;
+import model.ConnecterJoueur;
 import model.DemandeQuestions;
 import model.Joueur;
 import projetJava.ProjetMVC;
@@ -25,16 +26,22 @@ import projetJava.ProjetMVC;
 public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 	
 	private JFrame pageSujet;
-	private JTextField text;
 	private JButton propQuestion;
-	private JComboBox<String> combo;
-	private JLabel label;
 	private JButton niveau1;
 	private JButton niveau2;
 	private JButton niveau3;
 	private Box bottom2;
 	private String identifiant;
 	private String prenom;
+	private Box proposeQuestion;
+	private Box bottom1;
+	private JButton valider;
+	private JButton retour;
+	private JTextField quest;
+	private JTextField rep11;
+	private JTextField rep22;
+	private JTextField rep33;
+	private JTextField rep44;
 	
 	public VueSujet(Joueur model, ProjetController controller, String identifiant, String prenom) {
 		super(model, controller);
@@ -42,7 +49,7 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		this.prenom = prenom;
 		pageSujet = new JFrame();
 		pageSujet.setTitle("Page des sujets");
-		pageSujet.setSize(400, 200);
+		pageSujet.setSize(400, 300);
 		pageSujet.setLocation(700, 50); //(horizontal, vertical)
 		pageSujet.setAlwaysOnTop(true);
 		pageSujet.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,33 +63,88 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		Box bottom = Box.createHorizontalBox();
 		main.add(bottom);
 		
-		text = new JTextField (this.prenom); 
+		JTextField text = new JTextField (model.getPrenom()); 
 		text.setBackground(Color.LIGHT_GRAY);
 		text.setHorizontalAlignment(JLabel.CENTER);
 		bottom.add(text);
-		
-		text = new JTextField ("Nombres points"); 
+		text = new JTextField ("Point total: " + model.getPoint()); 
 		text.setBackground(Color.GREEN);
 		text.setHorizontalAlignment(JLabel.CENTER);
 		bottom.add(text);
 		
-		text = new JTextField ("Niveau Global"); ;
-		text.setBackground(Color.CYAN);
-		text.setHorizontalAlignment(JLabel.CENTER);
-		bottom.add(text);
+				
+		Box niveau = Box.createVerticalBox();
+		bottom.add(niveau);
+		
+		JTextField math = new JTextField ("niv math: " + model.getNivMath());
+		niveau.add(math);
+		
+		JTextField info = new JTextField ("niv info: " + model.getNivInfo());
+		niveau.add(info);
+		
+		JTextField elec = new JTextField ("niv elec: " + model.getNivElec());
+		niveau.add(elec);
 		
 		propQuestion = new JButton("Proposer une question");
 		main.add(propQuestion);
 		
-		Box bottom1 = Box.createHorizontalBox(); 
+		bottom1 = Box.createHorizontalBox(); 
 		main.add(bottom1);
 		
-		label = new JLabel("Choisis un sujet: "); 
+		proposeQuestion = Box.createVerticalBox();
+		main.add(proposeQuestion);
+		proposeQuestion.setVisible(false);
+		
+		Box question = Box.createHorizontalBox(); 
+		proposeQuestion.add(question);
+		
+		Box reponse1 = Box.createHorizontalBox(); 
+		proposeQuestion.add(reponse1);
+		Box reponse2 = Box.createHorizontalBox(); 
+		proposeQuestion.add(reponse2);
+		Box reponse3 = Box.createHorizontalBox(); 
+		proposeQuestion.add(reponse3);
+		Box reponse4 = Box.createHorizontalBox(); 
+		proposeQuestion.add(reponse4);
+		
+		Box bouton = Box.createHorizontalBox(); 
+		proposeQuestion.add(bouton);
+		
+		valider = new JButton("Valider");
+		bouton.add(valider);
+		retour = new JButton("retour");
+		bouton.add(retour);
+		
+		
+		JLabel texte = new JLabel("Question proposée ");
+		question.add(texte);
+		quest = new JTextField("");
+		question.add(quest);
+		
+		JLabel rep1 = new JLabel("Bonne réponse ");
+		reponse1.add(rep1);
+		rep11 = new JTextField("");
+		reponse1.add(rep11);
+		JLabel rep2 = new JLabel("Autre réponse ");
+		reponse2.add(rep2);
+		rep22 = new JTextField("");
+		reponse2.add(rep22);
+		JLabel rep3 = new JLabel("Autre réponse ");
+		reponse3.add(rep3);
+		rep33 = new JTextField("");
+		reponse3.add(rep33);
+		JLabel rep4 = new JLabel("Autre réponse ");
+		reponse4.add(rep4);
+		rep44 = new JTextField("");
+		reponse4.add(rep44);
+		
+		
+		JLabel label = new JLabel("Choisis un sujet: "); 
 		label.setHorizontalAlignment(JLabel.RIGHT);
 		label.setPreferredSize (new Dimension (200, 20));
 		label.setBackground(Color.cyan);
 		bottom1.add(label);
-		combo = new JComboBox<String>();
+		JComboBox<String> combo = new JComboBox<String>();
 		combo.addItem("*");
 		combo.addItem("INFO");
 		combo.addItem("MATH");
@@ -103,6 +165,9 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		bottom2.add(niveau3);
 		
 		niveau1.addActionListener(this);
+		propQuestion.addActionListener(this);
+		valider.addActionListener(this);
+		retour.addActionListener(this);
 		
 	}
 	
@@ -114,15 +179,44 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == niveau1) {
 			pageSujet.setVisible(false);
+			
+			DemandeQuestions modelQuestion;
 			try {
-				new ProjetMVC(0, 2);
+				modelQuestion = new DemandeQuestions();
+				ProjetController ctrlQuestion = new ProjetController(modelQuestion);
+				ProjetVue question = new VueQuestion(modelQuestion, ctrlQuestion);
+				ctrlQuestion.addview(question);
+				ProjetController ctrlConsole = new ProjetController(modelQuestion);
+				ProjetVue console = new QuestionConsole(modelQuestion, ctrlConsole);
+				ctrlConsole.addview(console);
+			} catch (ClassNotFoundException | SQLException e1) {
+				e1.printStackTrace();
+			}
+			
+			/*try {
+				new ProjetMVC(2);
 			} catch (ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
-			}			
+			}*/		
+		}
+		if(e.getSource() == propQuestion) {
+			proposeQuestion.setVisible(true);
+			bottom1.setVisible(false);
+			bottom2.setVisible(false);
+		}
+		if (e.getSource() == retour) {
+			proposeQuestion.setVisible(false);
+			bottom1.setVisible(true);
+			bottom2.setVisible(false);
+		}
+		if (e.getSource() == valider) {
+			System.out.println(quest.getText());
+			System.out.println(rep11.getText());
+			System.out.println(rep22.getText());
+			System.out.println(rep33.getText());
+			System.out.println(rep44.getText());
 		}
 	}
 
@@ -149,8 +243,8 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		bottom2.setVisible(true);
-		niveau1.setText(e.getItem() + "1");
-		niveau2.setText(e.getItem() + "2");
-		niveau3.setText(e.getItem() + "3");
+		niveau1.setText(e.getItem() + " 1");
+		niveau2.setText(e.getItem() + " 2");
+		niveau3.setText(e.getItem() + " 3");
 	}
 }

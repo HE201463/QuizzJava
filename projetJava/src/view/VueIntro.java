@@ -15,16 +15,13 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import controller.ProjetController;
-import model.DemandeQuestions;
 import model.Joueur;
-import projetJava.ProjetMVC;
 
 public class VueIntro extends ProjetVue implements ActionListener{
 	
 	private JFrame pageIntro;
 	private JTextField identifiant;
 	private JTextField prenom;
-	private JLabel label;
 	private JButton creation;
 	private JButton connexion;
 	private JTextArea verif;
@@ -55,7 +52,7 @@ public class VueIntro extends ProjetVue implements ActionListener{
 		question.setEditable (false); 
 		main.add(question);
 		
-		JTextArea consignes = new JTextArea ("S'enregistrer pour un nouveau joueur ou connexion si tu as déjà joué"); 
+		JTextArea consignes = new JTextArea ("S'enregistrer pour un nouveau joueur\nSe connecter si tu as déjà joué"); 
 		consignes.setPreferredSize (new Dimension (400, 50));
 		consignes.setBackground(c_bleu);
 		consignes.setForeground(Color.WHITE);
@@ -75,24 +72,24 @@ public class VueIntro extends ProjetVue implements ActionListener{
 		verif = new JTextArea ("pour verifier"); 
 		verif.setPreferredSize (new Dimension (400, 50));
 		verif.setBackground(c_bleu);
-		verif.setForeground(Color.PINK);
+		verif.setForeground(Color.GRAY);
 		verif.setEditable (false); 
 		main.add(verif);
 		
-		label = new JLabel("Identifiant: "); 
-		label.setPreferredSize (new Dimension (80, 20));
-		label.setBackground(Color.cyan);
-		bottom.add(label);
+		JLabel identifiantTexte = new JLabel("Identifiant: "); 
+		identifiantTexte.setPreferredSize (new Dimension (80, 20));
+		identifiantTexte.setBackground(Color.cyan);
+		bottom.add(identifiantTexte);
 		
 		identifiant = new JTextField ("Identifiant"); 
 		identifiant.setPreferredSize (new Dimension (100, 20));
 		identifiant.setBackground(Color.CYAN);
 		bottom.add(identifiant);
 		
-		label = new JLabel ("Prénom: "); 
-		label.setPreferredSize (new Dimension (80, 20));
-		label.setBackground(Color.lightGray);
-		bottom1.add(label);
+		JLabel prenomTexte = new JLabel ("Prénom: "); 
+		prenomTexte.setPreferredSize (new Dimension (80, 20));
+		prenomTexte.setBackground(Color.lightGray);
+		bottom1.add(prenomTexte);
 		
 		prenom = new JTextField ("Prénom"); 
 		prenom.setPreferredSize (new Dimension (100, 20));
@@ -126,19 +123,30 @@ public class VueIntro extends ProjetVue implements ActionListener{
 		if(e.getSource() == connexion) {
 			if(controller.verifconnecte(identifiant.getText(), prenom.getText())) {
 				pageIntro.setVisible(false);
-				Joueur model = new Joueur();
+				Joueur model = modelJoueur.connecter(identifiant.getText());
+				
 				ProjetController ctrlSujet = new ProjetController(model);
 				ProjetVue sujet = new VueSujet(model, ctrlSujet, identifiant.getText(), prenom.getText());
 				ctrlSujet.addview(sujet);
+				System.out.println(model);
+				ProjetVue console = new SujetConsole(model, ctrlSujet);
+				ctrlSujet.addview(console);
 			}			
 		}
 		if(e.getSource() == creation) {
 			if(controller.verifIdentite(identifiant.getText())) {
-				Joueur model = new Joueur(identifiant.getText(), prenom.getText());
+				modelJoueur.enregistrer(identifiant.getText(), prenom.getText());
+				Joueur model = modelJoueur.connecter(identifiant.getText());
 				pageIntro.setVisible(false);
+				
+				
 				ProjetController ctrlSujet = new ProjetController(model);
 				ProjetVue sujet = new VueSujet(model, ctrlSujet, identifiant.getText(), prenom.getText());
 				ctrlSujet.addview(sujet);
+				System.out.println(model);
+				
+				ProjetVue console = new SujetConsole(model, ctrlSujet);
+				ctrlSujet.addview(console);
 			}
 		}
 	}

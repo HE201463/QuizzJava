@@ -33,6 +33,7 @@ public class DemandeQuestions extends Observable{
 	
 	protected List<String> questions = new ArrayList<String>();
 	protected List<String> rep = new ArrayList<String>();
+	protected List<String> reponses = new ArrayList<String>();
 	
 	/**
 	 * Ce constructeur se connecte à la DB et créé un tableau de questions(3 pour le moment), un tableau avec toutes les réponses 
@@ -41,7 +42,7 @@ public class DemandeQuestions extends Observable{
 	 * @throws ClassNotFoundException Cette exception arrive quand il n'y a pas de résultat retourné de la DB.
 	 * @throws SQLException Cette exception permet de signaler lorsque la connexion a la DB échoue.
 	 */
-	public DemandeQuestions(int j) throws ClassNotFoundException, SQLException {
+	public DemandeQuestions() throws ClassNotFoundException, SQLException {
 		
 		Class.forName("org.postgresql.Driver");
 		Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
@@ -56,43 +57,7 @@ public class DemandeQuestions extends Observable{
 			  rep.add(rs.getString(5));
 		  }
 		  rs.close();
-		  st.close();
-		/**
-		 * création de la question choisis et du tableau avec les réponses correspondantes.
-		 */
-		question = questions.get(j);
-		List<String> reponses = new ArrayList<String>();
-		reponses.add(rep.get(4*j));
-		reponses.add(rep.get(4*j+1));
-		reponses.add(rep.get(4*j+2));
-		reponses.add(rep.get(4*j+3));
-		bonneReponse = rep.get(4*j);
-		
-		/**
-		 * Mélange du tableau avec les réponses.
-		 */
-		Collections.shuffle(reponses);
-		
-		rep1 = reponses.get(0);
-		rep2 = reponses.get(1);
-		rep3 = reponses.get(2);
-		rep4 = reponses.get(3);
-		
-		/*
-		 * le code ci-dessous me permet de mettre dans la variable bonneReponse le texte qui m'interesse pour la correction.
-		 */
-		if (rep1.equals(bonneReponse)) {
-			bonneReponse = "rep1";
-		}
-		else if (rep2.equals(bonneReponse)) {
-			bonneReponse = "rep2";
-		}
-		else if (rep3.equals(bonneReponse)) {
-			bonneReponse = "rep3";
-		}
-		else {
-			bonneReponse = "rep4";
-		}
+		  st.close();	
 	}
 		
 	/**
@@ -109,10 +74,45 @@ public class DemandeQuestions extends Observable{
 	}
 	
 	/**
+	 * Création de la question choisis et du tableau avec les réponses correspondantes.
+	 * On a la bonne réponse qui est choisis à cet endroit.
+	 * @param j j est le choix de la question allant de 0->4 au final
+	 */
+	public void questionSuivante(int j) {
+		question = questions.get(j);
+		reponses.clear();
+		reponses.add(rep.get(4*j));
+		reponses.add(rep.get(4*j+1));
+		reponses.add(rep.get(4*j+2));
+		reponses.add(rep.get(4*j+3));
+		bonneReponse = rep.get(4*j);
+		
+		Collections.shuffle(reponses);
+		
+		rep1 = reponses.get(0);
+		rep2 = reponses.get(1);
+		rep3 = reponses.get(2);
+		rep4 = reponses.get(3);
+		
+		if (rep1.equals(bonneReponse)) {
+			bonneReponse = "rep1";
+		}
+		else if (rep2.equals(bonneReponse)) {
+			bonneReponse = "rep2";
+		}
+		else if (rep3.equals(bonneReponse)) {
+			bonneReponse = "rep3";
+		}
+		else {
+			bonneReponse = "rep4";
+		}
+	}
+	
+	/**
 	 * Cette méthode retourne la question et les réponses en console sous la forme textuelle.
 	 */
 	@Override
 	public String toString() {
-		 return ("Question : " + this.question + "\n1)" + rep1 + "\n2)" + rep2 + "\n3)" + rep3 + "\n4)" + rep4);
+		 return ("Question : " + this.getQuestion() + "\n1)" + this.getRep1() + "\n2)" + this.getRep2() + "\n3)" + this.getRep3() + "\n4)" + this.getRep4());
 	}
 }

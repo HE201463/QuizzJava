@@ -10,7 +10,6 @@ import java.util.Observable;
 
 import lombok.Getter;
 import lombok.Setter;
-import view.ProjetVue;
 
 /**
  * Cette classe implémente un joueur qui a un pseudo, un prénom, des points et un level
@@ -25,10 +24,10 @@ public class Joueur extends Observable{
 	private String pseudo;
 	private String prenom;
 	private int point;
-	private int level;
 	private int nivMath;
 	private int nivInfo;
 	private int nivElec;
+	private Joueur joueur;
 	
 	/**
 	 * Ce constructeur crée un joueur et l'ajoute dans la base de donnée
@@ -40,13 +39,72 @@ public class Joueur extends Observable{
 		
 	}
 	
-	public Joueur(String pseudo, String prenom) {
+	public Joueur(String pseudo, String prenom, int point, int nivMath, int nivInfo, int nivElec) {
 		this.pseudo = pseudo;
 		this.prenom = prenom;
-		point = 0;
-		nivInfo = 1;
-		nivMath = 1;
-		nivElec = 1;
+		this.point = point;
+		this.nivMath = nivMath;
+		this.nivInfo = nivInfo;
+		this.nivElec = nivElec;
+	}
+	
+	/*public Joueur(String pseudo){
+		this.pseudo = pseudo;
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
+			Statement st = db.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM public.\"Joueur\" WHERE identifiant ='" + this.pseudo + "'");
+			 while (rs.next()) {
+				 this.prenom = rs.getString(2);
+				 this.point = rs.getString(3);
+				 this.nivMath = rs.getString(4);
+				 this.nivInfo = rs.getString(5);
+				 this.nivElec = rs.getString(6);
+			 }
+		} catch (SQLException | ClassNotFoundException e) {
+			
+		}
+	}*/
+	
+	public Joueur connecter(String pseudo) {
+		this.pseudo = pseudo;
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
+			Statement st = db.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM public.\"Joueur\" WHERE identifiant ='" + this.pseudo + "'");
+			 while (rs.next()) {
+				 joueur = new Joueur(pseudo, rs.getString(2), rs.getInt(3), rs.getInt(4),rs.getInt(5),rs.getInt(6));
+				 this.prenom = rs.getString(2);
+				 this.point = rs.getInt(3);
+				 this.nivMath = rs.getInt(4);
+				 this.nivInfo = rs.getInt(5);
+				 this.nivElec = rs.getInt(6);
+			 }
+		} catch (SQLException | ClassNotFoundException e) {
+			
+		}
+		return joueur;
+	}
+	/*public Joueur(String pseudo, String prenom) {
+		this.pseudo = pseudo;
+		this.prenom = prenom;
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
+			Statement st = db.createStatement();
+			st.executeQuery("INSERT INTO public.\"Joueur\"(\r\n" + 
+											"	identifiant, prenom)\r\n" + 
+											"	VALUES ('"+ this.pseudo +"', '"+ this.prenom +"');");
+		} catch (SQLException | ClassNotFoundException e) {
+			
+		}
+	}*/
+	
+	public void enregistrer(String pseudo, String prenom) {
+		this.pseudo = pseudo;
+		this.prenom = prenom;
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
@@ -95,5 +153,12 @@ public class Joueur extends Observable{
 			
 		}
 			return false;
+	}
+	
+	public String toString() {
+		return ("identifiant: " + this.pseudo + " Prénom : " + this.prenom + 
+				" Niveau Math : " + this.nivMath + " Niveau Info : " + this.nivInfo
+				+ " Niveau elec : " + this.nivElec + 
+				" Points : " + this.point);
 	}
 }

@@ -5,12 +5,13 @@ import model.Joueur;
 import view.ProjetVue;
 
 public class ProjetController {
-	DemandeQuestions model;
+	
+	DemandeQuestions modelQuestion;
 	Joueur modelJoueur;
 	ProjetVue vue;
 	
-	public ProjetController(DemandeQuestions model) {
-		this.model = model;
+	public ProjetController(DemandeQuestions modelQuestion) {
+		this.modelQuestion = modelQuestion;
 	}
 	
 	public ProjetController(Joueur modelJoueur) {
@@ -22,8 +23,7 @@ public class ProjetController {
 	}
 	
 	public void verification(String choix) {
-		System.out.println(choix);
-		if(model.comparaison(choix)) {
+		if(modelQuestion.comparaison(choix)) {
 			vue.affiche("Bonne réponse");
 		}
 		else {
@@ -44,7 +44,7 @@ public class ProjetController {
 	
 	public boolean verifconnecte(String pseudo, String prenom) {
 		if(modelJoueur.verifConnecter(pseudo, prenom)) {
-			vue.affiche("Cette compte est correct");
+			vue.affiche("Ce compte est correct");
 			return true;
 		}
 		else {
@@ -52,4 +52,5 @@ public class ProjetController {
 			return false;
 		}
 	}
+	
 }
