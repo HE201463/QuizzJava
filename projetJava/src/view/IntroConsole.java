@@ -8,10 +8,17 @@ import java.util.Observer;
 import java.util.Scanner;
 
 import controller.ProjetController;
+import lombok.Getter;
+import lombok.Setter;
 import model.Joueur;
 
+@Getter
+@Setter
 public class IntroConsole extends ProjetVue implements Observer{
 	protected Scanner sc;
+	protected boolean arret = true;
+	private String stop = new String("vrai");
+	private String marche = new String ("vrai");
 	public IntroConsole(Joueur modelJoueur, ProjetController controller) {
 		super(modelJoueur, controller);
 		update(null, null);
@@ -32,40 +39,43 @@ public class IntroConsole extends ProjetVue implements Observer{
 		System.out.println(msg);		
 	}
 	
+	public boolean changer() {
+		int comparer = stop.compareTo(marche);
+		System.out.println(comparer);
+		System.out.println(stop);
+		if (stop.equals(marche)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
 	private class ReadInput implements Runnable{
 		public void run() {
-			while(true){
+			changer();
+			System.out.println(arret);
+			while(changer()){
 				try{
 					String c = sc.next();
+					System.out.println("toto");
 					String identifiant = sc.next();
 					String prenom = sc.next();
 					switch(c) {
 						case "C" :
 							affiche("Tu veux te connecter");
 							if(controller.verifconnecte(identifiant, prenom)) {
-								Joueur model = modelJoueur.connecter(identifiant);
-								System.out.println(model);
-								ProjetController ctrlSujet = new ProjetController(model);
-								ProjetVue console = new SujetConsole(model, ctrlSujet);
-								ctrlSujet.addview(console);
-								
-								ProjetVue sujet = new VueSujet(model, ctrlSujet, identifiant, prenom);
-								ctrlSujet.addview(sujet);
-							}	
+								controller.changerPage(identifiant, prenom);
+							}
+							arret = false;
 							break;
 						case "E" :
 							affiche("tu veux t'enregistrer");
 							if(controller.verifIdentite(identifiant)) {
 								modelJoueur.enregistrer(identifiant, prenom);
-								Joueur model = modelJoueur.connecter(identifiant);
-								System.out.println(model);
-								ProjetController ctrlSujet = new ProjetController(model);
-								ProjetVue console = new SujetConsole(model, ctrlSujet);
-								ctrlSujet.addview(console);
-								
-								ProjetVue sujet = new VueSujet(model, ctrlSujet, identifiant, prenom);
-								ctrlSujet.addview(sujet);
+								controller.changerPage(identifiant, prenom);
 							}
+							arret = false;
 							break;
 						default : 
 							affiche("Problème d'écriture");
@@ -78,5 +88,6 @@ public class IntroConsole extends ProjetVue implements Observer{
 			}
 		}
 	}
-	
 }
+
+

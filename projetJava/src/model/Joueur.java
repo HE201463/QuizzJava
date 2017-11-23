@@ -48,24 +48,6 @@ public class Joueur extends Observable{
 		this.nivElec = nivElec;
 	}
 	
-	/*public Joueur(String pseudo){
-		this.pseudo = pseudo;
-		try {
-			Class.forName("org.postgresql.Driver");
-			Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
-			Statement st = db.createStatement();
-			ResultSet rs = st.executeQuery("SELECT * FROM public.\"Joueur\" WHERE identifiant ='" + this.pseudo + "'");
-			 while (rs.next()) {
-				 this.prenom = rs.getString(2);
-				 this.point = rs.getString(3);
-				 this.nivMath = rs.getString(4);
-				 this.nivInfo = rs.getString(5);
-				 this.nivElec = rs.getString(6);
-			 }
-		} catch (SQLException | ClassNotFoundException e) {
-			
-		}
-	}*/
 	
 	public Joueur connecter(String pseudo) {
 		this.pseudo = pseudo;

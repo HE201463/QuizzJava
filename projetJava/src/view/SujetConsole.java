@@ -10,6 +10,7 @@ import model.Joueur;
 
 public class SujetConsole extends ProjetVue implements Observer{
 	protected Scanner sc;
+	protected boolean arret = true;
 	public SujetConsole(Joueur model, ProjetController controller) {
 		super(model, controller);
 		update(null, null);
@@ -27,12 +28,15 @@ public class SujetConsole extends ProjetVue implements Observer{
 		System.out.println(msg);		
 	}
 	
+	
 	private class ReadInput implements Runnable{
 		public void run() {
 			while(true){
 				try{
 					String c = sc.next();
-					int niveau = sc.nextInt();
+					System.out.println("tata");
+					String niv = sc.next();
+					int niveau = Integer.parseInt(niv);
 					if(niveau < 0 || niveau > 4) {
 						affiche("Niveau incorrect");
 					}

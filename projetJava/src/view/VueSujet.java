@@ -18,7 +18,6 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import controller.ProjetController;
-import model.ConnecterJoueur;
 import model.DemandeQuestions;
 import model.Joueur;
 import projetJava.ProjetMVC;
@@ -192,14 +191,6 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 			} catch (ClassNotFoundException | SQLException e1) {
 				e1.printStackTrace();
 			}
-			
-			/*try {
-				new ProjetMVC(2);
-			} catch (ClassNotFoundException e1) {
-				e1.printStackTrace();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}*/		
 		}
 		if(e.getSource() == propQuestion) {
 			proposeQuestion.setVisible(true);

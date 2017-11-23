@@ -1,9 +1,15 @@
 package controller;
 
+import lombok.Getter;
+import lombok.Setter;
 import model.DemandeQuestions;
 import model.Joueur;
 import view.ProjetVue;
-
+import view.SujetConsole;
+import view.VueSujet;
+import view.IntroConsole;
+@Getter
+@Setter
 public class ProjetController {
 	
 	DemandeQuestions modelQuestion;
@@ -51,6 +57,16 @@ public class ProjetController {
 			vue.affiche("Identifiant ou prenom incorrect");
 			return false;
 		}
+	}
+	
+	public void changerPage(String identifiant, String prenom) {
+		Joueur model = modelJoueur.connecter(identifiant);
+		ProjetController ctrlSujet = new ProjetController(model);
+		ProjetVue sujet = new VueSujet(model, ctrlSujet, identifiant, prenom);
+		ctrlSujet.addview(sujet);
+		System.out.println(model);
+		ProjetVue console = new SujetConsole(model, ctrlSujet);
+		ctrlSujet.addview(console);
 	}
 	
 }

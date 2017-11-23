@@ -123,30 +123,14 @@ public class VueIntro extends ProjetVue implements ActionListener{
 		if(e.getSource() == connexion) {
 			if(controller.verifconnecte(identifiant.getText(), prenom.getText())) {
 				pageIntro.setVisible(false);
-				Joueur model = modelJoueur.connecter(identifiant.getText());
-				
-				ProjetController ctrlSujet = new ProjetController(model);
-				ProjetVue sujet = new VueSujet(model, ctrlSujet, identifiant.getText(), prenom.getText());
-				ctrlSujet.addview(sujet);
-				System.out.println(model);
-				ProjetVue console = new SujetConsole(model, ctrlSujet);
-				ctrlSujet.addview(console);
+				controller.changerPage(identifiant.getText(), prenom.getText());
 			}			
 		}
 		if(e.getSource() == creation) {
 			if(controller.verifIdentite(identifiant.getText())) {
-				modelJoueur.enregistrer(identifiant.getText(), prenom.getText());
-				Joueur model = modelJoueur.connecter(identifiant.getText());
 				pageIntro.setVisible(false);
-				
-				
-				ProjetController ctrlSujet = new ProjetController(model);
-				ProjetVue sujet = new VueSujet(model, ctrlSujet, identifiant.getText(), prenom.getText());
-				ctrlSujet.addview(sujet);
-				System.out.println(model);
-				
-				ProjetVue console = new SujetConsole(model, ctrlSujet);
-				ctrlSujet.addview(console);
+				modelJoueur.enregistrer(identifiant.getText(), prenom.getText());
+				controller.changerPage(identifiant.getText(), prenom.getText());
 			}
 		}
 	}

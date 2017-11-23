@@ -45,7 +45,6 @@ public class VueQuestion extends ProjetVue implements ActionListener{
 		contentpane.add (main);
 		
 		Color c_bleu = new Color(0,191,255);
-		
 		question = new JTextArea (modelQuestion.getQuestion()); 
 		question.setPreferredSize (new Dimension (400, 100));
 		question.setBackground(c_bleu);
