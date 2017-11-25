@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import controller.ProjetController;
@@ -24,6 +25,7 @@ import model.ProjetModel;
 @Setter
 public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 	
+	private JPanel sujet;
 	private JFrame pageSujet;
 	private JButton propQuestion;
 	private JButton niveau1;
@@ -39,10 +41,15 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 	private JTextField rep22;
 	private JTextField rep33;
 	private JTextField rep44;
+	private String choix;
 	
 	public VueSujet(ProjetModel model, ProjetController controller) {
 		super(model, controller);
-		pageSujet = new JFrame();
+		
+		sujet = new JPanel();
+		
+		
+		/*pageSujet = new JFrame();
 		pageSujet.setTitle("Page des sujets");
 		pageSujet.setSize(400, 300);
 		pageSujet.setLocation(700, 50); //(horizontal, vertical)
@@ -50,10 +57,12 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		pageSujet.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pageSujet.setBackground(Color.BLUE);
 		pageSujet.setVisible(true);
-		
+		/*Container contentpane = pageSujet.getContentPane();
+		contentpane.add (main);*/
 		Box main = Box.createVerticalBox();
-		Container contentpane = pageSujet.getContentPane();
-		contentpane.add (main);
+		
+		
+		sujet.add(main);
 		
 		Box bottom = Box.createHorizontalBox();
 		main.add(bottom);
@@ -141,9 +150,9 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		bottom1.add(label);
 		JComboBox<String> combo = new JComboBox<String>();
 		combo.addItem("*");
-		combo.addItem("INFO");
-		combo.addItem("MATH");
-		combo.addItem("ELEC");
+		combo.addItem("info");
+		combo.addItem("math");
+		combo.addItem("elec");
 		bottom1.add(combo);
 		combo.addItemListener(this);
 		
@@ -173,7 +182,7 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == niveau1) {
-			pageSujet.setVisible(true);
+			controller.choixQuestion(choix, 1);
 			controller.PageQuestions();
 		}
 		if(e.getSource() == propQuestion) {
@@ -216,8 +225,17 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		bottom2.setVisible(true);
+		choix = (String) e.getItem();
 		niveau1.setText(e.getItem() + " 1");
 		niveau2.setText(e.getItem() + " 2");
 		niveau3.setText(e.getItem() + " 3");
+	}
+
+
+
+
+
+	@Override
+	public void affiche() {		
 	}
 }

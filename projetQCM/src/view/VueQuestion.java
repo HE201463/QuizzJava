@@ -10,14 +10,20 @@ import java.util.Observable;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import controller.ProjetController;
+import lombok.Getter;
+import lombok.Setter;
 import model.ProjetModel;
-
+@Getter
+@Setter
 public class VueQuestion extends ProjetVue implements ActionListener{
 	
+	private JPanel panel;
+	private JFrame projetJFrame;
 	private JTextField text;
 	private JTextArea question;
 	private JButton rep1;
@@ -26,28 +32,21 @@ public class VueQuestion extends ProjetVue implements ActionListener{
 	private JButton rep4;
 	private int i=0;
 		
+	
 	public VueQuestion(ProjetModel model, ProjetController controller) {
 		super(model, controller);
-		JFrame projetJFrame = new JFrame();
-		model.questionSuivante(i);
-		projetJFrame.setTitle("Page des questions");
-		//projetJFrame.setResizable(false); // impossible à redimensionner
-		projetJFrame.setSize(400, 200);
-		//projetJFrame.setLocationRelativeTo(null); Pour afficher au milieu mais mettre après setSize
-		projetJFrame.setLocation(700, 50); //(horizontal, vertical)
-		projetJFrame.setAlwaysOnTop(true);
-		projetJFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		projetJFrame.setBackground(Color.BLUE);
-		projetJFrame.setVisible(true);
+		
+		panel = new JPanel();
 		
 		Box main = Box.createVerticalBox();
-		Container contentpane = projetJFrame.getContentPane();
-		contentpane.add (main);
+		
+		panel.add(main);
 		
 		Color c_bleu = new Color(0,191,255);
 		question = new JTextArea (model.getQuest().getQuestion()); 
 		question.setPreferredSize (new Dimension (400, 100));
 		question.setBackground(c_bleu);
+		question.setLineWrap(true);
 		question.setForeground(Color.WHITE);
 		question.setEditable (false); 
 		main.add(question);
@@ -72,7 +71,7 @@ public class VueQuestion extends ProjetVue implements ActionListener{
 		bottom1.add(rep3);
 		rep4 = new JButton (); 
 		bottom1.add(rep4);
-		afficherTexte();
+		affiche();
 		
 		rep1.addActionListener(this);
 		rep2.addActionListener(this);
@@ -80,72 +79,61 @@ public class VueQuestion extends ProjetVue implements ActionListener{
 		rep4.addActionListener(this);
 		
 	}
-	
-	public void afficherTexte() {
+		
+	@Override
+	public void update(Observable arg0, Object arg1) {
 		question.setText(model.getQuest().getQuestion());
 		rep1.setText(model.getQuest().getRep1());
 		rep2.setText(model.getQuest().getRep2());
 		rep3.setText(model.getQuest().getRep3());
 		rep4.setText(model.getQuest().getRep4());
 	}
-	
-	
-	
-		
-	@Override
-	public void update(Observable arg0, Object arg1) {
-		
-	}
 
 	@Override
 	public void affiche(String msg) {
 		text.setText(msg);
+	}
+	
+	public void affiche() {
+		question.setText(model.getQuest().getQuestion());
+		rep1.setText(model.getQuest().getRep1());
+		rep2.setText(model.getQuest().getRep2());
+		rep3.setText(model.getQuest().getRep3());
+		rep4.setText(model.getQuest().getRep4());
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == rep1) {
 			controller.verification("rep" + 1);
-			if(i<2) {
-				i++;
-				model.questionSuivante(i);;
-				afficherTexte();
-			}
-			else {
-				affiche("C'est terminé");
+			try {
+				controller.questionSuivante();
+			} catch (Exception e1) {
+				e1.printStackTrace();
 			}
 		}
 		else if(e.getSource() == rep2) {
 			controller.verification("rep" + 2);
-			if(i<2) {
-				i++;
-				model.questionSuivante(i);
-				afficherTexte();
-			}
-			else {
-				affiche("C'est terminé");
+			try {
+				controller.questionSuivante();
+			} catch (Exception e1) {
+				e1.printStackTrace();
 			}
 		}
 		else if(e.getSource() == rep3){
 			controller.verification("rep" + 3);
-			if(i<2) {
-				i++;
-				model.questionSuivante(i);
-				afficherTexte();
-			}
-			else {
-				affiche("C'est terminé");
+			try {
+				controller.questionSuivante();
+			} catch (Exception e1) {
+				e1.printStackTrace();
 			}
 		}
 		else if(e.getSource() == rep4){
 			controller.verification("rep" + 4);
-			if(i<2) {
-				i++;
-				model.questionSuivante(i);
-				afficherTexte();
-			}
-			else {
-				affiche("C'est terminé");
+			try {
+				controller.questionSuivante();
+			} catch (Exception e1) {
+				e1.printStackTrace();
 			}
 		}
 	}

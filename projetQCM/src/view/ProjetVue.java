@@ -2,13 +2,17 @@ package view;
 
 import java.util.Observer;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import controller.ProjetController;
+import lombok.Getter;
+import lombok.Setter;
 import model.ProjetModel;
 
-
-public abstract class ProjetVue extends JPanel implements Observer{
+@Getter
+@Setter
+public abstract class ProjetVue extends JFrame implements Observer{
 	
 	protected ProjetModel model;
 	protected ProjetController controller;
@@ -20,4 +24,6 @@ public abstract class ProjetVue extends JPanel implements Observer{
 	}
 		
 	public abstract void affiche (String msg);
+	
+	public abstract void affiche();
 }

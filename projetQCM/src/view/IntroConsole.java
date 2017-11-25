@@ -17,7 +17,6 @@ import model.ProjetModel;
 public class IntroConsole extends ProjetVue implements Observer{
 	protected Scanner sc;
 	protected boolean arret = true;
-	private String stop = "vrai";
 	public IntroConsole(ProjetModel model, ProjetController controller) {
 		super(model, controller);
 		update(null, null);
@@ -39,6 +38,10 @@ public class IntroConsole extends ProjetVue implements Observer{
 		System.out.println(msg);		
 	}
 	
+	public void arret() {
+		arret = false;
+	}
+	
 	
 	private class ReadInput implements Runnable{
 		public void run() {
@@ -51,9 +54,9 @@ public class IntroConsole extends ProjetVue implements Observer{
 					switch(c) {
 						case "C" :
 							if(controller.verifconnecte(identifiant, prenom)) {
+								arret = false;
 								controller.PageSujet(identifiant, prenom);
 							}
-							arret = false;
 							break;
 						case "E" :
 							if(controller.verifIdentite(identifiant)) {
@@ -72,5 +75,11 @@ public class IntroConsole extends ProjetVue implements Observer{
 				}
 			}
 		}
+	}
+
+
+	@Override
+	public void affiche() {
+		
 	}
 }

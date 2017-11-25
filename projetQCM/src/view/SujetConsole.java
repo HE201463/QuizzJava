@@ -32,7 +32,7 @@ public class SujetConsole extends ProjetVue implements Observer{
 	
 	private class ReadInput implements Runnable{
 		public void run() {
-			while(true){
+			while(arret){
 				try{
 					String c = sc.next();
 					System.out.println("tata");
@@ -45,17 +45,21 @@ public class SujetConsole extends ProjetVue implements Observer{
 						switch(c) {
 							case "info" : 
 								affiche("choix de info");
+								controller.choixQuestion("info", niveau);
 								controller.PageQuestions();
-								break;
-								
+								arret = false;
+								break;	
 							case "elec" : 
 								affiche("choix de elec");
+								controller.choixQuestion("elec", niveau);
 								controller.PageQuestions();
+								arret = false;
 								break;
-								
 							case "math" : 	
 								affiche("choix de math");
+								controller.choixQuestion("math", niveau);
 								controller.PageQuestions();
+								arret = false;
 								break;
 							default : 
 								affiche("Il n'y a pas ce sujet");
@@ -67,5 +71,11 @@ public class SujetConsole extends ProjetVue implements Observer{
 				}
 			}
 		}
+	}
+
+
+	@Override
+	public void affiche() {
+		
 	}
 }

@@ -11,16 +11,20 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import controller.ProjetController;
+import lombok.Getter;
+import lombok.Setter;
 import model.Joueur;
 import model.ProjetModel;
-
+@Getter
+@Setter
 public class VueIntro extends ProjetVue implements ActionListener{
 	
-	private JFrame pageIntro;
+	private JPanel intro;
 	private JTextField identifiant;
 	private JTextField prenom;
 	private JButton creation;
@@ -29,20 +33,11 @@ public class VueIntro extends ProjetVue implements ActionListener{
 	
 	public VueIntro(ProjetModel model, ProjetController controller) {
 		super(model, controller);
-		pageIntro = new JFrame();
-		pageIntro.setTitle("Page d'introduction");
-		pageIntro.setSize(400, 200);
-		pageIntro.setLocation(700, 50); //(horizontal, vertical)
-		pageIntro.setAlwaysOnTop(true);
-		pageIntro.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		pageIntro.setBackground(Color.BLUE);
-		pageIntro.setVisible(true);
-		
+		intro = new JPanel();
 		
 		Box main = Box.createVerticalBox();
-		Container contentpane = pageIntro.getContentPane();
-		contentpane.add (main);
-		
+		intro.add(main);
+				
 		Color c_bleu = new Color(0,191,255);
 		Color c_vert = new Color(144,238,144);
 		
@@ -92,7 +87,7 @@ public class VueIntro extends ProjetVue implements ActionListener{
 		prenomTexte.setBackground(Color.lightGray);
 		bottom1.add(prenomTexte);
 		
-		prenom = new JTextField ("Prénom"); 
+		prenom = new JTextField ("Prénom");
 		prenom.setPreferredSize (new Dimension (100, 20));
 		prenom.setBackground(Color.lightGray);
 		bottom1.add(prenom);
@@ -123,17 +118,20 @@ public class VueIntro extends ProjetVue implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == connexion) {
 			if(controller.verifconnecte(identifiant.getText(), prenom.getText())) {
-				pageIntro.setVisible(false);
 				controller.PageSujet(identifiant.getText(), prenom.getText());
 			}			
 		}
 		if(e.getSource() == creation) {
 			if(controller.verifIdentite(identifiant.getText())) {
-				pageIntro.setVisible(false);
 				model.enregistrer(identifiant.getText(), prenom.getText());
 				controller.PageSujet(identifiant.getText(), prenom.getText());
 			}
 		}
+	}
+
+	@Override
+	public void affiche() {
+		
 	}
 	
 }

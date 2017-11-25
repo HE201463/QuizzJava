@@ -13,17 +13,15 @@ import lombok.Setter;
 @Setter
 public class ProjetModel extends Observable{
 	Joueur joueur;
-	DemandeQuestions quest;
+	Questions quest;
 	
 	public ProjetModel() {
 		joueur = new Joueur();
 		try {
-			quest = new DemandeQuestions();
+			quest = new Questions();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -31,6 +29,7 @@ public class ProjetModel extends Observable{
 	
 	public void connecter(String pseudo) {
 		joueur.connecter(pseudo);
+		
 	}
 	public boolean verifIdentifier(String pseudo) {
 		if(joueur.verifIdentifier(pseudo)) return true; 
@@ -41,13 +40,14 @@ public class ProjetModel extends Observable{
 		return false;
 	}
 	
-	public void enregistrer(String pseudo, String prenom) {
-		joueur.enregistrer(pseudo, prenom);
+	public void enregistrer(String identifiant, String prenom) {
+		joueur.enregistrer(identifiant, prenom);
+		
 	}
 	
 	public String toString(int i) {
 		if(i==1)
-		return ("Identifiant: " + joueur.getPseudo() + " Prénom: " + joueur.getPrenom() 
+		return ("Identifiant: " + joueur.getIdentifiant() + " Prénom: " + joueur.getPrenom() 
 				+ " Niveau Math: " + joueur.getNivMath() + " Niveau Elec: " + joueur.getNivElec()
 				+ " Niveau Info: " + joueur.getNivInfo() + " Points: " + joueur.getPoint());
 		return ("Question : " + quest.getQuestion() + "\n1)" + quest.getRep1() + "\n2)" 
@@ -58,10 +58,12 @@ public class ProjetModel extends Observable{
 		quest.questionSuivante(i);
 	}
 	
+	public void choixQuestion(String sujet, int niveau) throws ClassNotFoundException, SQLException {
+		quest.choixQuestion(sujet, niveau);
+	}
+	
 	public boolean comparaison(String choix) {
 		if(quest.comparaison(choix))return true;
 		return false;
-	}
-	
-	
+	}	
 }
