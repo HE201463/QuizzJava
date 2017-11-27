@@ -40,20 +40,20 @@ public class ProjetController {
 	
 	public void verification(String choix) {
 		if(model.comparaison(choix)) {
-			console.affiche("Bonne rÈponse");
-			vue.affiche("Bonne rÈponse");
+			console.affiche("Bonne r√©ponse");
+			vue.affiche("Bonne r√©ponse");
 			points++;
 		}
 		else {
-			console.affiche("Mauvaise rÈponse");
-			vue.affiche("Mauvaise rÈponse");
+			console.affiche("Mauvaise r√©ponse");
+			vue.affiche("Mauvaise r√©ponse");
 		}
 	}
 	
 	public boolean verifIdentite(String identifiant) {
 		if(model.verifIdentifier(identifiant)) {
-			console.affiche("Cette identifiant existe dÈj‡");
-			vue.affiche("Cette identifiant existe dÈj‡");
+			console.affiche("Cette identifiant existe d√©j√†");
+			vue.affiche("Cette identifiant existe d√©j√†");
 			return false;
 		}
 		else {
@@ -81,12 +81,12 @@ public class ProjetController {
 			i++;
 			model.questionSuivante(i);
 			console.affiche();
-			console.affiche("Choisis la bonne rÈponse en tappant 1, 2, 3 ou 4 (tu as 10 secondes)");
+			console.affiche("Choisis la bonne r√©ponse en tappant 1, 2, 3 ou 4 (tu as 10 secondes)");
 			vue.affiche();
 		}
 		else {
-			console.affiche("C'est terminÈ");
-			vue.affiche("C'est terminÈ");
+			console.affiche("C'est termin√©");
+			vue.affiche("C'est termin√©");
 			try {
 				points = model.getJoueur().getPoint() + points;
 				model.getQuest().changerPoints(model.getJoueur().getIdentifiant(), points);
@@ -167,5 +167,9 @@ public class ProjetController {
 		vue.setSize(450,300);
 		vue.setVisible(true);
 		vue.getContentPane().add(((VueQuestion)vue).getPanel());
-	}	
+	}
+	
+	public void proposeQuestion(String question, String r1, String r2, String r3, String r4) {
+		model.proposerQuestion(question, r1, r2, r3, r4);
+	}
 }
