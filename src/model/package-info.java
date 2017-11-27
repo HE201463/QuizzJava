@@ -1,8 +1,0 @@
-/**
- * 
- */
-/**
- * @author jonat
- *
- */
-package model;
