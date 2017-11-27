@@ -47,7 +47,7 @@ public class ProjetModel extends Observable{
 	
 	public String toString(int i) {
 		if(i==1)
-		return ("Identifiant: " + joueur.getIdentifiant() + " Prénom: " + joueur.getPrenom() 
+		return ("Identifiant: " + joueur.getIdentifiant() + " PrÃ©nom: " + joueur.getPrenom() 
 				+ " Niveau Math: " + joueur.getNivMath() + " Niveau Elec: " + joueur.getNivElec()
 				+ " Niveau Info: " + joueur.getNivInfo() + " Points: " + joueur.getPoint());
 		return ("Question : " + quest.getQuestion() + "\n1)" + quest.getRep1() + "\n2)" 
@@ -65,5 +65,9 @@ public class ProjetModel extends Observable{
 	public boolean comparaison(String choix) {
 		if(quest.comparaison(choix))return true;
 		return false;
-	}	
+	}
+	
+	public void proposerQuestion(String q, String r1, String r2, String r3, String r4) {
+		joueur.proposerQuestion(q, r1, r2, r3, r4);
+	}
 }
