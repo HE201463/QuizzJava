@@ -120,24 +120,24 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		bouton.add(retour);
 		
 		
-		JLabel texte = new JLabel("Question proposée ");
+		JLabel texte = new JLabel("Question proposÃ©e ");
 		question.add(texte);
 		quest = new JTextField("");
 		question.add(quest);
 		
-		JLabel rep1 = new JLabel("Bonne réponse ");
+		JLabel rep1 = new JLabel("Bonne rÃ©ponse ");
 		reponse1.add(rep1);
 		rep11 = new JTextField("");
 		reponse1.add(rep11);
-		JLabel rep2 = new JLabel("Autre réponse ");
+		JLabel rep2 = new JLabel("Autre rÃ©ponse ");
 		reponse2.add(rep2);
 		rep22 = new JTextField("");
 		reponse2.add(rep22);
-		JLabel rep3 = new JLabel("Autre réponse ");
+		JLabel rep3 = new JLabel("Autre rÃ©ponse ");
 		reponse3.add(rep3);
 		rep33 = new JTextField("");
 		reponse3.add(rep33);
-		JLabel rep4 = new JLabel("Autre réponse ");
+		JLabel rep4 = new JLabel("Autre rÃ©ponse ");
 		reponse4.add(rep4);
 		rep44 = new JTextField("");
 		reponse4.add(rep44);
@@ -201,6 +201,10 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 			System.out.println(rep22.getText());
 			System.out.println(rep33.getText());
 			System.out.println(rep44.getText());
+			controller.proposeQuestion(quest.getText(), rep11.getText(), rep22.getText(), rep33.getText(), rep44.getText());
+			proposeQuestion.setVisible(false);
+			bottom1.setVisible(true);
+			bottom2.setVisible(false);
 		}
 	}
 
