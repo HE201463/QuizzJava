@@ -20,8 +20,9 @@ public class SujetConsole extends ProjetVue implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		System.out.println(model.toString(1));
-		System.out.println("Choisis un sujet : info, elec, math + 1, 2 ou 3 (un espace entre les deux)");		
+		affiche(model.toString(1));
+		affiche("Choisis un sujet : info, elec, math + 1, 2 ou 3 (un espace entre les deux)");
+		affiche("Pour proposer une question: question + 1 (un espace entre les deux)");
 	}
 
 	@Override
@@ -35,7 +36,7 @@ public class SujetConsole extends ProjetVue implements Observer{
 			while(arret){
 				try{
 					String c = sc.next();
-					System.out.println("tata");
+					affiche("tata");
 					String niv = sc.next();
 					int niveau = Integer.parseInt(niv);
 					if(niveau < 0 || niveau > 4) {
@@ -60,6 +61,22 @@ public class SujetConsole extends ProjetVue implements Observer{
 								controller.choixQuestion("math", niveau);
 								controller.PageQuestions();
 								arret = false;
+								break;
+							case "question" :
+								affiche("Proposez votre question");
+								sc.nextLine();
+								String q = sc.nextLine();
+								affiche("Tapez maintenant la bonne réponse !");
+								String r1 = sc.nextLine();
+								affiche("Tapez une autre réponse !");
+								String r2 = sc.nextLine();
+								affiche("Tapez une autre réponse !");
+								String r3 = sc.nextLine();
+								affiche("Tapez une autre réponse !");
+								String r4 = sc.nextLine();
+								affiche("Votre question a bien été envoyée ! Merci de votre participation !\n\n");
+								controller.proposeQuestion(q, r1, r2, r3, r4);
+								update(null, null);
 								break;
 							default : 
 								affiche("Il n'y a pas ce sujet");
