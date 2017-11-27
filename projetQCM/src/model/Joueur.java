@@ -12,7 +12,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Cette classe implémente un joueur qui a un pseudo, un prénom, des points et un level
+ * Cette classe implÃ©mente un joueur qui a un pseudo, un prÃ©nom, des points et un level
  * Groupe 12
  * @author Jonathan Goossens 2TL2
  * @author Benoit de Mahieu 2TL2
@@ -101,5 +101,20 @@ public class Joueur {
 			
 		}
 			return false;
+	}
+	
+	public void proposerQuestion(String q, String r1, String r2, String r3, String r4) {
+		try{
+			String script = "INSERT INTO public.\"Proposition\"(question, r1, r2, r3, r4) VALUES('" + q +"', '"+r1+"', '"+r2+"', '"+r3+"', '"+r4+"');";
+			Class.forName("org.postgresql.Driver");
+			Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
+			Statement st = db.createStatement();
+			st.executeQuery(script);
+			 st.close();
+			 db.close();
+		}
+		catch(ClassNotFoundException | SQLException e) {
+			
+		}
 	}
 }
