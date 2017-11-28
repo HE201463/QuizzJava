@@ -53,15 +53,15 @@ public class IntroConsole extends ProjetVue implements Observer{
 					String prenom = sc.next();
 					switch(c) {
 						case "C" :
-							if(controller.verifconnecte(identifiant, prenom)) {
+							if(controller.verifConnecte(identifiant, prenom)) {
 								arret = false;
-								controller.PageSujet(identifiant, prenom);
+								controller.PageSujet(identifiant);
 							}
 							break;
 						case "E" :
 							if(controller.verifIdentite(identifiant)) {
 								model.enregistrer(identifiant, prenom);
-								controller.PageSujet(identifiant, prenom);
+								controller.PageSujet(identifiant);
 							}
 							arret = false;
 							break;

@@ -9,65 +9,125 @@ import java.util.Observable;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Cette classe hérite de Observable, elle est utilisé pour instancié des joueurs et les questions
+ * Elle permet de lier les différents model entre eux
+ * @author Jonathan Goossens 2TL2
+ * @author Benoit de Mahieu 2TL2
+ * On utilise aussi le Jar Lombok qui permet de générer les getter et setter sans les écrire
+ */
 @Getter
 @Setter
 public class ProjetModel extends Observable{
 	Joueur joueur;
 	Questions quest;
 	
+	/**
+	 * Ce constructeur va instancier le Joueur et les Questions
+	 */
 	public ProjetModel() {
 		joueur = new Joueur();
 		try {
 			quest = new Questions();
-		} catch (ClassNotFoundException e) {
+		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		} 
 	}
 	
-	
-	public void connecter(String pseudo) {
-		joueur.connecter(pseudo);
-		
+	/**
+	 * Cette méthode utilise la méthode connecter de la classe joueur qui pourra donc être utilisée dans le controller
+	 * @param identifiant pour se connecter
+	 */
+	public void connecter(String identifiant) {
+		joueur.connecter(identifiant);
 	}
-	public boolean verifIdentifier(String pseudo) {
-		if(joueur.verifIdentifier(pseudo)) return true; 
+	
+	/**
+	 * Cette méthode utilise la méthode verifIdentifier de la classe joueur qui pourra donc être utilisée dans le controller
+	 * @param identifiant à vérifier
+	 * @return true si le pseudo est en BDD, false par défaut
+	 */
+	public boolean verifIdentifier(String identifiant) {
+		if(joueur.verifIdentifier(identifiant)) return true; 
 		return false;
 	}
-	public boolean verifConnecter(String pseudo, String prenom) {
-		if(joueur.verifConnecter(pseudo, prenom)) return true; 
+	/**
+	 * Cette méthode utilise la méthode verifConnecter de la classe joueur qui pourra donc être utilisée dans le controller
+	 * @param identifiant unique du joueur
+	 * @param prenom qui permet la vérification de la combinaison avec le pseudo 
+	 * @return true si la combinaison est bonne, false par défaut
+	 */
+	public boolean verifConnecter(String identifiant, String prenom) {
+		if(joueur.verifConnecter(identifiant, prenom)) return true; 
 		return false;
 	}
 	
+	/**
+	 * Cette méthode utilise la méthode enregistrer de la classe joueur qui pourra donc être utilisée dans le controller
+	 * @param identifiant à ajouter dans la BDD
+	 * @param prenom qui sera associé à l'identifiant
+	 */
 	public void enregistrer(String identifiant, String prenom) {
 		joueur.enregistrer(identifiant, prenom);
 		
 	}
 	
+	/**
+	 * Cette méthode utilise la méthode proposerQuestion de la classe joueur qui pourra donc être utilisée dans le controller
+	 * @param q La question proposée par le Joueur
+	 * @param r1 La bonne réponse à la question
+	 * @param r2 Une autre réponse
+	 * @param r3 Une autre réponse
+	 * @param r4 Une autre réponse
+	 */
+	public void proposerQuestion(String q, String r1, String r2, String r3, String r4) {
+		joueur.proposerQuestion(q, r1, r2, r3, r4);
+	}
+	
+	/**
+	 * Cette méthode renvoie une représentation textuelle des classes Joueur et Questions avec un paramètre qui permet de choisir
+	 * quelle classe va être représentée !
+	 * @param i 
+	 * @return la représentation du Joueur si le paramètre est égal 1, la représentation des Questions sinon
+	 */
 	public String toString(int i) {
 		if(i==1)
-		return ("Identifiant: " + joueur.getIdentifiant() + " PrÃ©nom: " + joueur.getPrenom() 
+		return ("Identifiant: " + joueur.getIdentifiant() + " Prénom: " + joueur.getPrenom() 
 				+ " Niveau Math: " + joueur.getNivMath() + " Niveau Elec: " + joueur.getNivElec()
 				+ " Niveau Info: " + joueur.getNivInfo() + " Points: " + joueur.getPoint());
 		return ("Question : " + quest.getQuestion() + "\n1)" + quest.getRep1() + "\n2)" 
 				+ quest.getRep2() + "\n3)" + quest.getRep3() + "\n4)" + quest.getRep4());
 	}
 	
+	/**
+	 * Cette méthode utilise la méthode questionSuivante de la classe Questions qui pourra donc être utilisée dans le controller
+	 * @param i
+	 */
 	public void questionSuivante(int i) {
 		quest.questionSuivante(i);
 	}
 	
-	public void choixQuestion(String sujet, int niveau) throws ClassNotFoundException, SQLException {
-		quest.choixQuestion(sujet, niveau);
+	/**
+	 * Cette méthode utilise la méthode choixQuestion de la classe Questions qui pourra donc être utilisée dans le controller
+	 * @param sujet de question que le joueur va choisir
+	 * @param niveau de question qui sera posée dans le sujet choisi
+	 */
+	public void choixQuestion(String sujet, int niveau) {
+		try {
+			quest.choixQuestion(sujet, niveau);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
+	/**
+	 * Cette méthode utilise la méthode comparaison de la classe Questions qui pourra donc être utilisée dans le controller
+	 * @param choix de la réponse 
+	 * @return true si le bonne réponse a été choisie, false sinon
+	 */
 	public boolean comparaison(String choix) {
 		if(quest.comparaison(choix))return true;
 		return false;
-	}
-	
-	public void proposerQuestion(String q, String r1, String r2, String r3, String r4) {
-		joueur.proposerQuestion(q, r1, r2, r3, r4);
-	}
+	}	
 }

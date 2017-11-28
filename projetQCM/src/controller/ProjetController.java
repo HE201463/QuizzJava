@@ -16,6 +16,12 @@ import view.VueIntro;
 import view.VueQuestion;
 import view.VueSujet;
 
+/**
+ * Cette classe est le controller du modèle MVC, il sert à lier les vues aux différents modèles.
+ * @author Jonathan Goossens 2TL2
+ * @author Benoit de Mahieu 2TL2
+ * On utilise aussi le Jar Lombok qui permet de générer les getter et setter sans les écrire
+ */
 @Getter
 @Setter
 public class ProjetController {
@@ -26,18 +32,34 @@ public class ProjetController {
 	int i=0;
 	int points = 0;
 	
+	/**
+	 * Constructeur qui instancie le model de ce pattern MVC
+	 * @param model à instancier
+	 */
 	public ProjetController(ProjetModel model) {
 		this.model = model;
 	}
 	
+	/**
+	 * Cette méthode instancie une vue GUI
+	 * @param vue à instancier
+	 */
 	public void addview(ProjetVue vue) {
 		this.vue = vue;
 	}
 	
+	/**
+	 * Cette méthode instancie une vue console
+	 * @param vue console à instancier
+	 */
 	public void addview2(ProjetVue console) {
 		this.console = console;
 	}
 	
+	/**
+	 * Cette méthode va vérifier la réponse à la question et fait donc appel à la méthode comparaison de la classe ProjetModel
+	 * @param choix de la réponse à la question
+	 */
 	public void verification(String choix) {
 		if(model.comparaison(choix)) {
 			console.affiche("Bonne rÃ©ponse");
@@ -50,6 +72,12 @@ public class ProjetController {
 		}
 	}
 	
+	/**
+	 * Cette méthode utilise la méthode verifIdentifier de la classe ProjetModel pour pouvoir l'utiliser dans la vue
+	 * @param identifiant à vérifier
+	 * @return false si le pseudo est en BDD et affiche que l'identifiant existe déjà 
+	 * @return true dans les autres cas et affiche que l'identifiant est correct
+	 */
 	public boolean verifIdentite(String identifiant) {
 		if(model.verifIdentifier(identifiant)) {
 			console.affiche("Cette identifiant existe dÃ©jÃ ");
@@ -63,7 +91,14 @@ public class ProjetController {
 		}
 	}
 	
-	public boolean verifconnecte(String identifiant, String prenom) {
+	/**
+	 * Cette méthode utilise la méthode verifConnecter de la classe ProjetModel pour pouvoir l'utiliser dans la vue
+	 * @param identifiant unique du joueur
+	 * @param prenom qui permet la vérification de la combinaison avec le pseudo 
+	 * @return true si la combinaison est bonne et affiche que le compte est correct
+	 * @return false dans les autres cas et affiche que l'identifiant ou le prénom est incorrect
+	 */
+	public boolean verifConnecte(String identifiant, String prenom) {
 		if(model.verifConnecter(identifiant, prenom)) {
 			console.affiche("Ce compte est correct");
 			vue.affiche("Ce compte est correct");
@@ -76,6 +111,10 @@ public class ProjetController {
 		}
 	}
 	
+	/**
+	 * Cette méthode utilise la méthode questionSuivante de la classe ProjetModel pour pouvoir l'utiliser dans la vue
+	 * 
+	 */
 	public void questionSuivante() {
 		if(i<2) {
 			i++;
@@ -90,27 +129,32 @@ public class ProjetController {
 			try {
 				points = model.getJoueur().getPoint() + points;
 				model.getQuest().changerPoints(model.getJoueur().getIdentifiant(), points);
-			} catch (ClassNotFoundException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			} 
 			vue.setVisible(false);
-			PageSujet(model.getJoueur().getIdentifiant(), model.getJoueur().getPrenom());
+			PageSujet(model.getJoueur().getIdentifiant());
 		}
 		
 	}
 	
+	/**
+	 * Cette méthode utilise la méthode choixQuestion de la classe ProjetModel pour pouvoir l'utiliser dans la vue
+	 * @param sujet choisi pour être interrogé dessus
+	 * @param niveau de question qui sera posée dans le sujet choisi
+	 */
 	public void choixQuestion(String sujet, int niveau) {
 		try {
 			model.choixQuestion(sujet, niveau);
-		} catch (ClassNotFoundException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		} 
 	}
 	
+	/**
+	 * Cette méthode va créer la page d'introduction en utilisant les constructeurs des classes IntroConsole et VueIntro
+	 * Des modifiication à la vue GUI sont faites ici
+	 */
 	public void PageIntro() {
 			
 		ProjetController ctrlIntro = new ProjetController(model);
@@ -130,7 +174,13 @@ public class ProjetController {
 		vue.getContentPane().add(((VueIntro)vue).getIntro());
 		
 	}
-	public void PageSujet(String identifiant, String prenom) {
+	
+	/**
+	 * Cette méthode va créer la page de choix de sujet en utilisant les constructeurs des classes SujetConsole et VueSujet
+	 * Des modifiication à la vue GUI sont faites ici
+	 * @param identifiant qui permettra de récupérer le prénom, les points et les niveaux du joueur
+	 */
+	public void PageSujet(String identifiant) {
 		vue.setVisible(false);
 		model.connecter(identifiant);
 		ProjetController ctrlSujet = new ProjetController(model);
@@ -151,6 +201,10 @@ public class ProjetController {
 		vue.getContentPane().add(((VueSujet)vue).getSujet());
 	}
 	
+	/**
+	 * Cette méthode va créer la page d'affichage des questions en utilisant les constructeurs des classes QuestionConsole et VueQuestion
+	 * Des modifiication à la vue GUI sont faites ici
+	 */
 	public void PageQuestions() {
 		vue.setVisible(false);
 		model.questionSuivante(0);
@@ -159,6 +213,7 @@ public class ProjetController {
 		ctrlQuestion.addview(vue);
 		console = new QuestionConsole(model, ctrlQuestion);
 		ctrlQuestion.addview2(console);
+		
 		vue.setTitle("ProjetQCM");
 		vue.setLocation(700, 50); //(horizontal, vertical)
 		vue.setAlwaysOnTop(true);
@@ -169,6 +224,14 @@ public class ProjetController {
 		vue.getContentPane().add(((VueQuestion)vue).getPanel());
 	}
 	
+	/**
+	 * Cette méthode utilise la méthode proposerQuestion de la classe ProjetModel qui pourra donc être utilisée dans la vue
+	 * @param q La question proposée par le Joueur
+	 * @param r1 La bonne réponse à la question
+	 * @param r2 Une autre réponse
+	 * @param r3 Une autre réponse
+	 * @param r4 Une autre réponse
+	 */
 	public void proposeQuestion(String question, String r1, String r2, String r3, String r4) {
 		model.proposerQuestion(question, r1, r2, r3, r4);
 	}

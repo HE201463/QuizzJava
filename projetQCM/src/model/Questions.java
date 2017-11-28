@@ -18,7 +18,7 @@ import lombok.Setter;
  * @author Benoit de Mahieu
  * @author Jonathan Gossens
  *Classe: 2TL2
- *J'utilise aussi le Jar Lombok qui permet de générer les getter et setter sans les écrire
+ *On utilise aussi le Jar Lombok qui permet de générer les getter et setter sans les écrire
  */
 @Getter
 @Setter
