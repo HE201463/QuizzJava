@@ -8,12 +8,16 @@ import java.util.Scanner;
 import controller.ProjetController;
 import model.ProjetModel;
 
-
+/**
+ * Cette classe affiche les questions en console. Elle va attendre la réponse du joueur et vérifier cette réponse.
+ * @author B
+ *
+ */
 
 public class QuestionConsole extends ProjetVue implements Observer{
 	protected Scanner sc;
-	protected boolean arret = true;
-	private int i = 0;
+	protected boolean arreter = true;
+	private int i;
 	public QuestionConsole(ProjetModel model, ProjetController controller) {
 		super(model, controller);
 		update(null, null);
@@ -32,63 +36,18 @@ public class QuestionConsole extends ProjetVue implements Observer{
 		System.out.println(msg);
 	}
 
+	/**
+	 * Cette classe est utilisé par le thread;
+	 * Elle va scanner ce que le joueur a entré comme commande et appeler la méthode repondre pour vérifier l'exactitude.
+	 * @author B
+	 *
+	 */
 	private class ReadInput implements Runnable{
 		public void run() {
-			while(arret){
+			while(arreter){
 				try{
-					int nbrQuest = 3;
 					String c = sc.next();
-					switch(c) {
-						case "1" : 
-							controller.verification("rep" + 1);
-							try {
-								i++;
-								if(i == nbrQuest) {arret = false;}
-								controller.questionSuivante();
-							} catch (Exception e1) {
-								e1.printStackTrace();
-							}
-							break;
-						case "2" : 
-							i++;
-							if(i == nbrQuest) {arret = false;}
-							controller.verification("rep" + 2);
-							try {
-								controller.questionSuivante();
-							} catch (Exception e1) {
-								e1.printStackTrace();
-							}
-							break;
-						case "3" : 
-							i++;
-							if(i == nbrQuest) {arret = false;}
-							controller.verification("rep" + 3);
-							try {
-								controller.questionSuivante();
-							} catch (Exception e1) {
-								e1.printStackTrace();
-							}
-							break;
-						case "4" :
-							i++;
-							if(i == nbrQuest) {arret = false;}
-							controller.verification("rep" + 4);
-							try {
-								controller.questionSuivante();
-							} catch (Exception e1) {
-								e1.printStackTrace();
-							}
-							break;
-						default :
-							i++;
-							if(i == nbrQuest) {arret = false;}
-							controller.verification(c);
-							try {
-								controller.questionSuivante();
-							} catch (Exception e1) {
-								e1.printStackTrace();
-							}
-					}
+					repondre(c);
 				}
 				catch(InputMismatchException e){
 					affiche("Format d'input incorrect");
@@ -97,10 +56,26 @@ public class QuestionConsole extends ProjetVue implements Observer{
 		}
 	}
 
+	/**
+	 * Cette méthode va construire la réponse du joueur (rep + un numéro).
+	 * Ceci va me permettre de comparer plus facilement avec la bonne réponse dans le modèle.
+	 * Elle lancer ensuite la question suivante après la vérification.
+	 * @param rep C'est la réponse que le joueur a rentré (1, 2, 3 ou 4).
+	 */
+	public void repondre(String rep) {
+		i++;
+		if(i == 3) {arreter = false;}
+		controller.verification("rep" + rep);
+		try {
+			controller.questionSuivante();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+	}
+	
+	
 	@Override
 	public void affiche() {
-		System.out.println("Question : " + model.getQuest().getQuestion() + "\n1)" + model.getQuest().getRep1()
-				+ "\n2)" + model.getQuest().getRep2() + "\n3)" + model.getQuest().getRep3() + "\n4)" 
-				+ model.getQuest().getRep4());		
+		
 	}
 }

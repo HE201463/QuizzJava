@@ -14,9 +14,16 @@ import model.ProjetModel;
 
 @Getter
 @Setter
+
+/**
+ * Cette classe permet d'afficher en console l'introduction à notre jeux.
+ * Le joueur va pouvoir s'enregistrer ou se connecter.
+ * @author B
+ *
+ */
 public class IntroConsole extends ProjetVue implements Observer{
 	protected Scanner sc;
-	protected boolean arret = true;
+	protected volatile boolean arret = true;
 	public IntroConsole(ProjetModel model, ProjetController controller) {
 		super(model, controller);
 		update(null, null);
@@ -27,10 +34,7 @@ public class IntroConsole extends ProjetVue implements Observer{
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		System.out.println("Bienvenue dans ce jeu ...");
-		System.out.println("Tape E + un identifiant et un prenom pour t'enregistrer");
-		System.out.println("Tape C + ton identifiant et ton prenom pour te connecter");
-		System.out.println("ATTENTION : identifiant et prenom en un seul mot et avec un espace entre chaque");
+		
 	}
 
 	@Override
@@ -38,11 +42,12 @@ public class IntroConsole extends ProjetVue implements Observer{
 		System.out.println(msg);		
 	}
 	
-	public void arret() {
-		arret = false;
-	}
-	
-	
+	/**
+	 * Cette classe est utilisé par le thread;
+	 * Elle va scanner ce que le joueur a entré comme commande et va appeler le controller pour vérifier, enregistrer ou afficher la page suivante.
+	 * @author B
+	 *
+	 */
 	private class ReadInput implements Runnable{
 		public void run() {
 			while(arret){
@@ -53,15 +58,15 @@ public class IntroConsole extends ProjetVue implements Observer{
 					String prenom = sc.next();
 					switch(c) {
 						case "C" :
-							if(controller.verifConnecte(identifiant, prenom)) {
+							if(controller.verifconnecte(identifiant, prenom)) {
 								arret = false;
-								controller.PageSujet(identifiant);
+								controller.PageSujet(identifiant, prenom);
 							}
 							break;
 						case "E" :
 							if(controller.verifIdentite(identifiant)) {
 								model.enregistrer(identifiant, prenom);
-								controller.PageSujet(identifiant);
+								controller.PageSujet(identifiant, prenom);
 							}
 							arret = false;
 							break;
@@ -76,10 +81,13 @@ public class IntroConsole extends ProjetVue implements Observer{
 			}
 		}
 	}
-
-
+	
 	@Override
 	public void affiche() {
-		
+		System.out.println("Bienvenue dans ce jeu ...");
+		System.out.println("Tape E + un identifiant et un prenom pour t'enregistrer");
+		System.out.println("Tape C + ton identifiant et ton prenom pour te connecter");
+		System.out.println("ATTENTION : identifiant et prenom en un seul mot et avec un espace entre chaque");
 	}
+	
 }
