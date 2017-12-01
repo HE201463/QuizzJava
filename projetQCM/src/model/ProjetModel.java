@@ -19,8 +19,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProjetModel extends Observable{
-	Joueur joueur;
-	Questions quest;
+	private Joueur joueur;
+	private Questions quest;
 	
 	/**
 	 * Ce constructeur va instancier le Joueur et les Questions

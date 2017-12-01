@@ -26,11 +26,11 @@ import view.VueSujet;
 @Setter
 public class ProjetController {
 	
-	ProjetModel model;
-	ProjetVue vue;
-	ProjetVue console;
-	int i=0;
-	int points = 0;
+	private ProjetModel model;
+	private ProjetVue vue;
+	private ProjetVue console;
+	private int i=0;
+	private int points = 0;
 	
 	/**
 	 * Constructeur qui instancie le model de ce pattern MVC
