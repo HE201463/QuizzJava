@@ -195,11 +195,6 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 			bottom2.setVisible(false);
 		}
 		if (e.getSource() == valider) {
-			/*System.out.println(quest.getText());
-			System.out.println(rep11.getText());
-			System.out.println(rep22.getText());
-			System.out.println(rep33.getText());
-			System.out.println(rep44.getText());*/
 			controller.proposeQuestion(quest.getText(), rep11.getText(), rep22.getText(), rep33.getText(), rep44.getText());
 			proposeQuestion.setVisible(false);
 			bottom1.setVisible(true);

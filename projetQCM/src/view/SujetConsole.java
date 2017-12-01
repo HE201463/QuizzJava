@@ -93,17 +93,20 @@ public class SujetConsole extends ProjetVue implements Observer{
 		if (niveau == 2) {
 			if(controller.niveau(choix, 2)) {
 				controller.choixQuestion(choix, niveau);
+				stop = false;
 				controller.PageQuestions();
 			}
 		}
 		else if (niveau == 3) {
 			if (controller.niveau(choix, 3)) {
 				controller.choixQuestion(choix, niveau);
+				stop = false;
 				controller.PageQuestions();
 			}
 		}
 		else {
 			controller.choixQuestion(choix, niveau);
+			stop = false;
 			controller.PageQuestions();
 		}
 	}

@@ -74,7 +74,7 @@ public class Questions{
 		  st.close();
 	}
 	public boolean comparaison(String rep) {
-		if(rep == bonneReponse) {
+		if(rep.equals(bonneReponse)) {
 			return true;
 		}
 		return false;

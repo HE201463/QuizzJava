@@ -64,7 +64,7 @@ public class QuestionConsole extends ProjetVue implements Observer{
 	 */
 	public void repondre(String rep) {
 		i++;
-		if(i == 3) {arreter = false;}
+		if(i == 5) {arreter = false;}
 		controller.verification("rep" + rep);
 		try {
 			controller.questionSuivante();

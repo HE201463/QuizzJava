@@ -24,11 +24,13 @@ import model.ProjetModel;
 public class IntroConsole extends ProjetVue implements Observer{
 	protected Scanner sc;
 	protected volatile boolean arret = true;
+	private Thread thread;
 	public IntroConsole(ProjetModel model, ProjetController controller) {
 		super(model, controller);
 		update(null, null);
 		sc = new Scanner(System.in);
-		new Thread (new ReadInput()).start();
+		thread = new Thread (new ReadInput());
+		thread.start();
 		
 	}
 
@@ -65,10 +67,10 @@ public class IntroConsole extends ProjetVue implements Observer{
 							break;
 						case "E" :
 							if(controller.verifIdentite(identifiant)) {
+								arret = false;
 								model.enregistrer(identifiant, prenom);
 								controller.PageSujet(identifiant, prenom);
 							}
-							arret = false;
 							break;
 						default : 
 							affiche("Problème d'écriture");
@@ -89,5 +91,14 @@ public class IntroConsole extends ProjetVue implements Observer{
 		System.out.println("Tape C + ton identifiant et ton prenom pour te connecter");
 		System.out.println("ATTENTION : identifiant et prenom en un seul mot et avec un espace entre chaque");
 	}
+
+	public boolean isArret() {
+		return arret;
+	}
+
+	public void setArret(boolean arret) {
+		this.arret = arret;
+	}
+
 	
 }

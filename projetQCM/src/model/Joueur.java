@@ -28,11 +28,17 @@ public class Joueur {
 	private int nivInfo;
 	private int nivElec;
 	
-	
+	/**
+	 * Constructeur vide pour pouvoir instancier un Joueur et donc pouvoir accéder aux méthodes de la classe
+	 */
 	public Joueur() {
 		
 	}
 	
+	/**
+	 * Cette méthode va permettre au joueur de se connecter si son identifiant est bien dans la BDD, il pourra donc commencer à jouer et à gagner des points
+	 * @param identifiant unique qui permet de retrouver les autres informations du joueur
+	 */
 	public void connecter(String identifiant) {
 		this.identifiant = identifiant;
 		try {
@@ -52,6 +58,11 @@ public class Joueur {
 		}
 	}
 	
+	/**
+	 * Cette méthode va permettre au joueur de s'inscrire dans la BDD et donc pouvoir commencer à gagner des points
+	 * @param identifiant unique qui permettra au joueur de se connecter
+	 * @param prenom qui permet la vérification de la combinaison identifiant/pseudo en BDD
+	 */
 	public void enregistrer(String identifiant, String prenom) {
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -65,7 +76,11 @@ public class Joueur {
 		}
 	}
 	
-	
+	/**
+	 * Cette méthode va vérifier si l'identifiant que le joueur veut utiliser pour s'inscrire n'existe pas déjà dans la BDD
+	 * @param identifiant que le joueur veut utiliser
+	 * @return true s'il existe déjà en BDD, false par défaut
+	 */
 	public boolean verifIdentifier(String identifiant) {
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -84,7 +99,12 @@ public class Joueur {
 			return false;
 	}
 	
-	
+	/**
+	 * Cette méthode va vérifier si la combinaison entre l'identifiant et le prenom est la bonne, si elle existe en BDD
+	 * @param identifiant unique qui permet l'identification d'un joueur
+	 * @param prenom qui permet la vérification dans la BDD
+	 * @return true si la combinaison est bonne et qu'elle est en BDD, false par défaut
+	 */
 	public boolean verifConnecter(String identifiant, String prenom) {
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -103,6 +123,15 @@ public class Joueur {
 			return false;
 	}
 	
+	/**
+	 * Cette méthode va permettre au joueur de participer à l'amélioration du jeu en ayant la possibilité de proposer une question !
+	 * Cette question sera ajoutée dans une autre table jusqu'à l'approbation des administrateurs (Vérifier si la question est pertinente).
+	 * @param q Question que le joueur propose
+	 * @param r1 La bonne réponse à la question 
+	 * @param r2 Une autre réponse 
+	 * @param r3 Une autre réponse
+	 * @param r4 Une autre réponse
+	 */
 	public void proposerQuestion(String q, String r1, String r2, String r3, String r4) {
 		try{
 			String script = "INSERT INTO public.\"Proposition\" VALUES('" + q +"', '"+r1+"', '"+r2+"', '"+r3+"', '"+r4+"');";
