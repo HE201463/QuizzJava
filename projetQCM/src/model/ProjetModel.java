@@ -1,9 +1,7 @@
 package model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Observable;
 
 import lombok.Getter;
@@ -39,7 +37,6 @@ public class ProjetModel extends Observable{
 	 */
 	public void connecter(String identifiant) {
 		joueur.connecter(identifiant);
-		
 	}
 	
 	/**
@@ -129,6 +126,10 @@ public class ProjetModel extends Observable{
 		joueur.proposerQuestion(q, r1, r2, r3, r4);
 	}
 	
+	public void changerPoints(String identifiant, int points) throws ClassNotFoundException, SQLException {
+		quest.changerPoints(identifiant, points);
+	}
+
 	
 	
 	//Getter and Setter

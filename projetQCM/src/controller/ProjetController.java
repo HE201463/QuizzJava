@@ -30,9 +30,10 @@ public class ProjetController {
 	private ProjetModel model;
 	private ProjetVue vue;
 	private ProjetVue console;
-	private int i=0;
-	private int points = 0;
-	private int nombre;
+	private static int i=0;
+	protected static String page = "intro";
+	private static int points = 0;
+	private int nombre; //Ce nombre sert pour le nombre de point pour passer d'un niveau a l'autre
 	
 	
 	/**
@@ -119,7 +120,7 @@ public class ProjetController {
 	 * 
 	 */
 	public void questionSuivante() {
-		if(i<4) {
+		if(i<1) {
 			i++;
 			model.questionSuivante(i);
 			vue.affiche();
@@ -129,12 +130,20 @@ public class ProjetController {
 			vue.affiche("C'est terminé");
 			try {
 				points = model.getJoueur().getPoint() + points;
-				model.getQuest().changerPoints(model.getJoueur().getIdentifiant(), points);
+				model.changerPoints(model.getJoueur().getIdentifiant(), points);
+				model.getJoueur().setPoint(points);
+				((VueSujet)vue).getTextPoints().setText("Point total: " + points);
+				i = 0;
+				points = 0;
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
-			} 
-			vue.setVisible(false);
-			PageSujet(model.getJoueur().getIdentifiant(), model.getJoueur().getPrenom());
+			}
+			console.affiche();
+			page = "sujet";
+			((VueSujet)vue).getBottom1().setVisible(true);
+			((VueSujet)vue).getBottom2().setVisible(true);
+			((VueSujet)vue).getPropQuestion().setVisible(true);
+			((VueSujet)vue).getQuizz().setVisible(false);
 		}
 		
 	}
@@ -155,6 +164,22 @@ public class ProjetController {
 		return false;
 	}
 	
+	public boolean niv2(String choix, int niveau) {
+		if(choix.equals("info")) {
+			if (model.getJoueur().getNivInfo() < niveau)return true;
+			return false;
+		}
+		if (choix.equals("math")) {
+			if (model.getJoueur().getNivMath() < niveau) return true;
+			return false;
+		}
+		if (choix.equals("elec")) {
+			if (model.getJoueur().getNivElec() < niveau) return true;
+			return false;
+		}
+		return false;
+	}
+	
 	public boolean niveau(String choix, int niveau) {
 		if (niveau == 2) {
 			nombre = 200;
@@ -164,16 +189,21 @@ public class ProjetController {
 		}
 		if (niv(choix, niveau)) {
 			JOptionPane.showMessageDialog(null, "Pas assez de points.\nIl faut " + nombre + " points", "Erreur", JOptionPane.ERROR_MESSAGE); 
-			System.out.println("Pas assez de points. Il faut " + nombre + " points");
+			console.affiche(("Pas assez de points. Il faut " + nombre + " points"));
 			return false;
 		}
-		int points = model.getJoueur().getPoint() - nombre;
+		
+		if(niv2(choix, niveau)) {
+			points = model.getJoueur().getPoint() - nombre;
+		
 		try {
 			model.getQuest().changerNiv(model.getJoueur().getIdentifiant(), choix, niveau);
 			model.getQuest().changerPoints(model.getJoueur().getIdentifiant(), points);
+			points = 0;
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		} 
+		}
 		return true;
 	}
 	
@@ -203,51 +233,24 @@ public class ProjetController {
 		model.proposerQuestion(question, r1, r2, r3, r4);
 	}
 	
-	/**
-	 * Cette méthode va créer la page d'introduction en utilisant les constructeurs des classes IntroConsole et VueIntro
-	 * Des modifiication à la vue GUI sont faites ici
-	 */
-	public void PageIntro() {
-			
-		ProjetController ctrlIntro = new ProjetController(model);
-		console = new IntroConsole(model, ctrlIntro);
-		((IntroConsole)console).affiche();
-		ctrlIntro.addview2(console);
-		vue = new VueIntro(model, ctrlIntro);
-		ctrlIntro.addview(vue);
-				
-		vue.setTitle("ProjetQCM");
-		vue.setLocation(700, 50); //(horizontal, vertical)
-		vue.setAlwaysOnTop(true);
-		vue.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		vue.setBackground(Color.BLUE);
-		vue.setSize(500,300);
-		vue.setVisible(true);
-		vue.getContentPane().add(((VueIntro)vue).getIntro());
-		
-	}
+	
 	
 	/**
 	 * Cette méthode va créer la page de choix de sujet en utilisant les constructeurs des classes SujetConsole et VueSujet
 	 * Des modifiication à la vue GUI sont faites ici
 	 * @param identifiant qui permettra de récupérer le prénom, les points et les niveaux du joueur
 	 */
-	public void PageSujet(String identifiant, String prenom) {
+	public void PageSujet(String identifiant) {
+		page = "sujet";
 		vue.setVisible(false);
 		model.connecter(identifiant);
-		/*System.out.println(((IntroConsole)console).isArret());
-		((IntroConsole)console).setArret(false);
-		System.out.println(((IntroConsole)console).isArret());*/
 		ProjetController ctrlSujet = new ProjetController(model);
 		console = new SujetConsole(model, ctrlSujet);
 		ctrlSujet.addview2(console);
-		console.affiche();
-		
 		vue = new VueSujet(model, ctrlSujet);
-
 		ctrlSujet.addview(vue);
-		
-		vue.setTitle("ProjetQCM");
+		console.affiche();
+		vue.setTitle("Sujet");
 		vue.setLocation(700, 50); //(horizontal, vertical)
 		//vue.setAlwaysOnTop(true);
 		vue.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -259,24 +262,20 @@ public class ProjetController {
 	
 	/**
 	 * Cette méthode va créer la page d'affichage des questions en utilisant les constructeurs des classes QuestionConsole et VueQuestion
-	 * Des modifiication à la vue GUI sont faites ici
+	 * Des modifications à la vue GUI sont faites ici
 	 */
 	public void PageQuestions() {
-		vue.setVisible(false);
+		page = "question";
 		model.questionSuivante(0);
-		ProjetController ctrlQuestion = new ProjetController(model);
-		vue = new VueQuestion(model, ctrlQuestion);
-		ctrlQuestion.addview(vue);
-		console = new QuestionConsole(model, ctrlQuestion);
-		ctrlQuestion.addview2(console);
-		vue.setTitle("ProjetQCM");
-		vue.setLocation(700, 50); //(horizontal, vertical)
-		//vue.setAlwaysOnTop(true);
-		vue.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		vue.setBackground(Color.BLUE);
-		vue.setSize(450,300);
-		vue.setVisible(true);
-		vue.getContentPane().add(((VueQuestion)vue).getPanel());
+		((VueSujet)vue).getBottom1().setVisible(false);
+		((VueSujet)vue).getPropQuestion().setVisible(false);
+		((VueSujet)vue).getQuizz().setVisible(true);
+	}
+
+	
+	//Getter and Setter
+	public String getPage() {
+		return page;
 	}
 	
 }

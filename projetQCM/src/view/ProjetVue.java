@@ -3,7 +3,6 @@ package view;
 import java.util.Observer;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import controller.ProjetController;
 import lombok.Getter;

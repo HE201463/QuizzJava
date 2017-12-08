@@ -23,15 +23,12 @@ import model.ProjetModel;
  */
 public class IntroConsole extends ProjetVue implements Observer{
 	protected Scanner sc;
-	protected volatile boolean arret = true;
+	//protected volatile boolean arret = true;
 	private Thread thread;
+	
 	public IntroConsole(ProjetModel model, ProjetController controller) {
 		super(model, controller);
-		update(null, null);
-		sc = new Scanner(System.in);
-		thread = new Thread (new ReadInput());
-		thread.start();
-		
+		new Thread (new ReadInput(model, controller)).start();		
 	}
 
 	@Override
@@ -44,61 +41,11 @@ public class IntroConsole extends ProjetVue implements Observer{
 		System.out.println(msg);		
 	}
 	
-	/**
-	 * Cette classe est utilisé par le thread;
-	 * Elle va scanner ce que le joueur a entré comme commande et va appeler le controller pour vérifier, enregistrer ou afficher la page suivante.
-	 * @author B
-	 *
-	 */
-	private class ReadInput implements Runnable{
-		public void run() {
-			while(arret){
-				try{
-					String c = sc.next();
-					System.out.println("toto");
-					String identifiant = sc.next();
-					String prenom = sc.next();
-					switch(c) {
-						case "C" :
-							if(controller.verifconnecte(identifiant, prenom)) {
-								arret = false;
-								controller.PageSujet(identifiant, prenom);
-							}
-							break;
-						case "E" :
-							if(controller.verifIdentite(identifiant)) {
-								arret = false;
-								model.enregistrer(identifiant, prenom);
-								controller.PageSujet(identifiant, prenom);
-							}
-							break;
-						default : 
-							affiche("Problème d'écriture");
-							break;
-					}	
-				}
-				catch(InputMismatchException e){
-					affiche("Format d'input incorrect");
-				}
-			}
-		}
-	}
-	
 	@Override
 	public void affiche() {
 		System.out.println("Bienvenue dans ce jeu ...");
 		System.out.println("Tape E + un identifiant et un prenom pour t'enregistrer");
 		System.out.println("Tape C + ton identifiant et ton prenom pour te connecter");
 		System.out.println("ATTENTION : identifiant et prenom en un seul mot et avec un espace entre chaque");
-	}
-
-	public boolean isArret() {
-		return arret;
-	}
-
-	public void setArret(boolean arret) {
-		this.arret = arret;
-	}
-
-	
+	}	
 }

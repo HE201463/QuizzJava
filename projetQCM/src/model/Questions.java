@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Observable;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -61,7 +60,7 @@ public class Questions{
 		Class.forName("org.postgresql.Driver");
 		Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
 		  
-		PreparedStatement st = db.prepareStatement("select question, rep1, rep2, rep3, rep4 FROM public.\"Questions\" where type = 'f' and niveau =" + niveau + "and sujet='" + sujet + "'order by random() fetch first 5 rows only");
+		PreparedStatement st = db.prepareStatement("select question, rep1, rep2, rep3, rep4 FROM public.\"Questions\" where type = 'f' and niveau <=" + niveau + "and sujet='" + sujet + "'order by random() fetch first 5 rows only");
 		ResultSet rs = st.executeQuery();
 		while (rs.next()) {
 		  questions.add(rs.getString(1));
@@ -125,7 +124,7 @@ public class Questions{
 		//execute insert SQL stetement
 		preparedStatement.executeUpdate();
 	}
-	
+
 	public void changerNiv(String identifiant, String sujet, int niveau) throws SQLException, ClassNotFoundException {
 		Class.forName("org.postgresql.Driver");
 		Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");

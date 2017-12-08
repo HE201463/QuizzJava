@@ -31,6 +31,7 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 	private Box bottom2;
 	private Box proposeQuestion;
 	private Box bottom1;
+	private Box quizz;
 	private JButton valider;
 	private JButton retour;
 	private JTextField quest;
@@ -38,7 +39,26 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 	private JTextField rep22;
 	private JTextField rep33;
 	private JTextField rep44;
+	private JTextField textQuest;
+	private JTextField textPoints;
+	public JTextField getTextPoints() {
+		return textPoints;
+	}
+
+
+	public void setTextPoints(JTextField textPoints) {
+		this.textPoints = textPoints;
+	}
+
+
+
+
+
 	private String choix;
+	private JButton quizzReponse1;
+	private JButton quizzReponse2;
+	private JButton quizzReponse3;
+	private JButton quizzReponse4;
 	
 	public VueSujet(ProjetModel model, ProjetController controller) {
 		super(model, controller);
@@ -52,14 +72,14 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		Box bottom = Box.createHorizontalBox();
 		main.add(bottom);
 		
-		JTextField text = new JTextField (model.getJoueur().getPrenom()); 
-		text.setBackground(Color.LIGHT_GRAY);
-		text.setHorizontalAlignment(JLabel.CENTER);
-		bottom.add(text);
-		text = new JTextField ("Point total: " + model.getJoueur().getPoint()); 
-		text.setBackground(Color.GREEN);
-		text.setHorizontalAlignment(JLabel.CENTER);
-		bottom.add(text);
+		JTextField textPrenom = new JTextField (model.getJoueur().getPrenom()); 
+		textPrenom.setBackground(Color.LIGHT_GRAY);
+		textPrenom.setHorizontalAlignment(JLabel.CENTER);
+		bottom.add(textPrenom);
+		textPoints = new JTextField ("Point total: " + model.getJoueur().getPoint()); 
+		textPoints.setBackground(Color.GREEN);
+		textPoints.setHorizontalAlignment(JLabel.CENTER);
+		bottom.add(textPoints);
 		
 				
 		Box niveau = Box.createVerticalBox();
@@ -153,6 +173,36 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		niveau3 = new JButton ("niveau3");
 		bottom2.add(niveau3);
 		
+		quizz = Box.createVerticalBox();
+		main.add(quizz);
+		quizz.setVisible(false);
+		
+		textQuest = new JTextField (""); 
+		textQuest.setPreferredSize (new Dimension (250, 50));
+		textQuest.setBackground(Color.lightGray);
+		quizz.add(textQuest);
+		
+		
+		Box rep12 = Box.createHorizontalBox(); 
+		quizz.add(rep12);
+		Box rep34 = Box.createHorizontalBox(); 
+		quizz.add(rep34);
+		
+		quizzReponse1 = new JButton ();
+		rep12.add(quizzReponse1);
+		quizzReponse2 = new JButton (); 
+		rep12.add(quizzReponse2);
+		
+		quizzReponse3 = new JButton (); 
+		rep34.add(quizzReponse3);
+		quizzReponse4 = new JButton (); 
+		rep34.add(quizzReponse4);
+		
+		quizzReponse1.addActionListener(this);
+		quizzReponse2.addActionListener(this);
+		quizzReponse3.addActionListener(this);
+		quizzReponse4.addActionListener(this);
+		
 		niveau1.addActionListener(this);
 		niveau2.addActionListener(this);
 		niveau3.addActionListener(this);
@@ -162,24 +212,24 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		
 	}
 	
-	
-
-
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == niveau1) {
+			affiche();
 			controller.choixQuestion(choix, 1);
 			controller.PageQuestions();
 		}
 		if(e.getSource() == niveau2) {
 			if(controller.niveau(choix, 2)) {
+				affiche();
 				controller.choixQuestion(choix, 2);
 				controller.PageQuestions();
 			}
 		}
 		if(e.getSource() == niveau3) {
 			if(controller.niveau(choix, 3)){
+				affiche();
 				controller.choixQuestion(choix, 3);
 				controller.PageQuestions();
 			}
@@ -188,11 +238,13 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 			proposeQuestion.setVisible(true);
 			bottom1.setVisible(false);
 			bottom2.setVisible(false);
+			quizz.setVisible(false);
 		}
 		if (e.getSource() == retour) {
 			proposeQuestion.setVisible(false);
 			bottom1.setVisible(true);
 			bottom2.setVisible(false);
+			quizz.setVisible(false);
 		}
 		if (e.getSource() == valider) {
 			controller.proposeQuestion(quest.getText(), rep11.getText(), rep22.getText(), rep33.getText(), rep44.getText());
@@ -200,54 +252,139 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 			bottom1.setVisible(true);
 			bottom2.setVisible(false);
 		}
+		
+		if(e.getSource() == quizzReponse1) {
+			controller.verification("rep" + 1);
+			questionSuivante();
+		}
+		else if(e.getSource() == quizzReponse2) {
+			controller.verification("rep" + 2);
+			questionSuivante();
+		}
+		else if(e.getSource() == quizzReponse3){
+			controller.verification("rep" + 3);
+			questionSuivante();
+		}
+		else if(e.getSource() == quizzReponse4){
+			controller.verification("rep" + 4);
+			questionSuivante();
+		}
 	}
-
-
+	
+	public void questionSuivante() {
+		controller.questionSuivante();
+	}
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		
+		textQuest.setText(model.getQuest().getQuestion());
+		quizzReponse1.setText(model.getQuest().getRep1());
+		quizzReponse2.setText(model.getQuest().getRep2());
+		quizzReponse3.setText(model.getQuest().getRep3());
+		quizzReponse4.setText(model.getQuest().getRep4());
 	}
-
-
 
 	@Override
 	public void affiche(String msg) {
 		
 	}
 
-
-
-
-
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-		bottom2.setVisible(true);
+		if(e.getItem().equals("*")) {
+			bottom2.setVisible(false);
+		}
+		else {
+			bottom2.setVisible(true);
+		}
 		choix = (String) e.getItem();
 		niveau1.setText(e.getItem() + " 1");
 		niveau2.setText(e.getItem() + " 2");
 		niveau3.setText(e.getItem() + " 3");
 	}
-
+	
+	/**
+	 * Cette méthode permet d'afficher l'interface vers les questions
+	 */
 	@Override
-	public void affiche() {		
+	public void affiche() {	
+		propQuestion.setVisible(false);
+		bottom1.setVisible(false);
+		bottom2.setVisible(false);
+		quizz.setVisible(true);
 	}
 
-
-
-
-
+	
+	// Getter and Setter
 	public JPanel getSujet() {
 		return sujet;
 	}
 
-
-
-
-
 	public void setSujet(JPanel sujet) {
 		this.sujet = sujet;
 	}
+
+
+
+
+
+	public Box getBottom2() {
+		return bottom2;
+	}
+
+
+
+
+
+	public void setBottom2(Box bottom2) {
+		this.bottom2 = bottom2;
+	}
+
+
+
+
+
+	
+
+
+
+
+
+	public JButton getPropQuestion() {
+		return propQuestion;
+	}
+
+	public void setPropQuestion(JButton propQuestion) {
+		this.propQuestion = propQuestion;
+	}
+	public Box getBottom1() {
+		return bottom1;
+	}
+
+
+
+
+
+	public void setBottom1(Box bottom1) {
+		this.bottom1 = bottom1;
+	}
+
+
+
+
+
+	public Box getQuizz() {
+		return quizz;
+	}
+
+
+
+
+
+	public void setQuizz(Box quizz) {
+		this.quizz = quizz;
+	}
+	
 	
 	
 }

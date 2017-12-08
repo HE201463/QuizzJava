@@ -80,7 +80,11 @@ public class VueQuestion extends ProjetVue implements ActionListener{
 		
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		
+		question.setText(model.getQuest().getQuestion());
+		rep1.setText(model.getQuest().getRep1());
+		rep2.setText(model.getQuest().getRep2());
+		rep3.setText(model.getQuest().getRep3());
+		rep4.setText(model.getQuest().getRep4());
 	}
 
 	@Override
@@ -89,11 +93,7 @@ public class VueQuestion extends ProjetVue implements ActionListener{
 	}
 	
 	public void affiche() {
-		question.setText(model.getQuest().getQuestion());
-		rep1.setText(model.getQuest().getRep1());
-		rep2.setText(model.getQuest().getRep2());
-		rep3.setText(model.getQuest().getRep3());
-		rep4.setText(model.getQuest().getRep4());
+		
 	}
 
 	@Override

@@ -131,13 +131,13 @@ public class VueIntro extends ProjetVue implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == connexion) {
 			if(controller.verifconnecte(identifiant.getText(), prenom.getText())) {
-				controller.PageSujet(identifiant.getText(), prenom.getText());
+				controller.PageSujet(identifiant.getText());
 			}			
 		}
 		if(e.getSource() == creation) {
 			if(controller.verifIdentite(identifiant.getText())) {
 				model.enregistrer(identifiant.getText(), prenom.getText());
-				controller.PageSujet(identifiant.getText(), prenom.getText());
+				controller.PageSujet(identifiant.getText());
 			}
 		}
 	}
@@ -147,6 +147,8 @@ public class VueIntro extends ProjetVue implements ActionListener{
 		
 	}
 
+	
+	
 	
 	//Getter et Setter
 	public JPanel getIntro() {
