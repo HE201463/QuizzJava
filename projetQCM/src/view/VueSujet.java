@@ -30,25 +30,34 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 	private JButton niveau3;
 	private Box bottom2;
 	private Box proposeQuestion;
+	private Box ajouterQuestion;
 	private Box bottom1;
 	private Box quizz;
 	private JButton valider;
 	private JButton retour;
-	private JTextField quest;
-	private JTextField rep11;
-	private JTextField rep22;
-	private JTextField rep33;
-	private JTextField rep44;
+	private JButton supprimer;
+	private JButton ajouter;
+	private JTextField propQuest;
+	private JTextField propRep1;
+	private JTextField propRep2;
+	private JTextField propRep3;
+	private JTextField propRep4;
 	private JTextField textQuest;
 	private JTextField textPoints;
-	public JTextField getTextPoints() {
-		return textPoints;
-	}
-
-
-	public void setTextPoints(JTextField textPoints) {
-		this.textPoints = textPoints;
-	}
+	
+	private JTextArea question1;
+	private JTextArea reponse11;
+	private JTextArea reponse12;
+	private JTextArea reponse13;
+	private JTextArea reponse14;
+	
+	private JTextArea addQuestion = new JTextArea();
+	private JTextArea addRep1 = new JTextArea();
+	private JTextArea addRep2 = new JTextArea();
+	private JTextArea addRep3 = new JTextArea();
+	private JTextArea addRep4 = new JTextArea();
+	private JTextArea addSujet = new JTextArea();
+	private JTextArea addNiveau = new JTextArea();
 
 
 
@@ -125,28 +134,88 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		bouton.add(retour);
 		
 		
-		JLabel texte = new JLabel("Question proposÈe ");
+		JLabel texte = new JLabel("Question propos√©e ");
 		question.add(texte);
 		quest = new JTextField("");
 		question.add(quest);
 		
-		JLabel rep1 = new JLabel("Bonne rÈponse ");
+		JLabel rep1 = new JLabel("Bonne r√©ponse ");
 		reponse1.add(rep1);
-		rep11 = new JTextField("");
-		reponse1.add(rep11);
-		JLabel rep2 = new JLabel("Autre rÈponse ");
+		propRep1 = new JTextField("");
+		reponse1.add(propRep1);
+		JLabel rep2 = new JLabel("Autre r√©ponse ");
 		reponse2.add(rep2);
-		rep22 = new JTextField("");
-		reponse2.add(rep22);
-		JLabel rep3 = new JLabel("Autre rÈponse ");
+		propRep2 = new JTextField("");
+		reponse2.add(propRep2);
+		JLabel rep3 = new JLabel("Autre r√©ponse ");
 		reponse3.add(rep3);
-		rep33 = new JTextField("");
-		reponse3.add(rep33);
-		JLabel rep4 = new JLabel("Autre rÈponse ");
+		propRep3 = new JTextField("");
+		reponse3.add(propRep3);
+		JLabel rep4 = new JLabel("Autre r√©ponse ");
 		reponse4.add(rep4);
-		rep44 = new JTextField("");
-		reponse4.add(rep44);
+		propRep4 = new JTextField("");
+		reponse4.add(propRep4);
 		
+		
+		
+		ajouterQuestion = Box.createVerticalBox();
+		main.add(ajouterQuestion);
+		ajouterQuestion.setVisible(false);
+		
+		Box q = Box.createHorizontalBox(); 
+		ajouterQuestion.add(q);
+		
+		Box r1 = Box.createHorizontalBox(); 
+		ajouterQuestion.add(r1);
+		Box r2 = Box.createHorizontalBox(); 
+		ajouterQuestion.add(r2);
+		Box r3 = Box.createHorizontalBox(); 
+		ajouterQuestion.add(r3);
+		Box r4 = Box.createHorizontalBox(); 
+		ajouterQuestion.add(r4);
+		Box suj = Box.createHorizontalBox(); 
+		ajouterQuestion.add(suj);
+		Box niv = Box.createHorizontalBox(); 
+		ajouterQuestion.add(niv);
+		
+		Box b = Box.createHorizontalBox(); 
+		ajouterQuestion.add(b);
+		b.add(retour);
+		supprimer = new JButton("Supprimer");
+		b.add(supprimer);
+		ajouter = new JButton("Ajouter");
+		b.add(ajouter);
+		
+		
+		JLabel qProposee = new JLabel("Question propos√©e ");
+		q.add(qProposee);
+		test.setBackground(Color.RED);
+		q.add(addQuestion);
+		question1 = new JTextArea();
+		
+		
+		JLabel r1Prop = new JLabel("Bonne r√©ponse ");
+		r1.add(r1Prop);
+		test1.setBackground(Color.RED);
+		r1.add(addRep1);
+		JLabel r2Prop = new JLabel("Autre r√©ponse ");
+		r2.add(r2Prop);
+		test2.setBackground(Color.RED);
+		r2.add(addRep2);
+		JLabel r3Prop = new JLabel("Autre r√©ponse ");
+		r3.add(r3Prop);
+		test3.setBackground(Color.RED);
+		r3.add(addRep3);
+		JLabel r4Prop = new JLabel("Autre r√©ponse ");
+		r4.add(r4Prop);
+		test4.setBackground(Color.RED);
+		r4.add(addRep4);
+		JLabel sujetProp = new JLabel("Sujet : ");
+		suj.add(sujetProp);
+		suj.add(addSujet);
+		JLabel nivProp = new JLabel("Niveau : ");
+		niv.add(nivProp);
+		niv.add(addNiveau);
 		
 		JLabel label = new JLabel("Choisis un sujet: "); 
 		label.setHorizontalAlignment(JLabel.RIGHT);
@@ -207,8 +276,11 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		niveau2.addActionListener(this);
 		niveau3.addActionListener(this);
 		propQuestion.addActionListener(this);
+		addQuestion.addActionListener(this);
 		valider.addActionListener(this);
 		retour.addActionListener(this);
+		supprimer.addActionListener(this);
+		ajouter.addActionListener(this);
 		
 	}
 	
@@ -240,8 +312,25 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 			bottom2.setVisible(false);
 			quizz.setVisible(false);
 		}
+		if(e.getSource() == addQuestion) {
+			ajouterQuestion.setVisible(true);
+			bottom1.setVisible(false);
+			bottom2.setVisible(false);
+			if(controller.showProposition().size()!=0) {
+				test.setText(controller.showProposition().get(0));
+				test1.setText(controller.showProposition().get(1));
+				test2.setText(controller.showProposition().get(2));
+				test3.setText(controller.showProposition().get(3));
+				test4.setText(controller.showProposition().get(4));
+			} else {
+				ajouterQuestion.setVisible(false);
+				bottom1.setVisible(true);
+				bottom2.setVisible(false);
+			}
+		}
 		if (e.getSource() == retour) {
 			proposeQuestion.setVisible(false);
+			ajouterQuestion.setVisible(false);
 			bottom1.setVisible(true);
 			bottom2.setVisible(false);
 			quizz.setVisible(false);
@@ -249,8 +338,40 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		if (e.getSource() == valider) {
 			controller.proposeQuestion(quest.getText(), rep11.getText(), rep22.getText(), rep33.getText(), rep44.getText());
 			proposeQuestion.setVisible(false);
+			ajouterQuestion.setVisible(false);
 			bottom1.setVisible(true);
 			bottom2.setVisible(false);
+		}
+		if(e.getSource() == supprimer) {
+			controller.deleteProposition(test.getText(), test1.getText());
+			if(controller.showProposition().size()!=0) {
+				test.setText(controller.showProposition().get(0));
+				test1.setText(controller.showProposition().get(1));
+				test2.setText(controller.showProposition().get(2));
+				test3.setText(controller.showProposition().get(3));
+				test4.setText(controller.showProposition().get(4));
+			} else {
+				proposeQuestion.setVisible(false);
+				ajouterQuestion.setVisible(false);
+				bottom1.setVisible(true);
+				bottom2.setVisible(false);
+			}
+		}
+		if(e.getSource() == ajouter) {
+			controller.addProposition(test.getText(), test1.getText(), test2.getText(), test3.getText(), test4.getText(), sujetTest.getText(), Integer.parseInt(niveauTest.getText()));
+			controller.deleteProposition(test.getText(), test1.getText());
+			if(controller.showProposition().size()!=0) {
+				test.setText(controller.showProposition().get(0));
+				test1.setText(controller.showProposition().get(1));
+				test2.setText(controller.showProposition().get(2));
+				test3.setText(controller.showProposition().get(3));
+				test4.setText(controller.showProposition().get(4));
+			} else {
+				proposeQuestion.setVisible(false);
+				ajouterQuestion.setVisible(false);
+				bottom1.setVisible(true);
+				bottom2.setVisible(false);
+			}
 		}
 		
 		if(e.getSource() == quizzReponse1) {
@@ -304,7 +425,7 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 	}
 	
 	/**
-	 * Cette mÈthode permet d'afficher l'interface vers les questions
+	 * Cette m√©thode permet d'afficher l'interface vers les questions
 	 */
 	@Override
 	public void affiche() {	
@@ -386,5 +507,13 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 	}
 	
 	
+	public JTextField getTextPoints() {
+		return textPoints;
+	}
+
+
+	public void setTextPoints(JTextField textPoints) {
+		this.textPoints = textPoints;
+	}
 	
 }
