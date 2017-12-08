@@ -41,19 +41,9 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 	private JTextField rep44;
 	private JTextField textQuest;
 	private JTextField textPoints;
-	public JTextField getTextPoints() {
-		return textPoints;
-	}
-
-
-	public void setTextPoints(JTextField textPoints) {
-		this.textPoints = textPoints;
-	}
-
-
-
-
-
+	private JTextField math;
+	private JTextField info;
+	private JTextField elec;
 	private String choix;
 	private JButton quizzReponse1;
 	private JButton quizzReponse2;
@@ -85,13 +75,13 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		Box niveau = Box.createVerticalBox();
 		bottom.add(niveau);
 		
-		JTextField math = new JTextField ("niv math: " + model.getJoueur().getNivMath());
+		math = new JTextField ("niv math: " + model.getJoueur().getNivMath());
 		niveau.add(math);
 		
-		JTextField info = new JTextField ("niv info: " + model.getJoueur().getNivInfo());
+		info = new JTextField ("niv info: " + model.getJoueur().getNivInfo());
 		niveau.add(info);
 		
-		JTextField elec = new JTextField ("niv elec: " + model.getJoueur().getNivElec());
+		elec = new JTextField ("niv elec: " + model.getJoueur().getNivElec());
 		niveau.add(elec);
 		
 		propQuestion = new JButton("Proposer une question");
@@ -277,6 +267,10 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
+		textPoints.setText("Point total: " + model.getJoueur().getPoint());
+		math.setText("niv math: " + model.getJoueur().getNivMath());
+		info.setText("niv info: " + model.getJoueur().getNivInfo());
+		elec.setText("niv elec: " + model.getJoueur().getNivElec());
 		textQuest.setText(model.getQuest().getQuestion());
 		quizzReponse1.setText(model.getQuest().getRep1());
 		quizzReponse2.setText(model.getQuest().getRep2());
@@ -324,32 +318,12 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		this.sujet = sujet;
 	}
 
-
-
-
-
 	public Box getBottom2() {
 		return bottom2;
 	}
-
-
-
-
-
 	public void setBottom2(Box bottom2) {
 		this.bottom2 = bottom2;
 	}
-
-
-
-
-
-	
-
-
-
-
-
 	public JButton getPropQuestion() {
 		return propQuestion;
 	}
@@ -360,31 +334,21 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 	public Box getBottom1() {
 		return bottom1;
 	}
-
-
-
-
-
 	public void setBottom1(Box bottom1) {
 		this.bottom1 = bottom1;
 	}
-
-
-
-
-
 	public Box getQuizz() {
 		return quizz;
 	}
-
-
-
-
-
 	public void setQuizz(Box quizz) {
 		this.quizz = quizz;
 	}
 	
-	
+	public JTextField getTextPoints() {
+		return textPoints;
+	}
+	public void setTextPoints(JTextField textPoints) {
+		this.textPoints = textPoints;
+	}
 	
 }

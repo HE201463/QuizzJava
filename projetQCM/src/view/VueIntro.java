@@ -90,7 +90,7 @@ public class VueIntro extends ProjetVue implements ActionListener{
 		identifiantTexte.setFont(f);
 		bottom.add(identifiantTexte);
 		
-		identifiant = new JTextField ("Identifiant"); 
+		identifiant = new JTextField ("deMahieu"); 
 		identifiant.setPreferredSize (new Dimension (350, 20));
 		identifiant.setBackground(Color.CYAN);
 		bottom.add(identifiant);
@@ -100,7 +100,7 @@ public class VueIntro extends ProjetVue implements ActionListener{
 		prenomTexte.setFont(f);
 		bottom1.add(prenomTexte);
 		
-		prenom = new JTextField ("Prénom");
+		prenom = new JTextField ("Benoit");
 		prenom.setPreferredSize (new Dimension (350, 20));
 		prenom.setBackground(Color.lightGray);
 		bottom1.add(prenom);

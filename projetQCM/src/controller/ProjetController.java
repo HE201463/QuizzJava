@@ -9,12 +9,8 @@ import javax.swing.JOptionPane;
 import lombok.Getter;
 import lombok.Setter;
 import model.ProjetModel;
-import view.IntroConsole;
 import view.ProjetVue;
-import view.QuestionConsole;
 import view.SujetConsole;
-import view.VueIntro;
-import view.VueQuestion;
 import view.VueSujet;
 
 /**
@@ -148,36 +144,30 @@ public class ProjetController {
 		
 	}
 	
-	public boolean niv(String choix, int niveau) {
+	/**
+	 * Cette méthode vérifie le nombre de point du joueur et son niveau. Selon ces paramètres il pourra passer au niveau suivant.
+	 * @param choix Ce choix est le sujet qu'il a choisis d'augmenter (info, math ou elec pour le moment)
+	 * @param niveau Le niveau est celui qu'il veut augmenter (2 ou 3)
+	 * @return return true si le niveau est insuffisant et qu'il n'a pas assez de points pour le passer
+	 * @return return false si son niveau est insuffisant mais qu'il a assez de points pour passer au niveau suivant
+	 */
+	public int niv(String choix, int niveau) {
 		if(choix.equals("info")) {
-			if (model.getJoueur().getNivInfo() < niveau && model.getJoueur().getPoint() < 200)return true;
-			return false;
+			if (model.getJoueur().getNivInfo() < niveau && model.getJoueur().getPoint() < nombre)return 1;
+			if (model.getJoueur().getNivInfo() < niveau && model.getJoueur().getPoint() > nombre)return 2;
+			if(model.getJoueur().getNivInfo() > niveau) return 3;
 		}
 		if (choix.equals("math")) {
-			if (model.getJoueur().getNivMath() < niveau && model.getJoueur().getPoint() < 200) return true;
-			return false;
+			if (model.getJoueur().getNivMath() < niveau && model.getJoueur().getPoint() < nombre)return 1;
+			if (model.getJoueur().getNivMath() < niveau && model.getJoueur().getPoint() > nombre)return 2;
+			if(model.getJoueur().getNivMath() > niveau) return 3;
 		}
 		if (choix.equals("elec")) {
-			if (model.getJoueur().getNivElec() < niveau && model.getJoueur().getPoint() < 200) return true;
-			return false;
+			if (model.getJoueur().getNivElec() < niveau && model.getJoueur().getPoint() < nombre)return 1;
+			if (model.getJoueur().getNivElec() < niveau && model.getJoueur().getPoint() > nombre)return 2;
+			if(model.getJoueur().getNivElec() > niveau) return 3;
 		}
-		return false;
-	}
-	
-	public boolean niv2(String choix, int niveau) {
-		if(choix.equals("info")) {
-			if (model.getJoueur().getNivInfo() < niveau)return true;
-			return false;
-		}
-		if (choix.equals("math")) {
-			if (model.getJoueur().getNivMath() < niveau) return true;
-			return false;
-		}
-		if (choix.equals("elec")) {
-			if (model.getJoueur().getNivElec() < niveau) return true;
-			return false;
-		}
-		return false;
+		return 0;
 	}
 	
 	public boolean niveau(String choix, int niveau) {
@@ -187,26 +177,39 @@ public class ProjetController {
 		else {
 			nombre = 400;
 		}
-		if (niv(choix, niveau)) {
+		if (niv(choix, niveau) == 1) {
 			JOptionPane.showMessageDialog(null, "Pas assez de points.\nIl faut " + nombre + " points", "Erreur", JOptionPane.ERROR_MESSAGE); 
 			console.affiche(("Pas assez de points. Il faut " + nombre + " points"));
 			return false;
 		}
 		
-		if(niv2(choix, niveau)) {
+		if(niv(choix, niveau) == 2) {
 			points = model.getJoueur().getPoint() - nombre;
-		
-		try {
-			model.getQuest().changerNiv(model.getJoueur().getIdentifiant(), choix, niveau);
-			model.getQuest().changerPoints(model.getJoueur().getIdentifiant(), points);
-			points = 0;
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		} 
+			try {
+				model.getQuest().changerNiv(model.getJoueur().getIdentifiant(), choix, niveau);
+				model.getJoueur().setPoint(points);
+				changerNiveau(choix, niveau);
+				model.getQuest().changerPoints(model.getJoueur().getIdentifiant(), points);
+				System.out.println(model.getJoueur().getPoint());
+				points = 0;
+			} catch (ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
+			} 
 		}
 		return true;
 	}
 	
+	public void changerNiveau(String choix, int niveau){
+		if(choix.equals("info")) {
+			model.getJoueur().setNivInfo(niveau);
+		}
+		if(choix.equals("math")) {
+			model.getJoueur().setNivMath(niveau);
+		}
+		if(choix.equals("elec")) {
+			model.getJoueur().setNivElec(niveau);
+		}
+	}
 	/**
 	 * Cette méthode utilise la méthode choixQuestion de la classe ProjetModel pour pouvoir l'utiliser dans la vue
 	 * @param sujet choisi pour être interrogé dessus

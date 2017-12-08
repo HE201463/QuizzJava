@@ -66,7 +66,7 @@ public class ReadInput extends ProjetVue implements Runnable{
 	
 	public void sujet(String c) {
 		int niveau = sc.nextInt();
-		if(niveau < 0 || niveau > 4) {
+		if(niveau <= 0 || niveau >= 4) {
 			affiche("Niveau incorrect");
 		}
 		choix(c, niveau);

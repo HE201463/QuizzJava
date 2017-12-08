@@ -23,8 +23,6 @@ import model.ProjetModel;
  */
 public class IntroConsole extends ProjetVue implements Observer{
 	protected Scanner sc;
-	//protected volatile boolean arret = true;
-	private Thread thread;
 	
 	public IntroConsole(ProjetModel model, ProjetController controller) {
 		super(model, controller);
