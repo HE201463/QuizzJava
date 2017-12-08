@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import controller.ProjetController;
@@ -25,6 +26,7 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 	
 	private JPanel sujet;
 	private JButton propQuestion;
+	private JButton ajoutQuestion;
 	private JButton niveau1;
 	private JButton niveau2;
 	private JButton niveau3;
@@ -105,6 +107,10 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		
 		propQuestion = new JButton("Proposer une question");
 		main.add(propQuestion);
+		ajoutQuestion = new JButton("Voir les questions propos�es");
+		if(model.getJoueur().getIdentifiant().equals("deMahieu")||model.getJoueur().getIdentifiant().equals("Goossens")) {
+			main.add(ajoutQuestion);
+		}
 		
 		bottom1 = Box.createHorizontalBox(); 
 		main.add(bottom1);
@@ -136,8 +142,8 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		
 		JLabel texte = new JLabel("Question proposée ");
 		question.add(texte);
-		quest = new JTextField("");
-		question.add(quest);
+		propQuest = new JTextField("");
+		question.add(propQuest);
 		
 		JLabel rep1 = new JLabel("Bonne réponse ");
 		reponse1.add(rep1);
@@ -189,26 +195,26 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		
 		JLabel qProposee = new JLabel("Question proposée ");
 		q.add(qProposee);
-		test.setBackground(Color.RED);
+		addQuestion.setBackground(Color.RED);
 		q.add(addQuestion);
 		question1 = new JTextArea();
 		
 		
 		JLabel r1Prop = new JLabel("Bonne réponse ");
 		r1.add(r1Prop);
-		test1.setBackground(Color.RED);
+		addRep1.setBackground(Color.RED);
 		r1.add(addRep1);
 		JLabel r2Prop = new JLabel("Autre réponse ");
 		r2.add(r2Prop);
-		test2.setBackground(Color.RED);
+		addRep2.setBackground(Color.RED);
 		r2.add(addRep2);
 		JLabel r3Prop = new JLabel("Autre réponse ");
 		r3.add(r3Prop);
-		test3.setBackground(Color.RED);
+		addRep3.setBackground(Color.RED);
 		r3.add(addRep3);
 		JLabel r4Prop = new JLabel("Autre réponse ");
 		r4.add(r4Prop);
-		test4.setBackground(Color.RED);
+		addRep4.setBackground(Color.RED);
 		r4.add(addRep4);
 		JLabel sujetProp = new JLabel("Sujet : ");
 		suj.add(sujetProp);
@@ -276,7 +282,7 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		niveau2.addActionListener(this);
 		niveau3.addActionListener(this);
 		propQuestion.addActionListener(this);
-		addQuestion.addActionListener(this);
+		ajoutQuestion.addActionListener(this);
 		valider.addActionListener(this);
 		retour.addActionListener(this);
 		supprimer.addActionListener(this);
@@ -312,16 +318,16 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 			bottom2.setVisible(false);
 			quizz.setVisible(false);
 		}
-		if(e.getSource() == addQuestion) {
+		if(e.getSource() == ajoutQuestion) {
 			ajouterQuestion.setVisible(true);
 			bottom1.setVisible(false);
 			bottom2.setVisible(false);
 			if(controller.showProposition().size()!=0) {
-				test.setText(controller.showProposition().get(0));
-				test1.setText(controller.showProposition().get(1));
-				test2.setText(controller.showProposition().get(2));
-				test3.setText(controller.showProposition().get(3));
-				test4.setText(controller.showProposition().get(4));
+				addQuestion.setText(controller.showProposition().get(0));
+				addRep1.setText(controller.showProposition().get(1));
+				addRep2.setText(controller.showProposition().get(2));
+				addRep3.setText(controller.showProposition().get(3));
+				addRep4.setText(controller.showProposition().get(4));
 			} else {
 				ajouterQuestion.setVisible(false);
 				bottom1.setVisible(true);
@@ -336,20 +342,20 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 			quizz.setVisible(false);
 		}
 		if (e.getSource() == valider) {
-			controller.proposeQuestion(quest.getText(), rep11.getText(), rep22.getText(), rep33.getText(), rep44.getText());
+			controller.proposeQuestion(propQuest.getText(), propRep1.getText(), propRep2.getText(), propRep3.getText(), propRep4.getText());
 			proposeQuestion.setVisible(false);
 			ajouterQuestion.setVisible(false);
 			bottom1.setVisible(true);
 			bottom2.setVisible(false);
 		}
 		if(e.getSource() == supprimer) {
-			controller.deleteProposition(test.getText(), test1.getText());
+			controller.deleteProposition(addQuestion.getText(), addRep1.getText());
 			if(controller.showProposition().size()!=0) {
-				test.setText(controller.showProposition().get(0));
-				test1.setText(controller.showProposition().get(1));
-				test2.setText(controller.showProposition().get(2));
-				test3.setText(controller.showProposition().get(3));
-				test4.setText(controller.showProposition().get(4));
+				addQuestion.setText(controller.showProposition().get(0));
+				addRep1.setText(controller.showProposition().get(1));
+				addRep2.setText(controller.showProposition().get(2));
+				addRep3.setText(controller.showProposition().get(3));
+				addRep4.setText(controller.showProposition().get(4));
 			} else {
 				proposeQuestion.setVisible(false);
 				ajouterQuestion.setVisible(false);
@@ -358,14 +364,14 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 			}
 		}
 		if(e.getSource() == ajouter) {
-			controller.addProposition(test.getText(), test1.getText(), test2.getText(), test3.getText(), test4.getText(), sujetTest.getText(), Integer.parseInt(niveauTest.getText()));
-			controller.deleteProposition(test.getText(), test1.getText());
+			controller.addProposition(addQuestion.getText(), addRep1.getText(), addRep2.getText(), addRep3.getText(), addRep4.getText(), addSujet.getText(), Integer.parseInt(addNiveau.getText()));
+			controller.deleteProposition(addQuestion.getText(), addRep1.getText());
 			if(controller.showProposition().size()!=0) {
-				test.setText(controller.showProposition().get(0));
-				test1.setText(controller.showProposition().get(1));
-				test2.setText(controller.showProposition().get(2));
-				test3.setText(controller.showProposition().get(3));
-				test4.setText(controller.showProposition().get(4));
+				addQuestion.setText(controller.showProposition().get(0));
+				addRep1.setText(controller.showProposition().get(1));
+				addRep2.setText(controller.showProposition().get(2));
+				addRep3.setText(controller.showProposition().get(3));
+				addRep4.setText(controller.showProposition().get(4));
 			} else {
 				proposeQuestion.setVisible(false);
 				ajouterQuestion.setVisible(false);

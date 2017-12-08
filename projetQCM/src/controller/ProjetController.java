@@ -2,6 +2,7 @@ package controller;
 
 import java.awt.Color;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -9,12 +10,8 @@ import javax.swing.JOptionPane;
 import lombok.Getter;
 import lombok.Setter;
 import model.ProjetModel;
-import view.IntroConsole;
 import view.ProjetVue;
-import view.QuestionConsole;
 import view.SujetConsole;
-import view.VueIntro;
-import view.VueQuestion;
 import view.VueSujet;
 
 /**
