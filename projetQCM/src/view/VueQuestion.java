@@ -23,14 +23,12 @@ import model.ProjetModel;
 public class VueQuestion extends ProjetVue implements ActionListener{
 	
 	private JPanel panel;
-	private JFrame projetJFrame;
 	private JTextField text;
 	private JTextArea question;
 	private JButton rep1;
 	private JButton rep2;
 	private JButton rep3;
 	private JButton rep4;
-	private int i=0;
 		
 	
 	public VueQuestion(ProjetModel model, ProjetController controller) {
@@ -95,11 +93,7 @@ public class VueQuestion extends ProjetVue implements ActionListener{
 	}
 	
 	public void affiche() {
-		question.setText(model.getQuest().getQuestion());
-		rep1.setText(model.getQuest().getRep1());
-		rep2.setText(model.getQuest().getRep2());
-		rep3.setText(model.getQuest().getRep3());
-		rep4.setText(model.getQuest().getRep4());
+		
 	}
 
 	@Override
@@ -138,4 +132,67 @@ public class VueQuestion extends ProjetVue implements ActionListener{
 		}
 	}
 
+	
+	
+	
+	
+	
+	//Getter and Setter
+	public JPanel getPanel() {
+		return panel;
+	}
+
+	public void setPanel(JPanel panel) {
+		this.panel = panel;
+	}
+
+	public JTextField getText() {
+		return text;
+	}
+
+	public void setText(JTextField text) {
+		this.text = text;
+	}
+
+	public JTextArea getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(JTextArea question) {
+		this.question = question;
+	}
+
+	public JButton getRep1() {
+		return rep1;
+	}
+
+	public void setRep1(JButton rep1) {
+		this.rep1 = rep1;
+	}
+
+	public JButton getRep2() {
+		return rep2;
+	}
+
+	public void setRep2(JButton rep2) {
+		this.rep2 = rep2;
+	}
+
+	public JButton getRep3() {
+		return rep3;
+	}
+
+	public void setRep3(JButton rep3) {
+		this.rep3 = rep3;
+	}
+
+	public JButton getRep4() {
+		return rep4;
+	}
+
+	public void setRep4(JButton rep4) {
+		this.rep4 = rep4;
+	}
+
+	
 }

@@ -1,9 +1,7 @@
 package model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Observable;
 
 import lombok.Getter;
@@ -14,13 +12,12 @@ import lombok.Setter;
  * Elle permet de lier les différents model entre eux
  * @author Jonathan Goossens 2TL2
  * @author Benoit de Mahieu 2TL2
- * On utilise aussi le Jar Lombok qui permet de générer les getter et setter sans les écrire
  */
 @Getter
 @Setter
 public class ProjetModel extends Observable{
-	private Joueur joueur;
-	private Questions quest;
+	Joueur joueur;
+	Questions quest;
 	
 	/**
 	 * Ce constructeur va instancier le Joueur et les Questions
@@ -51,6 +48,7 @@ public class ProjetModel extends Observable{
 		if(joueur.verifIdentifier(identifiant)) return true; 
 		return false;
 	}
+	
 	/**
 	 * Cette méthode utilise la méthode verifConnecter de la classe joueur qui pourra donc être utilisée dans le controller
 	 * @param identifiant unique du joueur
@@ -70,18 +68,6 @@ public class ProjetModel extends Observable{
 	public void enregistrer(String identifiant, String prenom) {
 		joueur.enregistrer(identifiant, prenom);
 		
-	}
-	
-	/**
-	 * Cette méthode utilise la méthode proposerQuestion de la classe joueur qui pourra donc être utilisée dans le controller
-	 * @param q La question proposée par le Joueur
-	 * @param r1 La bonne réponse à la question
-	 * @param r2 Une autre réponse
-	 * @param r3 Une autre réponse
-	 * @param r4 Une autre réponse
-	 */
-	public void proposerQuestion(String q, String r1, String r2, String r3, String r4) {
-		joueur.proposerQuestion(q, r1, r2, r3, r4);
 	}
 	
 	/**
@@ -105,6 +91,8 @@ public class ProjetModel extends Observable{
 	 */
 	public void questionSuivante(int i) {
 		quest.questionSuivante(i);
+		setChanged();
+		notifyObservers();
 	}
 	
 	/**
@@ -112,13 +100,8 @@ public class ProjetModel extends Observable{
 	 * @param sujet de question que le joueur va choisir
 	 * @param niveau de question qui sera posée dans le sujet choisi
 	 */
-	public void choixQuestion(String sujet, int niveau) {
-		try {
-			quest.choixQuestion(sujet, niveau);
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		
+	public void choixQuestion(String sujet, int niveau) throws ClassNotFoundException, SQLException {
+		quest.choixQuestion(sujet, niveau);
 	}
 	
 	/**
@@ -129,5 +112,47 @@ public class ProjetModel extends Observable{
 	public boolean comparaison(String choix) {
 		if(quest.comparaison(choix))return true;
 		return false;
+	}
+	
+	/**
+	 * Cette méthode utilise la méthode proposerQuestion de la classe joueur qui pourra donc être utilisée dans le controller
+	 * @param q La question proposée par le Joueur
+	 * @param r1 La bonne réponse à la question
+	 * @param r2 Une autre réponse
+	 * @param r3 Une autre réponse
+	 * @param r4 Une autre réponse
+	 */
+	public void proposerQuestion(String q, String r1, String r2, String r3, String r4) {
+		joueur.proposerQuestion(q, r1, r2, r3, r4);
+	}
+	
+	public void changerPoints(String identifiant, int points) throws ClassNotFoundException, SQLException {
+		quest.changerPoints(identifiant, points);
+	}
+
+	
+	
+	//Getter and Setter
+	public Joueur getJoueur() {
+		return joueur;
+	}
+
+
+	public void setJoueur(Joueur joueur) {
+		this.joueur = joueur;
+	}
+
+
+	public Questions getQuest() {
+		return quest;
+	}
+
+
+	public void setQuest(Questions quest) {
+		this.quest = quest;
 	}	
+	
+	
+	
+	
 }
