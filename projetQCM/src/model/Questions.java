@@ -5,9 +5,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Observable;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,23 +19,23 @@ import lombok.Setter;
  * @author Benoit de Mahieu
  * @author Jonathan Gossens
  *Classe: 2TL2
- *J'utilise aussi le Jar Lombok qui permet de générer les getter et setter sans les écrire
+ *On utilise aussi le Jar Lombok qui permet de générer les getter et setter sans les écrire
  */
 @Getter
 @Setter
 public class Questions{
-	protected String question;
-	protected String bonneReponse;
-	protected String rep1;
-	protected String rep2;
-	protected String rep3;
-	protected String rep4;
+	private String question;
+	private String bonneReponse;
+	private String rep1;
+	private String rep2;
+	private String rep3;
+	private String rep4;
 	protected String insertTableSQL;
 	
 	
-	protected List<String> questions = new ArrayList<String>(); // liste avec les questions
-	protected List<String> rep = new ArrayList<String>();// liste avec les 12 réponses
-	protected List<String> reponses = new ArrayList<String>(); // liste avec les 4 réponses qui vont etre mélangées
+	private List<String> questions = new ArrayList<String>(); // liste avec les questions
+	private List<String> rep = new ArrayList<String>();// liste avec les 12 réponses
+	private List<String> reponses = new ArrayList<String>(); // liste avec les 4 réponses qui vont etre mélangées
 	
 	/**
 	 * Ce constructeur se connecte à la DB et créé un tableau de questions(3 pour le moment), un tableau avec toutes les réponses 
@@ -60,7 +62,7 @@ public class Questions{
 		Class.forName("org.postgresql.Driver");
 		Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
 		  
-		PreparedStatement st = db.prepareStatement("select question, rep1, rep2, rep3, rep4 FROM public.\"Questions\" where type = 'f' and niveau <=" + niveau + "and sujet='" + sujet + "'order by random() fetch first 5 rows only");
+		PreparedStatement st = db.prepareStatement("select question, rep1, rep2, rep3, rep4 FROM public.\"Questions\" where type = 'f' and niveau =" + niveau + "and sujet='" + sujet + "'order by random() fetch first 5 rows only");
 		ResultSet rs = st.executeQuery();
 		while (rs.next()) {
 		  questions.add(rs.getString(1));
@@ -124,7 +126,7 @@ public class Questions{
 		//execute insert SQL stetement
 		preparedStatement.executeUpdate();
 	}
-
+	
 	public void changerNiv(String identifiant, String sujet, int niveau) throws SQLException, ClassNotFoundException {
 		Class.forName("org.postgresql.Driver");
 		Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
@@ -144,86 +146,54 @@ public class Questions{
 		preparedStatement.executeUpdate();
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	//Getter and Setter
-	public String getQuestion() {
-		return question;
-	}
-
-	public void setQuestion(String question) {
-		this.question = question;
-	}
-
-	public String getBonneReponse() {
-		return bonneReponse;
-	}
-
-	public void setBonneReponse(String bonneReponse) {
-		this.bonneReponse = bonneReponse;
-	}
-
-	public String getRep1() {
-		return rep1;
-	}
-
-	public void setRep1(String rep1) {
-		this.rep1 = rep1;
-	}
-
-	public String getRep2() {
-		return rep2;
-	}
-
-	public void setRep2(String rep2) {
-		this.rep2 = rep2;
-	}
-
-	public String getRep3() {
-		return rep3;
-	}
-
-	public void setRep3(String rep3) {
-		this.rep3 = rep3;
-	}
-
-	public String getRep4() {
-		return rep4;
-	}
-
-	public void setRep4(String rep4) {
-		this.rep4 = rep4;
-	}
-
-	public List<String> getQuestions() {
-		return questions;
-	}
-
-	public void setQuestions(List<String> questions) {
-		this.questions = questions;
-	}
-
-	public List<String> getRep() {
-		return rep;
-	}
-
-	public void setRep(List<String> rep) {
-		this.rep = rep;
-	}
-
-	public List<String> getReponses() {
-		return reponses;
-	}
-
-	public void setReponses(List<String> reponses) {
-		this.reponses = reponses;
+	public List<String> showProposition() {
+		List<String> test = new ArrayList<String>();
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
+			Statement st = db.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM public.\"Proposition\" ");
+			if(rs.next()) {
+				test.add(rs.getString(1));
+				test.add(rs.getString(2));
+				test.add(rs.getString(3));
+				test.add(rs.getString(4));
+				test.add(rs.getString(5));
+				rs.next();
+				rs.close();
+				st.close();
+				db.close();
+				return test;
+			}
+		} catch(Exception e) {
+			
+		}
+		return test;
 	}
 	
+	public void deleteProposition(String q, String r) {
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
+			Statement st = db.createStatement();
+			st.executeQuery("Delete FROM public.\"Proposition\" WHERE question =\'" + q+"\' AND r1 =\'"+r+"\';");
+			st.close();
+			db.close();
+		} catch(Exception e) {
+			
+		}
+	}
 	
-	
+	public void addProposition(String q, String r1, String r2, String r3, String r4, String sujet, int niveau) {
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
+			Statement st = db.createStatement();
+			st.executeQuery("INSERT INTO public.\"Questions\" (question, rep1, rep2, rep3, rep4, sujet, niveau) VALUES(\'"+ q + "\', \'"+ r1 + "\', \'"+ r2 + "\', \'"+ r3 + "\', \'"+ r4 + "\', \'"+ sujet + "\', "+ niveau +");");
+			st.close();
+			db.close();
+		} catch(Exception e) {
+			
+		}
+	}
 }

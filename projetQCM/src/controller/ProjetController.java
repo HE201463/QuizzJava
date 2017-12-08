@@ -1,9 +1,15 @@
 package controller;
 
 import java.awt.Color;
-import java.sql.SQLException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import lombok.Getter;
@@ -30,11 +36,10 @@ public class ProjetController {
 	private ProjetModel model;
 	private ProjetVue vue;
 	private ProjetVue console;
-	private static int i=0;
-	protected static String page = "intro";
-	private static int points = 0;
-	private int nombre; //Ce nombre sert pour le nombre de point pour passer d'un niveau a l'autre
-	
+	private String stop = "arret";
+	private int i=0;
+	private int points = 0;
+	private int nombre;
 	
 	/**
 	 * Constructeur qui instancie le model de ce pattern MVC
@@ -66,13 +71,13 @@ public class ProjetController {
 	 */
 	public void verification(String choix) {
 		if(model.comparaison(choix)) {
-			console.affiche("Bonne réponse");
-			vue.affiche("Bonne réponse");
+			console.affiche("Bonne rÃ©ponse");
+			vue.affiche("Bonne rÃ©ponse");
 			points++;
 		}
 		else {
-			console.affiche("Mauvaise réponse");
-			vue.affiche("Mauvaise réponse");
+			console.affiche("Mauvaise rÃ©ponse");
+			vue.affiche("Mauvaise rÃ©ponse");
 		}
 	}
 	
@@ -84,8 +89,8 @@ public class ProjetController {
 	 */
 	public boolean verifIdentite(String identifiant) {
 		if(model.verifIdentifier(identifiant)) {
-			console.affiche("Cette identifiant existe déjà");
-			vue.affiche("Cette identifiant existe déjà");
+			console.affiche("Cette identifiant existe dÃ©jÃ ");
+			vue.affiche("Cette identifiant existe dÃ©jÃ ");
 			return false;
 		}
 		else {
@@ -102,7 +107,7 @@ public class ProjetController {
 	 * @return true si la combinaison est bonne et affiche que le compte est correct
 	 * @return false dans les autres cas et affiche que l'identifiant ou le prénom est incorrect
 	 */
-	public boolean verifconnecte(String identifiant, String prenom) {
+	public boolean verifConnecte(String identifiant, String prenom) {
 		if(model.verifConnecter(identifiant, prenom)) {
 			console.affiche("Ce compte est correct");
 			vue.affiche("Ce compte est correct");
@@ -120,30 +125,24 @@ public class ProjetController {
 	 * 
 	 */
 	public void questionSuivante() {
-		if(i<1) {
+		if(i<4) {
 			i++;
 			model.questionSuivante(i);
+			console.affiche();
+			console.affiche("Choisis la bonne rÃ©ponse en tappant 1, 2, 3 ou 4 (tu as 10 secondes)");
 			vue.affiche();
 		}
 		else {
-			console.affiche("C'est terminé");
-			vue.affiche("C'est terminé");
+			console.affiche("C'est terminÃ©");
+			vue.affiche("C'est terminÃ©");
 			try {
 				points = model.getJoueur().getPoint() + points;
-				model.changerPoints(model.getJoueur().getIdentifiant(), points);
-				model.getJoueur().setPoint(points);
-				((VueSujet)vue).getTextPoints().setText("Point total: " + points);
-				i = 0;
-				points = 0;
-			} catch (ClassNotFoundException | SQLException e) {
+				model.getQuest().changerPoints(model.getJoueur().getIdentifiant(), points);
+			} catch (Exception e) {
 				e.printStackTrace();
-			}
-			console.affiche();
-			page = "sujet";
-			((VueSujet)vue).getBottom1().setVisible(true);
-			((VueSujet)vue).getBottom2().setVisible(true);
-			((VueSujet)vue).getPropQuestion().setVisible(true);
-			((VueSujet)vue).getQuizz().setVisible(false);
+			} 
+			vue.setVisible(false);
+			PageSujet(model.getJoueur().getIdentifiant());
 		}
 		
 	}
@@ -164,23 +163,7 @@ public class ProjetController {
 		return false;
 	}
 	
-	public boolean niv2(String choix, int niveau) {
-		if(choix.equals("info")) {
-			if (model.getJoueur().getNivInfo() < niveau)return true;
-			return false;
-		}
-		if (choix.equals("math")) {
-			if (model.getJoueur().getNivMath() < niveau) return true;
-			return false;
-		}
-		if (choix.equals("elec")) {
-			if (model.getJoueur().getNivElec() < niveau) return true;
-			return false;
-		}
-		return false;
-	}
-	
-	public boolean niveau(String choix, int niveau) {
+	public boolean niveau(String choix, int niveau)  {
 		if (niveau == 2) {
 			nombre = 200;
 		}
@@ -189,20 +172,8 @@ public class ProjetController {
 		}
 		if (niv(choix, niveau)) {
 			JOptionPane.showMessageDialog(null, "Pas assez de points.\nIl faut " + nombre + " points", "Erreur", JOptionPane.ERROR_MESSAGE); 
-			console.affiche(("Pas assez de points. Il faut " + nombre + " points"));
+			System.out.println("Pas assez de points. Il faut " + nombre + " points");
 			return false;
-		}
-		
-		if(niv2(choix, niveau)) {
-			points = model.getJoueur().getPoint() - nombre;
-		
-		try {
-			model.getQuest().changerNiv(model.getJoueur().getIdentifiant(), choix, niveau);
-			model.getQuest().changerPoints(model.getJoueur().getIdentifiant(), points);
-			points = 0;
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		} 
 		}
 		return true;
 	}
@@ -215,11 +186,86 @@ public class ProjetController {
 	public void choixQuestion(String sujet, int niveau) {
 		try {
 			model.choixQuestion(sujet, niveau);
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} 
 	}
 	
+	/**
+	 * Cette méthode va créer la page d'introduction en utilisant les constructeurs des classes IntroConsole et VueIntro
+	 * Des modifiication à la vue GUI sont faites ici
+	 */
+	public void PageIntro() {
+			
+		ProjetController ctrlIntro = new ProjetController(model);
+		console = new IntroConsole(model, ctrlIntro);
+		((IntroConsole)console).affiche();
+		ctrlIntro.addview2(console);
+		vue = new VueIntro(model, ctrlIntro);
+		ctrlIntro.addview(vue);
+		
+		
+		vue.setTitle("ProjetQCM");
+		vue.setLocation(700, 50); //(horizontal, vertical)
+		vue.setAlwaysOnTop(true);
+		vue.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		vue.setBackground(Color.BLUE);
+		vue.setSize(500,300);
+		vue.setVisible(true);
+		vue.getContentPane().add(((VueIntro)vue).getIntro());
+		
+	}
+	
+	/**
+	 * Cette méthode va créer la page de choix de sujet en utilisant les constructeurs des classes SujetConsole et VueSujet
+	 * Des modifiication à la vue GUI sont faites ici
+	 * @param identifiant qui permettra de récupérer le prénom, les points et les niveaux du joueur
+	 */
+	public void PageSujet(String identifiant) {
+		vue.setVisible(false);
+		model.connecter(identifiant);
+		ProjetController ctrlSujet = new ProjetController(model);
+		console = new SujetConsole(model, ctrlSujet);
+		ctrlSujet.addview2(console);
+		
+		console.affiche();
+		
+		vue = new VueSujet(model, ctrlSujet);
+
+		ctrlSujet.addview(vue);
+		
+		vue.setTitle("ProjetQCM");
+		vue.setLocation(700, 50); //(horizontal, vertical)
+		vue.setAlwaysOnTop(true);
+		vue.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		vue.setBackground(Color.BLUE);
+		vue.setSize(450,300);
+		vue.setVisible(true);
+		vue.getContentPane().add(((VueSujet)vue).getSujet());
+	}
+	
+	/**
+	 * Cette méthode va créer la page d'affichage des questions en utilisant les constructeurs des classes QuestionConsole et VueQuestion
+	 * Des modifiication à la vue GUI sont faites ici
+	 */
+	public void PageQuestions() {
+		vue.setVisible(false);
+		model.questionSuivante(0);
+		ProjetController ctrlQuestion = new ProjetController(model);
+		vue = new VueQuestion(model, ctrlQuestion);
+		ctrlQuestion.addview(vue);
+		console = new QuestionConsole(model, ctrlQuestion);
+		ctrlQuestion.addview2(console);
+		
+		vue.setTitle("ProjetQCM");
+		vue.setLocation(700, 50); //(horizontal, vertical)
+		vue.setAlwaysOnTop(true);
+		vue.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		vue.setBackground(Color.BLUE);
+		vue.setSize(450,300);
+		vue.setVisible(true);
+		vue.getContentPane().add(((VueQuestion)vue).getPanel());
+	}
 	
 	/**
 	 * Cette méthode utilise la méthode proposerQuestion de la classe ProjetModel qui pourra donc être utilisée dans la vue
@@ -233,49 +279,16 @@ public class ProjetController {
 		model.proposerQuestion(question, r1, r2, r3, r4);
 	}
 	
-	
-	
-	/**
-	 * Cette méthode va créer la page de choix de sujet en utilisant les constructeurs des classes SujetConsole et VueSujet
-	 * Des modifiication à la vue GUI sont faites ici
-	 * @param identifiant qui permettra de récupérer le prénom, les points et les niveaux du joueur
-	 */
-	public void PageSujet(String identifiant) {
-		page = "sujet";
-		vue.setVisible(false);
-		model.connecter(identifiant);
-		ProjetController ctrlSujet = new ProjetController(model);
-		console = new SujetConsole(model, ctrlSujet);
-		ctrlSujet.addview2(console);
-		vue = new VueSujet(model, ctrlSujet);
-		ctrlSujet.addview(vue);
-		console.affiche();
-		vue.setTitle("Sujet");
-		vue.setLocation(700, 50); //(horizontal, vertical)
-		//vue.setAlwaysOnTop(true);
-		vue.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		vue.setBackground(Color.BLUE);
-		vue.setSize(450,300);
-		vue.setVisible(true);
-		vue.getContentPane().add(((VueSujet)vue).getSujet());
+	public List<String> showProposition() {
+		return model.showProposition();
+		
 	}
 	
-	/**
-	 * Cette méthode va créer la page d'affichage des questions en utilisant les constructeurs des classes QuestionConsole et VueQuestion
-	 * Des modifications à la vue GUI sont faites ici
-	 */
-	public void PageQuestions() {
-		page = "question";
-		model.questionSuivante(0);
-		((VueSujet)vue).getBottom1().setVisible(false);
-		((VueSujet)vue).getPropQuestion().setVisible(false);
-		((VueSujet)vue).getQuizz().setVisible(true);
-	}
-
-	
-	//Getter and Setter
-	public String getPage() {
-		return page;
+	public void deleteProposition(String q, String r) {
+		model.deleteProposition(q, r);
 	}
 	
+	public void addProposition(String q, String r1, String r2, String r3, String r4, String sujet, int niveau) {
+		model.addProposition(q, r1, r2, r3, r4, sujet, niveau);
+	}
 }

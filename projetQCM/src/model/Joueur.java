@@ -6,16 +6,17 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Observable;
 
 import lombok.Getter;
 import lombok.Setter;
 
-
 /**
- * Cette classe implémente un joueur qui a un identifiant, un prénom, des points et un level
+ * Cette classe implemente un joueur qui a un identifiant, un prenom, des points et des niveaux dans différentes matières 
  * Groupe 12
  * @author Jonathan Goossens 2TL2
  * @author Benoit de Mahieu 2TL2
+ * On utilise aussi le Jar Lombok qui permet de générer les getter et setter sans les écrire
  */
 
 @Getter
@@ -53,9 +54,13 @@ public class Joueur {
 				 this.nivInfo = rs.getInt(5);
 				 this.nivElec = rs.getInt(6);
 			 }
+			 rs.close();
+			 st.close();
+			 db.close();
 		} catch (SQLException | ClassNotFoundException e) {
 			
 		}
+		
 	}
 	
 	/**
@@ -71,6 +76,8 @@ public class Joueur {
 			st.executeQuery("INSERT INTO public.\"Joueur\"(\r\n" + 
 											"	identifiant, prenom)\r\n" + 
 											"	VALUES ('"+ identifiant +"', '"+ prenom +"');");
+			 st.close();
+			 db.close();
 		} catch (SQLException | ClassNotFoundException e) {
 			
 		}
@@ -92,6 +99,10 @@ public class Joueur {
 					return true;
 				}
 			} 
+
+			 rs.close();
+			 st.close();
+			 db.close();
 		} 
 		catch (ClassNotFoundException | SQLException e) {
 			
@@ -116,6 +127,10 @@ public class Joueur {
 					return true;
 				}
 			} 
+
+			 rs.close();
+			 st.close();
+			 db.close();
 		} 
 		catch (ClassNotFoundException | SQLException e) {
 			
@@ -134,7 +149,7 @@ public class Joueur {
 	 */
 	public void proposerQuestion(String q, String r1, String r2, String r3, String r4) {
 		try{
-			String script = "INSERT INTO public.\"Proposition\" VALUES('" + q +"', '"+r1+"', '"+r2+"', '"+r3+"', '"+r4+"');";
+			String script = "INSERT INTO public.\"Proposition\"(question, r1, r2, r3, r4) VALUES('" + q +"', '"+r1+"', '"+r2+"', '"+r3+"', '"+r4+"');";
 			Class.forName("org.postgresql.Driver");
 			Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
 			Statement st = db.createStatement();
@@ -146,63 +161,4 @@ public class Joueur {
 			
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	//Getter and Setter
-	public String getIdentifiant() {
-		return identifiant;
-	}
-
-	public void setIdentifiant(String identifiant) {
-		this.identifiant = identifiant;
-	}
-
-	public String getPrenom() {
-		return prenom;
-	}
-
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
-	}
-
-	public int getPoint() {
-		return point;
-	}
-
-	public void setPoint(int point) {
-		this.point = point;
-	}
-
-	public int getNivMath() {
-		return nivMath;
-	}
-
-	public void setNivMath(int nivMath) {
-		this.nivMath = nivMath;
-	}
-
-	public int getNivInfo() {
-		return nivInfo;
-	}
-
-	public void setNivInfo(int nivInfo) {
-		this.nivInfo = nivInfo;
-	}
-
-	public int getNivElec() {
-		return nivElec;
-	}
-
-	public void setNivElec(int nivElec) {
-		this.nivElec = nivElec;
-	}
-	
-	
-	
-	
 }
