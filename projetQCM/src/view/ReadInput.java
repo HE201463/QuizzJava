@@ -69,13 +69,16 @@ public class ReadInput extends ProjetVue implements Runnable{
 		if(niveau <= 0 || niveau >= 4) {
 			affiche("Niveau incorrect");
 		}
-		choix(c, niveau);
+		else {
+			choix(c, niveau);
+		}
 	}
 	
 	public void question(String c) {
 		controller.verification("rep" + c);
 		try {
 			controller.questionSuivante();
+			controller.recommence();
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}

@@ -19,36 +19,49 @@ import controller.ProjetController;
 import lombok.Getter;
 import lombok.Setter;
 import model.ProjetModel;
+
 @Getter
 @Setter
 public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 	
 	private JPanel sujet;
-	private JButton propQuestion;
 	private JButton niveau1;
 	private JButton niveau2;
 	private JButton niveau3;
 	private Box bottom2;
-	private Box proposeQuestion;
 	private Box bottom1;
-	private Box quizz;
-	private JButton valider;
-	private JButton retour;
+	
+	//JTextField et JButton Box utilisés pour proposer une question
+	private Box proposeQuestion;
 	private JTextField quest;
 	private JTextField rep11;
 	private JTextField rep22;
 	private JTextField rep33;
 	private JTextField rep44;
-	private JTextField textQuest;
+	private JButton propQuestion;
+	private JButton valider;
+	private JButton retour;
+	
+		
 	private JTextField textPoints;
 	private JTextField math;
 	private JTextField info;
 	private JTextField elec;
-	private String choix;
+	
+	private String choix; //choix du sujet
+	
+	//La box, les 4 boutons réponses possibles + le JTextField de la question pour le quizz
+	private Box quizz;
+	private JTextField textQuest;
 	private JButton quizzReponse1;
 	private JButton quizzReponse2;
 	private JButton quizzReponse3;
 	private JButton quizzReponse4;
+	
+	private JButton but;
+	private JTextField textChrono;
+	private boolean arret = false;
+	private long tempsFinal;
 	
 	public VueSujet(ProjetModel model, ProjetController controller) {
 		super(model, controller);
@@ -172,7 +185,6 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		textQuest.setBackground(Color.lightGray);
 		quizz.add(textQuest);
 		
-		
 		Box rep12 = Box.createHorizontalBox(); 
 		quizz.add(rep12);
 		Box rep34 = Box.createHorizontalBox(); 
@@ -188,6 +200,11 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		quizzReponse4 = new JButton (); 
 		rep34.add(quizzReponse4);
 		
+		textChrono = new JTextField("");
+		quizz.add(textChrono);
+		but = new JButton();
+		quizz.add(but);
+				
 		quizzReponse1.addActionListener(this);
 		quizzReponse2.addActionListener(this);
 		quizzReponse3.addActionListener(this);
@@ -202,13 +219,32 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		
 	}
 	
-
+	/*private class Chrono implements Runnable{
+		public void run() {
+			tempsFinal = System.currentTimeMillis() + 10000;
+			while(arret) {
+				if(System.currentTimeMillis() > tempsFinal) {
+					but.setText("0");
+					tempsFinal = System.currentTimeMillis() + 10000;
+					controller.questionSuivante();
+					arret = false;
+				}
+				else {
+					long reste = tempsFinal - System.currentTimeMillis();
+					but.setText(""+reste/1000);
+				}
+			}
+		}
+	}*/
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == niveau1) {
 			affiche();
 			controller.choixQuestion(choix, 1);
 			controller.PageQuestions();
+			arret = true;
+			//new Thread (new Chrono()).start();
 		}
 		if(e.getSource() == niveau2) {
 			if(controller.niveau(choix, 2)) {
@@ -245,25 +281,29 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		
 		if(e.getSource() == quizzReponse1) {
 			controller.verification("rep" + 1);
-			questionSuivante();
+			controller.questionSuivante();
+			controller.recommence();
 		}
 		else if(e.getSource() == quizzReponse2) {
 			controller.verification("rep" + 2);
-			questionSuivante();
+			controller.questionSuivante();
+			controller.recommence();
 		}
 		else if(e.getSource() == quizzReponse3){
 			controller.verification("rep" + 3);
-			questionSuivante();
+			controller.questionSuivante();
+			controller.recommence();
 		}
 		else if(e.getSource() == quizzReponse4){
 			controller.verification("rep" + 4);
-			questionSuivante();
+			controller.questionSuivante();
+			controller.recommence();
 		}
 	}
 	
-	public void questionSuivante() {
+	/*public void questionSuivante() {
 		controller.questionSuivante();
-	}
+	}*/
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
@@ -280,7 +320,7 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 
 	@Override
 	public void affiche(String msg) {
-		
+		textChrono.setText(msg);
 	}
 
 	@Override
@@ -349,6 +389,14 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 	}
 	public void setTextPoints(JTextField textPoints) {
 		this.textPoints = textPoints;
+	}
+
+	public JButton getBut() {
+		return but;
+	}
+
+	public void setBut(JButton but) {
+		this.but = but;
 	}
 	
 }

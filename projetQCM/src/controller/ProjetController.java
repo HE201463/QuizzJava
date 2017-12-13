@@ -28,8 +28,13 @@ public class ProjetController {
 	private ProjetVue console;
 	private static int i=0;
 	protected static String page = "intro";
-	private static int points = 0;
+	private int points = 0;
+	private int nombreQuestion = 1;
 	private int nombre; //Ce nombre sert pour le nombre de point pour passer d'un niveau a l'autre
+	
+	//Variables utiles pour le compte a rebours
+	private boolean arret = false;
+	private long tempsFinal;
 	
 	
 	/**
@@ -64,7 +69,9 @@ public class ProjetController {
 		if(model.comparaison(choix)) {
 			console.affiche("Bonne réponse");
 			vue.affiche("Bonne réponse");
-			points++;
+			points = model.getJoueur().getPoint() + 1;
+			model.getJoueur().setPoint(points);
+			//points++;
 		}
 		else {
 			console.affiche("Mauvaise réponse");
@@ -111,12 +118,13 @@ public class ProjetController {
 		}
 	}
 	
+	
 	/**
 	 * Cette méthode utilise la méthode questionSuivante de la classe ProjetModel pour pouvoir l'utiliser dans la vue
 	 * 
 	 */
 	public void questionSuivante() {
-		if(i<1) {
+		if(i<nombreQuestion) {
 			i++;
 			model.questionSuivante(i);
 			vue.affiche();
@@ -124,13 +132,14 @@ public class ProjetController {
 		else {
 			console.affiche("C'est terminé");
 			vue.affiche("C'est terminé");
+			arret = false;
 			try {
-				points = model.getJoueur().getPoint() + points;
+				//points = model.getJoueur().getPoint() + points;
 				model.changerPoints(model.getJoueur().getIdentifiant(), points);
-				model.getJoueur().setPoint(points);
-				((VueSujet)vue).getTextPoints().setText("Point total: " + points);
+				//model.getJoueur().setPoint(points);
+				((VueSujet)vue).getTextPoints().setText("Point total: " + model.getJoueur().getPoint());
 				i = 0;
-				points = 0;
+				//points = 0;
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}
@@ -154,22 +163,32 @@ public class ProjetController {
 	public int niv(String choix, int niveau) {
 		if(choix.equals("info")) {
 			if (model.getJoueur().getNivInfo() < niveau && model.getJoueur().getPoint() < nombre)return 1;
-			if (model.getJoueur().getNivInfo() < niveau && model.getJoueur().getPoint() > nombre)return 2;
-			if(model.getJoueur().getNivInfo() > niveau) return 3;
+			if (model.getJoueur().getNivInfo() == niveau-1 && model.getJoueur().getPoint() > nombre)return 2;
+			if (model.getJoueur().getNivInfo() < niveau && model.getJoueur().getPoint() > nombre)return 3;
+			if(model.getJoueur().getNivInfo() > niveau) return 4;
 		}
 		if (choix.equals("math")) {
 			if (model.getJoueur().getNivMath() < niveau && model.getJoueur().getPoint() < nombre)return 1;
-			if (model.getJoueur().getNivMath() < niveau && model.getJoueur().getPoint() > nombre)return 2;
-			if(model.getJoueur().getNivMath() > niveau) return 3;
+			if (model.getJoueur().getNivMath() == niveau-1 && model.getJoueur().getPoint() > nombre)return 2;
+			if (model.getJoueur().getNivMath() < niveau && model.getJoueur().getPoint() > nombre)return 3;
+			if(model.getJoueur().getNivMath() > niveau) return 4;
 		}
 		if (choix.equals("elec")) {
 			if (model.getJoueur().getNivElec() < niveau && model.getJoueur().getPoint() < nombre)return 1;
-			if (model.getJoueur().getNivElec() < niveau && model.getJoueur().getPoint() > nombre)return 2;
-			if(model.getJoueur().getNivElec() > niveau) return 3;
+			if (model.getJoueur().getNivElec() == niveau-1 && model.getJoueur().getPoint() > nombre)return 2;
+			if (model.getJoueur().getNivInfo() < niveau && model.getJoueur().getPoint() > nombre)return 3;
+			if(model.getJoueur().getNivElec() > niveau) return 4;
 		}
 		return 0;
 	}
 	
+	/**
+	 * Cette méthode va permettre de signaler si le joueur n'a pas assez de points, si c'est le cas soustraire le nombre de points
+	 * ou alors de poser des questions d'un niveau différents a 1
+	 * @param choix Ce choix est le sujet qu'il a choisis d'augmenter (info, math ou elec pour le moment)
+	 * @param niveau Le niveau est celui qu'il veut augmenter (2 ou 3)
+	 * @return
+	 */
 	public boolean niveau(String choix, int niveau) {
 		if (niveau == 2) {
 			nombre = 200;
@@ -178,8 +197,8 @@ public class ProjetController {
 			nombre = 400;
 		}
 		if (niv(choix, niveau) == 1) {
-			JOptionPane.showMessageDialog(null, "Pas assez de points.\nIl faut " + nombre + " points", "Erreur", JOptionPane.ERROR_MESSAGE); 
 			console.affiche(("Pas assez de points. Il faut " + nombre + " points"));
+			JOptionPane.showMessageDialog(null, "Pas assez de points.\nIl faut " + nombre + " points", "Erreur", JOptionPane.ERROR_MESSAGE); 
 			return false;
 		}
 		
@@ -190,15 +209,25 @@ public class ProjetController {
 				model.getJoueur().setPoint(points);
 				changerNiveau(choix, niveau);
 				model.getQuest().changerPoints(model.getJoueur().getIdentifiant(), points);
-				System.out.println(model.getJoueur().getPoint());
+				//System.out.println(model.getJoueur().getPoint());
 				points = 0;
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
-			} 
+			}
+		}
+		if (niv(choix, niveau) == 3){
+			console.affiche(("Il faut valider le niveau " + (niveau-1) + " avant"));
+			JOptionPane.showMessageDialog(null, "Il faut valider le niveau " + (niveau-1) + " avant", "Erreur", JOptionPane.ERROR_MESSAGE); 
+			return false;
 		}
 		return true;
 	}
 	
+	/**
+	 * Cette méthode change le niveau du joueur dans la DB
+	 * @param choix Ce choix est le sujet qu'il a choisis d'augmenter (info, math ou elec pour le moment)
+	 * @param niveau Le niveau est celui qu'il veut augmenter (2 ou 3)
+	 */
 	public void changerNiveau(String choix, int niveau){
 		if(choix.equals("info")) {
 			model.getJoueur().setNivInfo(niveau);
@@ -247,11 +276,11 @@ public class ProjetController {
 		page = "sujet";
 		vue.setVisible(false);
 		model.connecter(identifiant);
-		ProjetController ctrlSujet = new ProjetController(model);
-		console = new SujetConsole(model, ctrlSujet);
-		ctrlSujet.addview2(console);
-		vue = new VueSujet(model, ctrlSujet);
-		ctrlSujet.addview(vue);
+		//ProjetController ctrlSujet = new ProjetController(model);
+		console = new SujetConsole(model, this);
+		this.addview2(console);
+		vue = new VueSujet(model, this);
+		this.addview(vue);
 		console.affiche();
 		vue.setTitle("Sujet");
 		vue.setLocation(700, 50); //(horizontal, vertical)
@@ -264,17 +293,49 @@ public class ProjetController {
 	}
 	
 	/**
-	 * Cette méthode va créer la page d'affichage des questions en utilisant les constructeurs des classes QuestionConsole et VueQuestion
+	 * Cette méthode va créer la page d'affichage des questions en utilisant les constructeurs 
+	 * des classes QuestionConsole et VueQuestion
 	 * Des modifications à la vue GUI sont faites ici
+	 * C'est ici que je lance le thread pour le compte a rebours.
 	 */
 	public void PageQuestions() {
 		page = "question";
 		model.questionSuivante(0);
+		arret = true;
+		new Thread (new Chrono()).start();
 		((VueSujet)vue).getBottom1().setVisible(false);
 		((VueSujet)vue).getPropQuestion().setVisible(false);
 		((VueSujet)vue).getQuizz().setVisible(true);
 	}
 
+	public void recommence() {
+		tempsFinal = System.currentTimeMillis() + 10000;
+	}
+	
+	private class Chrono implements Runnable{
+		public void run() {
+			recommence();
+			while(arret) {
+				if(System.currentTimeMillis() > tempsFinal) {
+					((VueSujet)vue).affiche("0");
+					((VueSujet)vue).getBut().setText("0");
+					if (i<nombreQuestion) {
+						recommence();
+						questionSuivante();
+					}
+					else {
+						questionSuivante();
+						//arret = false;
+					}
+				}
+				else {
+					long reste = tempsFinal - System.currentTimeMillis();
+					((VueSujet)vue).getBut().setText(""+reste/1000);
+					((VueSujet)vue).affiche(""+reste/1000);
+				}
+			}
+		}
+	}
 	
 	//Getter and Setter
 	public String getPage() {
