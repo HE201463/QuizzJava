@@ -26,7 +26,7 @@ public class ReadInput extends ProjetVue implements Runnable{
 						intro(c);
 					}
 					else {
-						affiche("Mauvaise écriture");
+						affiche("Mauvaise Ã©criture");
 					}
 				}
 				else if(controller.getPage().equals("sujet")) {
@@ -46,7 +46,7 @@ public class ReadInput extends ProjetVue implements Runnable{
 				affiche("Format d'input incorrect");
 			}
 		}
-}
+  }
 	
 	public void intro(String c) {
 		String identifiant = sc.next();
@@ -66,16 +66,19 @@ public class ReadInput extends ProjetVue implements Runnable{
 	
 	public void sujet(String c) {
 		int niveau = sc.nextInt();
-		if(niveau < 0 || niveau > 4) {
+		if(niveau <= 0 || niveau >= 4) {
 			affiche("Niveau incorrect");
 		}
-		choix(c, niveau);
+		else {
+			choix(c, niveau);
+		}
 	}
 	
 	public void question(String c) {
 		controller.verification("rep" + c);
 		try {
 			controller.questionSuivante();
+			controller.recommence();
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}

@@ -33,7 +33,6 @@ public class ProjetMain {
 				vue.setSize(500,300);
 				vue.setVisible(true);
 				vue.getContentPane().add(((VueIntro)vue).getIntro());
-				//controller.PageIntro();
 			}
 		});
 	}
