@@ -9,7 +9,6 @@ import java.util.Observable;
 
 import javax.swing.Box;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -123,6 +122,11 @@ public class VueIntro extends ProjetVue implements ActionListener{
 	}
 
 	@Override
+	public void affiche() {
+		
+	}
+	
+	@Override
 	public void affiche(String msg) {
 		verif.setText(msg);
 	}
@@ -140,11 +144,6 @@ public class VueIntro extends ProjetVue implements ActionListener{
 				controller.PageSujet(identifiant.getText());
 			}
 		}
-	}
-
-	@Override
-	public void affiche() {
-		
 	}
 
 	

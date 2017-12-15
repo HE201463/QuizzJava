@@ -88,6 +88,7 @@ public class ProjetController {
 	public boolean verifIdentite(String identifiant) {
 		if(model.verifIdentifier(identifiant)) {
 			console.affiche("Cette identifiant existe déjà");
+			JOptionPane.showMessageDialog(null, "Cette identifiant existe déjà", "Erreur", JOptionPane.ERROR_MESSAGE);
 			vue.affiche("Cette identifiant existe déjà");
 			return false;
 		}
@@ -113,6 +114,7 @@ public class ProjetController {
 		}
 		else {
 			console.affiche("Identifiant ou prenom incorrect");
+			JOptionPane.showMessageDialog(null, "Identifiant ou prenom incorrect", "Erreur", JOptionPane.ERROR_MESSAGE);
 			vue.affiche("Identifiant ou prenom incorrect");
 			return false;
 		}
@@ -135,7 +137,7 @@ public class ProjetController {
 			arret = false;
 			try {
 				//points = model.getJoueur().getPoint() + points;
-				model.changerPoints(model.getJoueur().getIdentifiant(), points);
+				model.changerPoints(model.getJoueur().getIdentifiant(), model.getJoueur().getPoint());
 				//model.getJoueur().setPoint(points);
 				((VueSujet)vue).getTextPoints().setText("Point total: " + model.getJoueur().getPoint());
 				i = 0;
@@ -308,10 +310,19 @@ public class ProjetController {
 		((VueSujet)vue).getQuizz().setVisible(true);
 	}
 
+	/**
+	 * Cette méthode permet de mettre ou de remettre le compteur à 10
+	 */
 	public void recommence() {
 		tempsFinal = System.currentTimeMillis() + 10000;
 	}
 	
+	/**
+	 * Cette classe est utilisé par le thread initié par la méthode PageQuestions
+	 * Elle permet de lancer le chronomètre et de passer a la question suivante.
+	 * @author B
+	 *
+	 */
 	private class Chrono implements Runnable{
 		public void run() {
 			recommence();
@@ -325,7 +336,6 @@ public class ProjetController {
 					}
 					else {
 						questionSuivante();
-						//arret = false;
 					}
 				}
 				else {

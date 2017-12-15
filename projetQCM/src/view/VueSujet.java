@@ -219,24 +219,6 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		
 	}
 	
-	/*private class Chrono implements Runnable{
-		public void run() {
-			tempsFinal = System.currentTimeMillis() + 10000;
-			while(arret) {
-				if(System.currentTimeMillis() > tempsFinal) {
-					but.setText("0");
-					tempsFinal = System.currentTimeMillis() + 10000;
-					controller.questionSuivante();
-					arret = false;
-				}
-				else {
-					long reste = tempsFinal - System.currentTimeMillis();
-					but.setText(""+reste/1000);
-				}
-			}
-		}
-	}*/
-	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == niveau1) {
