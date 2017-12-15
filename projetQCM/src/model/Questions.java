@@ -9,17 +9,16 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Observable;
 
 import lombok.Getter;
 import lombok.Setter;
 /**
- * Cette classe va permettre d'obtenir les questions du QCM. Les questions vont être afficher dans la console et dans la partie GUI également.
+ * Cette classe va permettre d'obtenir les questions du QCM. Les questions vont Ãªtre afficher dans la console et dans la partie GUI Ã©galement.
  * Groupe 12
  * @author Benoit de Mahieu
  * @author Jonathan Gossens
  *Classe: 2TL2
- *On utilise aussi le Jar Lombok qui permet de générer les getter et setter sans les écrire
+ *J'utilise aussi le Jar Lombok qui permet de gÃ©nÃ©rer les getter et setter sans les Ã©crire
  */
 @Getter
 @Setter
@@ -30,28 +29,28 @@ public class Questions{
 	private String rep2;
 	private String rep3;
 	private String rep4;
-	protected String insertTableSQL;
+	private String insertTableSQL;
 	
 	
 	private List<String> questions = new ArrayList<String>(); // liste avec les questions
-	private List<String> rep = new ArrayList<String>();// liste avec les 12 réponses
-	private List<String> reponses = new ArrayList<String>(); // liste avec les 4 réponses qui vont etre mélangées
+	private List<String> rep = new ArrayList<String>();// liste avec les 12 rÃ©ponses
+	private List<String> reponses = new ArrayList<String>(); // liste avec les 4 rÃ©ponses qui vont etre mÃ©langÃ©es
 	
 	/**
-	 * Ce constructeur se connecte à la DB et créé un tableau de questions(3 pour le moment), un tableau avec toutes les réponses 
-	 * et pour finir un tableau permettant de mélanger les réponses. 
-	 * @param j Ce paramètre va permettre de choisir entre les 3 questions sélectionnées dans la DB
-	 * @throws ClassNotFoundException Cette exception arrive quand il n'y a pas de résultat retourné de la DB.
-	 * @throws SQLException Cette exception permet de signaler lorsque la connexion a la DB échoue.
+	 * Ce constructeur se connecte Ã  la DB et crÃ©Ã© un tableau de questions(3 pour le moment), un tableau avec toutes les rÃ©ponses 
+	 * et pour finir un tableau permettant de mÃ©langer les rÃ©ponses. 
+	 * @param j Ce paramÃ¨tre va permettre de choisir entre les 3 questions sÃ©lectionnÃ©es dans la DB
+	 * @throws ClassNotFoundException Cette exception arrive quand il n'y a pas de rÃ©sultat retournÃ© de la DB.
+	 * @throws SQLException Cette exception permet de signaler lorsque la connexion a la DB Ã©choue.
 	 */
 	public Questions() throws ClassNotFoundException, SQLException {
 		
 	}
 		
 	/**
-	 * Cette méthode me permet de comparer la réponse choisie par le joueur avec la bonne réponse.
-	 * @param rep rep correspond à la réponse renvoyé par le joueur(rep1, rep2, rep3 ou rep4)
-	 * @return Retourne vrai si c'est la bonne réponse, faux dans le cas contraire
+	 * Cette mÃ©thode me permet de comparer la rÃ©ponse choisie par le joueur avec la bonne rÃ©ponse.
+	 * @param rep rep correspond Ã  la rÃ©ponse renvoyÃ© par le joueur(rep1, rep2, rep3 ou rep4)
+	 * @return Retourne vrai si c'est la bonne rÃ©ponse, faux dans le cas contraire
 	 * @throws ClassNotFoundException exception pour la connexion avec la DB
 	 * @throws SQLException exception au cas ou la requete ne fonctionne pas
 	 */
@@ -62,7 +61,7 @@ public class Questions{
 		Class.forName("org.postgresql.Driver");
 		Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
 		  
-		PreparedStatement st = db.prepareStatement("select question, rep1, rep2, rep3, rep4 FROM public.\"Questions\" where type = 'f' and niveau =" + niveau + "and sujet='" + sujet + "'order by random() fetch first 5 rows only");
+		PreparedStatement st = db.prepareStatement("select question, rep1, rep2, rep3, rep4 FROM public.\"Questions\" where type = 'f' and niveau <=" + niveau + "and sujet='" + sujet + "'order by random() fetch first 5 rows only");
 		ResultSet rs = st.executeQuery();
 		while (rs.next()) {
 		  questions.add(rs.getString(1));
@@ -82,8 +81,8 @@ public class Questions{
 	}
 	
 	/**
-	 * Création de la question choisis et du tableau avec les réponses correspondantes.
-	 * On a la bonne réponse qui est choisis à cet endroit.
+	 * CrÃ©ation de la question choisis et du tableau avec les rÃ©ponses correspondantes.
+	 * On a la bonne rÃ©ponse qui est choisis Ã  cet endroit.
 	 * @param j j est le choix de la question allant de 0->4 au final
 	 */
 	public void questionSuivante(int j) {
@@ -126,7 +125,7 @@ public class Questions{
 		//execute insert SQL stetement
 		preparedStatement.executeUpdate();
 	}
-	
+
 	public void changerNiv(String identifiant, String sujet, int niveau) throws SQLException, ClassNotFoundException {
 		Class.forName("org.postgresql.Driver");
 		Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
@@ -196,4 +195,85 @@ public class Questions{
 			
 		}
 	}
+	
+	
+	
+	
+	
+	
+	//Getter and Setter
+	public String getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(String question) {
+		this.question = question;
+	}
+
+	public String getBonneReponse() {
+		return bonneReponse;
+	}
+
+	public void setBonneReponse(String bonneReponse) {
+		this.bonneReponse = bonneReponse;
+	}
+
+	public String getRep1() {
+		return rep1;
+	}
+
+	public void setRep1(String rep1) {
+		this.rep1 = rep1;
+	}
+
+	public String getRep2() {
+		return rep2;
+	}
+
+	public void setRep2(String rep2) {
+		this.rep2 = rep2;
+	}
+
+	public String getRep3() {
+		return rep3;
+	}
+
+	public void setRep3(String rep3) {
+		this.rep3 = rep3;
+	}
+
+	public String getRep4() {
+		return rep4;
+	}
+
+	public void setRep4(String rep4) {
+		this.rep4 = rep4;
+	}
+
+	public List<String> getQuestions() {
+		return questions;
+	}
+
+	public void setQuestions(List<String> questions) {
+		this.questions = questions;
+	}
+
+	public List<String> getRep() {
+		return rep;
+	}
+
+	public void setRep(List<String> rep) {
+		this.rep = rep;
+	}
+
+	public List<String> getReponses() {
+		return reponses;
+	}
+
+	public void setReponses(List<String> reponses) {
+		this.reponses = reponses;
+	}
+	
+	
+	
 }

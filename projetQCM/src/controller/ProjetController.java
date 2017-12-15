@@ -1,33 +1,24 @@
 package controller;
 
 import java.awt.Color;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import lombok.Getter;
 import lombok.Setter;
 import model.ProjetModel;
-import view.IntroConsole;
 import view.ProjetVue;
-import view.QuestionConsole;
 import view.SujetConsole;
-import view.VueIntro;
-import view.VueQuestion;
 import view.VueSujet;
 
 /**
- * Cette classe est le controller du modËle MVC, il sert ‡ lier les vues aux diffÈrents modËles.
+ * Cette classe est le controller du mod√®le MVC, il sert √† lier les vues aux diff√©rents mod√®les.
  * @author Jonathan Goossens 2TL2
  * @author Benoit de Mahieu 2TL2
- * On utilise aussi le Jar Lombok qui permet de gÈnÈrer les getter et setter sans les Ècrire
+ * On utilise aussi le Jar Lombok qui permet de g√©n√©rer les getter et setter sans les √©crire
  */
 @Getter
 @Setter
@@ -36,38 +27,39 @@ public class ProjetController {
 	private ProjetModel model;
 	private ProjetVue vue;
 	private ProjetVue console;
-	private String stop = "arret";
-	private int i=0;
-	private int points = 0;
-	private int nombre;
+	private static int i=0;
+	protected static String page = "intro";
+	private static int points = 0;
+	private int nombre; //Ce nombre sert pour le nombre de point pour passer d'un niveau a l'autre
+	
 	
 	/**
 	 * Constructeur qui instancie le model de ce pattern MVC
-	 * @param model ‡ instancier
+	 * @param model √† instancier
 	 */
 	public ProjetController(ProjetModel model) {
 		this.model = model;
 	}
 	
 	/**
-	 * Cette mÈthode instancie une vue GUI
-	 * @param vue ‡ instancier
+	 * Cette m√©thode instancie une vue GUI
+	 * @param vue √† instancier
 	 */
 	public void addview(ProjetVue vue) {
 		this.vue = vue;
 	}
 	
 	/**
-	 * Cette mÈthode instancie une vue console
-	 * @param vue console ‡ instancier
+	 * Cette m√©thode instancie une vue console
+	 * @param vue console √† instancier
 	 */
 	public void addview2(ProjetVue console) {
 		this.console = console;
 	}
 	
 	/**
-	 * Cette mÈthode va vÈrifier la rÈponse ‡ la question et fait donc appel ‡ la mÈthode comparaison de la classe ProjetModel
-	 * @param choix de la rÈponse ‡ la question
+	 * Cette m√©thode va v√©rifier la r√©ponse √† la question et fait donc appel √† la m√©thode comparaison de la classe ProjetModel
+	 * @param choix de la r√©ponse √† la question
 	 */
 	public void verification(String choix) {
 		if(model.comparaison(choix)) {
@@ -82,9 +74,9 @@ public class ProjetController {
 	}
 	
 	/**
-	 * Cette mÈthode utilise la mÈthode verifIdentifier de la classe ProjetModel pour pouvoir l'utiliser dans la vue
-	 * @param identifiant ‡ vÈrifier
-	 * @return false si le pseudo est en BDD et affiche que l'identifiant existe dÈj‡ 
+	 * Cette m√©thode utilise la m√©thode verifIdentifier de la classe ProjetModel pour pouvoir l'utiliser dans la vue
+	 * @param identifiant √† v√©rifier
+	 * @return false si le pseudo est en BDD et affiche que l'identifiant existe d√©j√† 
 	 * @return true dans les autres cas et affiche que l'identifiant est correct
 	 */
 	public boolean verifIdentite(String identifiant) {
@@ -101,11 +93,11 @@ public class ProjetController {
 	}
 	
 	/**
-	 * Cette mÈthode utilise la mÈthode verifConnecter de la classe ProjetModel pour pouvoir l'utiliser dans la vue
+	 * Cette m√©thode utilise la m√©thode verifConnecter de la classe ProjetModel pour pouvoir l'utiliser dans la vue
 	 * @param identifiant unique du joueur
-	 * @param prenom qui permet la vÈrification de la combinaison avec le pseudo 
+	 * @param prenom qui permet la v√©rification de la combinaison avec le pseudo 
 	 * @return true si la combinaison est bonne et affiche que le compte est correct
-	 * @return false dans les autres cas et affiche que l'identifiant ou le prÈnom est incorrect
+	 * @return false dans les autres cas et affiche que l'identifiant ou le pr√©nom est incorrect
 	 */
 	public boolean verifConnecte(String identifiant, String prenom) {
 		if(model.verifConnecter(identifiant, prenom)) {
@@ -121,15 +113,13 @@ public class ProjetController {
 	}
 	
 	/**
-	 * Cette mÈthode utilise la mÈthode questionSuivante de la classe ProjetModel pour pouvoir l'utiliser dans la vue
+	 * Cette m√©thode utilise la m√©thode questionSuivante de la classe ProjetModel pour pouvoir l'utiliser dans la vue
 	 * 
 	 */
 	public void questionSuivante() {
-		if(i<4) {
+		if(i<1) {
 			i++;
 			model.questionSuivante(i);
-			console.affiche();
-			console.affiche("Choisis la bonne r√©ponse en tappant 1, 2, 3 ou 4 (tu as 10 secondes)");
 			vue.affiche();
 		}
 		else {
@@ -137,12 +127,20 @@ public class ProjetController {
 			vue.affiche("C'est termin√©");
 			try {
 				points = model.getJoueur().getPoint() + points;
-				model.getQuest().changerPoints(model.getJoueur().getIdentifiant(), points);
-			} catch (Exception e) {
+				model.changerPoints(model.getJoueur().getIdentifiant(), points);
+				model.getJoueur().setPoint(points);
+				((VueSujet)vue).getTextPoints().setText("Point total: " + points);
+				i = 0;
+				points = 0;
+			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
-			} 
-			vue.setVisible(false);
-			PageSujet(model.getJoueur().getIdentifiant());
+			}
+			console.affiche();
+			page = "sujet";
+			((VueSujet)vue).getBottom1().setVisible(true);
+			((VueSujet)vue).getBottom2().setVisible(true);
+			((VueSujet)vue).getPropQuestion().setVisible(true);
+			((VueSujet)vue).getQuizz().setVisible(false);
 		}
 		
 	}
@@ -163,7 +161,23 @@ public class ProjetController {
 		return false;
 	}
 	
-	public boolean niveau(String choix, int niveau)  {
+	public boolean niv2(String choix, int niveau) {
+		if(choix.equals("info")) {
+			if (model.getJoueur().getNivInfo() < niveau)return true;
+			return false;
+		}
+		if (choix.equals("math")) {
+			if (model.getJoueur().getNivMath() < niveau) return true;
+			return false;
+		}
+		if (choix.equals("elec")) {
+			if (model.getJoueur().getNivElec() < niveau) return true;
+			return false;
+		}
+		return false;
+	}
+	
+	public boolean niveau(String choix, int niveau) {
 		if (niveau == 2) {
 			nombre = 200;
 		}
@@ -172,71 +186,71 @@ public class ProjetController {
 		}
 		if (niv(choix, niveau)) {
 			JOptionPane.showMessageDialog(null, "Pas assez de points.\nIl faut " + nombre + " points", "Erreur", JOptionPane.ERROR_MESSAGE); 
-			System.out.println("Pas assez de points. Il faut " + nombre + " points");
+			console.affiche(("Pas assez de points. Il faut " + nombre + " points"));
 			return false;
+		}
+		
+		if(niv2(choix, niveau)) {
+			points = model.getJoueur().getPoint() - nombre;
+		
+		try {
+			model.getQuest().changerNiv(model.getJoueur().getIdentifiant(), choix, niveau);
+			model.getQuest().changerPoints(model.getJoueur().getIdentifiant(), points);
+			points = 0;
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		} 
 		}
 		return true;
 	}
 	
 	/**
-	 * Cette mÈthode utilise la mÈthode choixQuestion de la classe ProjetModel pour pouvoir l'utiliser dans la vue
-	 * @param sujet choisi pour Ítre interrogÈ dessus
-	 * @param niveau de question qui sera posÈe dans le sujet choisi
+	 * Cette m√©thode utilise la m√©thode choixQuestion de la classe ProjetModel pour pouvoir l'utiliser dans la vue
+	 * @param sujet choisi pour √™tre interrog√© dessus
+	 * @param niveau de question qui sera pos√©e dans le sujet choisi
 	 */
 	public void choixQuestion(String sujet, int niveau) {
 		try {
 			model.choixQuestion(sujet, niveau);
-		} catch (Exception e) {
+		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		} 
 	}
 	
-	/**
-	 * Cette mÈthode va crÈer la page d'introduction en utilisant les constructeurs des classes IntroConsole et VueIntro
-	 * Des modifiication ‡ la vue GUI sont faites ici
-	 */
-	public void PageIntro() {
-			
-		ProjetController ctrlIntro = new ProjetController(model);
-		console = new IntroConsole(model, ctrlIntro);
-		((IntroConsole)console).affiche();
-		ctrlIntro.addview2(console);
-		vue = new VueIntro(model, ctrlIntro);
-		ctrlIntro.addview(vue);
-		
-		
-		vue.setTitle("ProjetQCM");
-		vue.setLocation(700, 50); //(horizontal, vertical)
-		vue.setAlwaysOnTop(true);
-		vue.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		vue.setBackground(Color.BLUE);
-		vue.setSize(500,300);
-		vue.setVisible(true);
-		vue.getContentPane().add(((VueIntro)vue).getIntro());
-		
-	}
 	
 	/**
-	 * Cette mÈthode va crÈer la page de choix de sujet en utilisant les constructeurs des classes SujetConsole et VueSujet
-	 * Des modifiication ‡ la vue GUI sont faites ici
-	 * @param identifiant qui permettra de rÈcupÈrer le prÈnom, les points et les niveaux du joueur
+	 * Cette m√©thode utilise la m√©thode proposerQuestion de la classe ProjetModel qui pourra donc √™tre utilis√©e dans la vue
+	 * @param q La question propos√©e par le Joueur
+	 * @param r1 La bonne r√©ponse √† la question
+	 * @param r2 Une autre r√©ponse
+	 * @param r3 Une autre r√©ponse
+	 * @param r4 Une autre r√©ponse
+	 */
+	public void proposeQuestion(String question, String r1, String r2, String r3, String r4) {
+		model.proposerQuestion(question, r1, r2, r3, r4);
+		console.affiche();
+	}
+	
+	
+	
+	/**
+	 * Cette m√©thode va cr√©er la page de choix de sujet en utilisant les constructeurs des classes SujetConsole et VueSujet
+	 * Des modifiication √† la vue GUI sont faites ici
+	 * @param identifiant qui permettra de r√©cup√©rer le pr√©nom, les points et les niveaux du joueur
 	 */
 	public void PageSujet(String identifiant) {
+		page = "sujet";
 		vue.setVisible(false);
 		model.connecter(identifiant);
 		ProjetController ctrlSujet = new ProjetController(model);
 		console = new SujetConsole(model, ctrlSujet);
 		ctrlSujet.addview2(console);
-		
-		console.affiche();
-		
 		vue = new VueSujet(model, ctrlSujet);
-
 		ctrlSujet.addview(vue);
-		
-		vue.setTitle("ProjetQCM");
+		console.affiche();
+		vue.setTitle("Sujet");
 		vue.setLocation(700, 50); //(horizontal, vertical)
-		vue.setAlwaysOnTop(true);
+		//vue.setAlwaysOnTop(true);
 		vue.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		vue.setBackground(Color.BLUE);
 		vue.setSize(450,300);
@@ -245,38 +259,15 @@ public class ProjetController {
 	}
 	
 	/**
-	 * Cette mÈthode va crÈer la page d'affichage des questions en utilisant les constructeurs des classes QuestionConsole et VueQuestion
-	 * Des modifiication ‡ la vue GUI sont faites ici
+	 * Cette m√©thode va cr√©er la page d'affichage des questions en utilisant les constructeurs des classes QuestionConsole et VueQuestion
+	 * Des modifications √† la vue GUI sont faites ici
 	 */
 	public void PageQuestions() {
-		vue.setVisible(false);
+		page = "question";
 		model.questionSuivante(0);
-		ProjetController ctrlQuestion = new ProjetController(model);
-		vue = new VueQuestion(model, ctrlQuestion);
-		ctrlQuestion.addview(vue);
-		console = new QuestionConsole(model, ctrlQuestion);
-		ctrlQuestion.addview2(console);
-		
-		vue.setTitle("ProjetQCM");
-		vue.setLocation(700, 50); //(horizontal, vertical)
-		vue.setAlwaysOnTop(true);
-		vue.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		vue.setBackground(Color.BLUE);
-		vue.setSize(450,300);
-		vue.setVisible(true);
-		vue.getContentPane().add(((VueQuestion)vue).getPanel());
-	}
-	
-	/**
-	 * Cette mÈthode utilise la mÈthode proposerQuestion de la classe ProjetModel qui pourra donc Ítre utilisÈe dans la vue
-	 * @param q La question proposÈe par le Joueur
-	 * @param r1 La bonne rÈponse ‡ la question
-	 * @param r2 Une autre rÈponse
-	 * @param r3 Une autre rÈponse
-	 * @param r4 Une autre rÈponse
-	 */
-	public void proposeQuestion(String question, String r1, String r2, String r3, String r4) {
-		model.proposerQuestion(question, r1, r2, r3, r4);
+		((VueSujet)vue).getBottom1().setVisible(false);
+		((VueSujet)vue).getPropQuestion().setVisible(false);
+		((VueSujet)vue).getQuizz().setVisible(true);
 	}
 	
 	public List<String> showProposition() {
@@ -291,4 +282,15 @@ public class ProjetController {
 	public void addProposition(String q, String r1, String r2, String r3, String r4, String sujet, int niveau) {
 		model.addProposition(q, r1, r2, r3, r4, sujet, niveau);
 	}
+	
+	public void retourAffiche() {
+		console.affiche();
+	}
+
+	
+	//Getter and Setter
+	public String getPage() {
+		return page;
+	}
+	
 }
