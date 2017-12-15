@@ -9,7 +9,6 @@ import java.util.Observable;
 
 import javax.swing.Box;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -90,7 +89,7 @@ public class VueIntro extends ProjetVue implements ActionListener{
 		identifiantTexte.setFont(f);
 		bottom.add(identifiantTexte);
 		
-		identifiant = new JTextField ("Identifiant"); 
+		identifiant = new JTextField ("deMahieu"); 
 		identifiant.setPreferredSize (new Dimension (350, 20));
 		identifiant.setBackground(Color.CYAN);
 		bottom.add(identifiant);
@@ -100,7 +99,7 @@ public class VueIntro extends ProjetVue implements ActionListener{
 		prenomTexte.setFont(f);
 		bottom1.add(prenomTexte);
 		
-		prenom = new JTextField ("Prénom");
+		prenom = new JTextField ("Benoit");
 		prenom.setPreferredSize (new Dimension (350, 20));
 		prenom.setBackground(Color.lightGray);
 		bottom1.add(prenom);
@@ -123,6 +122,11 @@ public class VueIntro extends ProjetVue implements ActionListener{
 	}
 
 	@Override
+	public void affiche() {
+		
+	}
+	
+	@Override
 	public void affiche(String msg) {
 		verif.setText(msg);
 	}
@@ -130,7 +134,7 @@ public class VueIntro extends ProjetVue implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == connexion) {
-			if(controller.verifconnecte(identifiant.getText(), prenom.getText())) {
+			if(controller.verifConnecte(identifiant.getText(), prenom.getText())) {
 				controller.PageSujet(identifiant.getText());
 			}			
 		}
@@ -142,11 +146,8 @@ public class VueIntro extends ProjetVue implements ActionListener{
 		}
 	}
 
-	@Override
-	public void affiche() {
-		
-	}
-
+	
+	
 	
 	
 	

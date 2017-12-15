@@ -1,8 +1,6 @@
 package view;
 
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
+
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Scanner;
@@ -16,15 +14,13 @@ import model.ProjetModel;
 @Setter
 
 /**
- * Cette classe permet d'afficher en console l'introduction à notre jeux.
+ * Cette classe permet d'afficher en console l'introduction Ã  notre jeux.
  * Le joueur va pouvoir s'enregistrer ou se connecter.
  * @author B
  *
  */
 public class IntroConsole extends ProjetVue implements Observer{
 	protected Scanner sc;
-	//protected volatile boolean arret = true;
-	private Thread thread;
 	
 	public IntroConsole(ProjetModel model, ProjetController controller) {
 		super(model, controller);

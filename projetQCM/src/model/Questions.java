@@ -23,18 +23,17 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Questions{
-	protected String question;
-	protected String bonneReponse;
-	protected String rep1;
-	protected String rep2;
-	protected String rep3;
-	protected String rep4;
-	protected String insertTableSQL;
+	private String question;
+	private String bonneReponse;
+	private String rep1;
+	private String rep2;
+	private String rep3;
+	private String rep4;
 	
 	
-	protected List<String> questions = new ArrayList<String>(); // liste avec les questions
-	protected List<String> rep = new ArrayList<String>();// liste avec les 12 rÃ©ponses
-	protected List<String> reponses = new ArrayList<String>(); // liste avec les 4 rÃ©ponses qui vont etre mÃ©langÃ©es
+	private List<String> questions = new ArrayList<String>(); // liste avec les questions
+	private List<String> rep = new ArrayList<String>();// liste avec les 12 rÃ©ponses
+	private List<String> reponses = new ArrayList<String>(); // liste avec les 4 rÃ©ponses qui vont etre mÃ©langÃ©es
 	
 	/**
 	 * Ce constructeur se connecte Ã  la DB et crÃ©Ã© un tableau de questions(3 pour le moment), un tableau avec toutes les rÃ©ponses 
@@ -73,6 +72,11 @@ public class Questions{
 		  rs.close();
 		  st.close();
 	}
+	/**
+	 * Cette méthode va comparer la réponse choisie par le joueur avec la bonne réponse
+	 * @param rep réponse choisie par le joueur
+	 * @return true si c'est la bonne réponse
+	 */
 	public boolean comparaison(String rep) {
 		if(rep.equals(bonneReponse)) {
 			return true;
@@ -114,7 +118,13 @@ public class Questions{
 			bonneReponse = "rep4";
 		}
 	}
-	
+	/**
+	 * Changer les points du joueur lors de la réponse à une question
+	 * @param identifiant du joueur sur lequel il faut changer les points
+	 * @param points à changer
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public void changerPoints(String identifiant, int points) throws ClassNotFoundException, SQLException {
 		Class.forName("org.postgresql.Driver");
 		Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
@@ -125,26 +135,30 @@ public class Questions{
 		//execute insert SQL stetement
 		preparedStatement.executeUpdate();
 	}
-
+	/**
+	 * Cette méthode va permettre de changer le niveau dans un sujet pour le joueur
+	 * @param identifiant du joueur qui va changer de niveau
+	 * @param sujet dans lequel il faut changer de niveau
+	 * @param niveau à mettre
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
 	public void changerNiv(String identifiant, String sujet, int niveau) throws SQLException, ClassNotFoundException {
 		Class.forName("org.postgresql.Driver");
 		Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
-		if (sujet.equals("info")) {
-			insertTableSQL = "UPDATE public.\"Joueur\" SET  nivinfo = ? where identifiant = ?";
-		} 
-		else if(sujet.equals("math")) {
-			insertTableSQL = "UPDATE public.\"Joueur\" SET  nivmath = ? where identifiant = ?";
-		}
-		else if(sujet.equals("elec")) {
-			insertTableSQL = "UPDATE public.\"Joueur\" SET  nivelec = ? where identifiant = ?";
-		}
+		String texte = "niv" + sujet;
+		//System.out.println("niv"+ sujet);
+		String insertTableSQL = "UPDATE public.\"Joueur\" SET " + texte + "= ? where identifiant = ?";
 		PreparedStatement preparedStatement = db.prepareStatement(insertTableSQL);
 		preparedStatement.setInt(1, niveau);
 		preparedStatement.setString(2, identifiant);
 		//execute insert SQL stetement
 		preparedStatement.executeUpdate();
 	}
-	
+	/**
+	 * Cette méthode met la première question proposée dans une lise de String
+	 * @return la question proposée avec ses réponse
+	 */
 	public List<String> showProposition() {
 		List<String> test = new ArrayList<String>();
 		try {
@@ -169,7 +183,11 @@ public class Questions{
 		}
 		return test;
 	}
-	
+	/**
+	 * Supprime la question proposée dans la BDD
+	 * @param q a supprimée
+	 * @param r a supprimée
+	 */
 	public void deleteProposition(String q, String r) {
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -182,7 +200,16 @@ public class Questions{
 			
 		}
 	}
-	
+	/**
+	 * Ajoute la question proposée dans la BDD, dans la table des questions
+	 * @param q à ajouter
+	 * @param r1 Bonne réponse
+	 * @param r2 Autre Réponse
+	 * @param r3 Autre Réponse
+	 * @param r4 Autre Réponse
+	 * @param sujet de la question
+	 * @param niveau de la question dans le sujet
+	 */
 	public void addProposition(String q, String r1, String r2, String r3, String r4, String sujet, int niveau) {
 		try {
 			Class.forName("org.postgresql.Driver");
