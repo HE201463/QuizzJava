@@ -149,6 +149,8 @@ public class VueIntro extends ProjetVue implements ActionListener{
 	
 	
 	
+	
+	
 	//Getter et Setter
 	public JPanel getIntro() {
 		return intro;

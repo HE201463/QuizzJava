@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,12 +13,12 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 /**
- * Cette classe va permettre d'obtenir les questions du QCM. Les questions vont être afficher dans la console et dans la partie GUI également.
+ * Cette classe va permettre d'obtenir les questions du QCM. Les questions vont Ãªtre afficher dans la console et dans la partie GUI Ã©galement.
  * Groupe 12
  * @author Benoit de Mahieu
  * @author Jonathan Gossens
  *Classe: 2TL2
- *J'utilise aussi le Jar Lombok qui permet de générer les getter et setter sans les écrire
+ *J'utilise aussi le Jar Lombok qui permet de gÃ©nÃ©rer les getter et setter sans les Ã©crire
  */
 @Getter
 @Setter
@@ -32,24 +33,24 @@ public class Questions{
 	
 	
 	protected List<String> questions = new ArrayList<String>(); // liste avec les questions
-	protected List<String> rep = new ArrayList<String>();// liste avec les 12 réponses
-	protected List<String> reponses = new ArrayList<String>(); // liste avec les 4 réponses qui vont etre mélangées
+	protected List<String> rep = new ArrayList<String>();// liste avec les 12 rÃ©ponses
+	protected List<String> reponses = new ArrayList<String>(); // liste avec les 4 rÃ©ponses qui vont etre mÃ©langÃ©es
 	
 	/**
-	 * Ce constructeur se connecte à la DB et créé un tableau de questions(3 pour le moment), un tableau avec toutes les réponses 
-	 * et pour finir un tableau permettant de mélanger les réponses. 
-	 * @param j Ce paramètre va permettre de choisir entre les 3 questions sélectionnées dans la DB
-	 * @throws ClassNotFoundException Cette exception arrive quand il n'y a pas de résultat retourné de la DB.
-	 * @throws SQLException Cette exception permet de signaler lorsque la connexion a la DB échoue.
+	 * Ce constructeur se connecte Ã  la DB et crÃ©Ã© un tableau de questions(3 pour le moment), un tableau avec toutes les rÃ©ponses 
+	 * et pour finir un tableau permettant de mÃ©langer les rÃ©ponses. 
+	 * @param j Ce paramÃ¨tre va permettre de choisir entre les 3 questions sÃ©lectionnÃ©es dans la DB
+	 * @throws ClassNotFoundException Cette exception arrive quand il n'y a pas de rÃ©sultat retournÃ© de la DB.
+	 * @throws SQLException Cette exception permet de signaler lorsque la connexion a la DB Ã©choue.
 	 */
 	public Questions() throws ClassNotFoundException, SQLException {
 		
 	}
 		
 	/**
-	 * Cette méthode me permet de comparer la réponse choisie par le joueur avec la bonne réponse.
-	 * @param rep rep correspond à la réponse renvoyé par le joueur(rep1, rep2, rep3 ou rep4)
-	 * @return Retourne vrai si c'est la bonne réponse, faux dans le cas contraire
+	 * Cette mÃ©thode me permet de comparer la rÃ©ponse choisie par le joueur avec la bonne rÃ©ponse.
+	 * @param rep rep correspond Ã  la rÃ©ponse renvoyÃ© par le joueur(rep1, rep2, rep3 ou rep4)
+	 * @return Retourne vrai si c'est la bonne rÃ©ponse, faux dans le cas contraire
 	 * @throws ClassNotFoundException exception pour la connexion avec la DB
 	 * @throws SQLException exception au cas ou la requete ne fonctionne pas
 	 */
@@ -80,8 +81,8 @@ public class Questions{
 	}
 	
 	/**
-	 * Création de la question choisis et du tableau avec les réponses correspondantes.
-	 * On a la bonne réponse qui est choisis à cet endroit.
+	 * CrÃ©ation de la question choisis et du tableau avec les rÃ©ponses correspondantes.
+	 * On a la bonne rÃ©ponse qui est choisis Ã  cet endroit.
 	 * @param j j est le choix de la question allant de 0->4 au final
 	 */
 	public void questionSuivante(int j) {
@@ -137,16 +138,57 @@ public class Questions{
 		//execute insert SQL stetement
 		preparedStatement.executeUpdate();
 	}
-	//code que j'utilisais avant ci-dessus
-	/*if (sujet.equals("info")) {
-	insertTableSQL = "UPDATE public.\"Joueur\" SET  nivinfo = ? where identifiant = ?";
-} 
-else if(sujet.equals("math")) {
-	insertTableSQL = "UPDATE public.\"Joueur\" SET  nivmath = ? where identifiant = ?";
-}
-else if(sujet.equals("elec")) {
-	insertTableSQL = "UPDATE public.\"Joueur\" SET  nivelec = ? where identifiant = ?";
-}*/
+	
+	public List<String> showProposition() {
+		List<String> test = new ArrayList<String>();
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
+			Statement st = db.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM public.\"Proposition\" ");
+			if(rs.next()) {
+				test.add(rs.getString(1));
+				test.add(rs.getString(2));
+				test.add(rs.getString(3));
+				test.add(rs.getString(4));
+				test.add(rs.getString(5));
+				rs.next();
+				rs.close();
+				st.close();
+				db.close();
+				return test;
+			}
+		} catch(Exception e) {
+			
+		}
+		return test;
+	}
+	
+	public void deleteProposition(String q, String r) {
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
+			Statement st = db.createStatement();
+			st.executeQuery("Delete FROM public.\"Proposition\" WHERE question =\'" + q+"\' AND r1 =\'"+r+"\';");
+			st.close();
+			db.close();
+		} catch(Exception e) {
+			
+		}
+	}
+	
+	public void addProposition(String q, String r1, String r2, String r3, String r4, String sujet, int niveau) {
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
+			Statement st = db.createStatement();
+			st.executeQuery("INSERT INTO public.\"Questions\" (question, rep1, rep2, rep3, rep4, sujet, niveau) VALUES(\'"+ q + "\', \'"+ r1 + "\', \'"+ r2 + "\', \'"+ r3 + "\', \'"+ r4 + "\', \'"+ sujet + "\', "+ niveau +");");
+			st.close();
+			db.close();
+		} catch(Exception e) {
+			
+		}
+	}
 	
 	
 	
