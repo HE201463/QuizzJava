@@ -219,18 +219,6 @@ public class ProjetController {
 			JOptionPane.showMessageDialog(null, "Il faut valider le niveau " + (niveau-1) + " avant", "Erreur", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
-		
-		if(niv2(choix, niveau)) {
-			points = model.getJoueur().getPoint() - nombre;
-		
-		try {
-			model.getQuest().changerNiv(model.getJoueur().getIdentifiant(), choix, niveau);
-			model.getQuest().changerPoints(model.getJoueur().getIdentifiant(), points);
-			points = 0;
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		} 
-		}
 		return true;
 	}
 	
@@ -371,19 +359,6 @@ public class ProjetController {
 				}
 			}
 		}
-	}
-	
-	public List<String> showProposition() {
-		return model.showProposition();
-		
-	}
-	
-	public void deleteProposition(String q, String r) {
-		model.deleteProposition(q, r);
-	}
-	
-	public void addProposition(String q, String r1, String r2, String r3, String r4, String sujet, int niveau) {
-		model.addProposition(q, r1, r2, r3, r4, sujet, niveau);
 	}
 	
 	//Getter and Setter
