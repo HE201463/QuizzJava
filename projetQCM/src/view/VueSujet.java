@@ -42,8 +42,7 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 	private JButton propQuestion;
 	private JButton valider;
 	private JButton retour;
-  
-  
+
 	//JTextField et JButton Box utilisés pour ajouter une question
 	private Box ajouterQuestion;
   private JButton ajoutQuestion;
@@ -148,24 +147,24 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		bouton.add(retour);
 		
 		
-		JLabel texte = new JLabel("Question proposÃ©e ");
+		JLabel texte = new JLabel("Question proposée ");
 		question.add(texte);
 		propQuest = new JTextField("");
 		question.add(propQuest);
-		
-		JLabel rep1 = new JLabel("Bonne rÃ©ponse ");
+
+		JLabel rep1 = new JLabel("Bonne réponse ");
 		reponse1.add(rep1);
 		propRep1 = new JTextField("");
 		reponse1.add(propRep1);
-		JLabel rep2 = new JLabel("Autre rÃ©ponse ");
+		JLabel rep2 = new JLabel("Autre réponse ");
 		reponse2.add(rep2);
 		propRep2 = new JTextField("");
 		reponse2.add(propRep2);
-		JLabel rep3 = new JLabel("Autre rÃ©ponse ");
+		JLabel rep3 = new JLabel("Autre réponse ");
 		reponse3.add(rep3);
 		propRep3 = new JTextField("");
 		reponse3.add(propRep3);
-		JLabel rep4 = new JLabel("Autre rÃ©ponse ");
+		JLabel rep4 = new JLabel("Autre réponse ");
 		reponse4.add(rep4);
 		propRep4 = new JTextField("");
 		reponse4.add(propRep4);
@@ -201,26 +200,25 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		b.add(ajouter);
 		
 		
-		JLabel qProposee = new JLabel("Question proposÃ©e ");
+		JLabel qProposee = new JLabel("Question proposée ");
 		q.add(qProposee);
 		addQuestion.setBackground(Color.RED);
 		q.add(addQuestion);
-		question1 = new JTextArea();
 		
 		
-		JLabel r1Prop = new JLabel("Bonne rÃ©ponse ");
+		JLabel r1Prop = new JLabel("Bonne réponse ");
 		r1.add(r1Prop);
 		addRep1.setBackground(Color.RED);
 		r1.add(addRep1);
-		JLabel r2Prop = new JLabel("Autre rÃ©ponse ");
+		JLabel r2Prop = new JLabel("Autre réponse ");
 		r2.add(r2Prop);
 		addRep2.setBackground(Color.RED);
 		r2.add(addRep2);
-		JLabel r3Prop = new JLabel("Autre rÃ©ponse ");
+		JLabel r3Prop = new JLabel("Autre réponse ");
 		r3.add(r3Prop);
 		addRep3.setBackground(Color.RED);
 		r3.add(addRep3);
-		JLabel r4Prop = new JLabel("Autre rÃ©ponse ");
+		JLabel r4Prop = new JLabel("Autre réponse ");
 		r4.add(r4Prop);
 		addRep4.setBackground(Color.RED);
 		r4.add(addRep4);
@@ -528,4 +526,3 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		this.quizz = quizz;
 	}
 	
-  }

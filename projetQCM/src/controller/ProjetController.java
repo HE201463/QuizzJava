@@ -15,7 +15,6 @@ import view.SujetConsole;
 import view.VueSujet;
 
 /**
-
  * Cette classe est le controller du modèle MVC, il sert à lier les vues aux différents modèles.
  * @author Jonathan Goossens 2TL2
  * @author Benoit de Mahieu 2TL2
@@ -106,7 +105,7 @@ public class ProjetController {
 	 * @return true si la combinaison est bonne et affiche que le compte est correct
 	 * @return false dans les autres cas et affiche que l'identifiant ou le prénom est incorrect
 	 */
-	public boolean verifconnecte(String identifiant, String prenom) {
+	public boolean verifConnecte(String identifiant, String prenom) {
 		if(model.verifConnecter(identifiant, prenom)) {
 			console.affiche("Ce compte est correct");
 			vue.affiche("Ce compte est correct");
@@ -275,6 +274,7 @@ public class ProjetController {
 	 */
 	public void proposeQuestion(String question, String r1, String r2, String r3, String r4) {
 		model.proposerQuestion(question, r1, r2, r3, r4);
+		console.affiche();
 	}
 	
 	
@@ -317,6 +317,23 @@ public class ProjetController {
 		((VueSujet)vue).getBottom1().setVisible(false);
 		((VueSujet)vue).getPropQuestion().setVisible(false);
 		((VueSujet)vue).getQuizz().setVisible(true);
+	}
+	
+	public List<String> showProposition() {
+		return model.showProposition();
+		
+	}
+	
+	public void deleteProposition(String q, String r) {
+		model.deleteProposition(q, r);
+	}
+	
+	public void addProposition(String q, String r1, String r2, String r3, String r4, String sujet, int niveau) {
+		model.addProposition(q, r1, r2, r3, r4, sujet, niveau);
+	}
+	
+	public void retourAffiche() {
+		console.affiche();
 	}
 
 	/**

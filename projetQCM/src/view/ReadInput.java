@@ -1,6 +1,7 @@
 package view;
 
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Observable;
 import java.util.Scanner;
 
@@ -31,28 +32,100 @@ public class ReadInput extends ProjetVue implements Runnable{
 				}
 				else if(controller.getPage().equals("sujet")) {
 					if(c.equals("info") || c.equals("math") || c.equals("elec")) {
-					sujet(c);
+						sujet(c);
 					}
+					else if(c.equals("question")) {
+						propQuestion();
+					}
+					else if(c.equals("addQuestion") && controller.showProposition().size() != 0) {
+						showPropQuestion();
+					} if(c.equals("addQuestion") && controller.showProposition().size() == 0) {
+						affiche("Il n'y a pas de propositions de questions disponible !");
+					} 
 					else {
 						affiche("Ce sujet n'existe pas");
 					}
 				}
 				else if(controller.getPage().equals("question"))
 					if (c.equals("1") | c.equals("2") | c.equals("3") | c.equals("4")) {
-					question(c);
+						question(c);
 				}
 			}
 			catch(InputMismatchException e){
 				affiche("Format d'input incorrect");
 			}
 		}
-  }
+}
+	public void propQuestion() {
+		affiche("Proposez votre question");
+		sc.nextLine();
+		String q = sc.nextLine();
+		affiche("Tapez maintenant la bonne réponse !");
+		String r1 = sc.nextLine();
+		affiche("Tapez une autre réponse !");
+		String r2 = sc.nextLine();
+		affiche("Tapez une autre réponse !");
+		String r3 = sc.nextLine();
+		affiche("Tapez une autre réponse !");
+		String r4 = sc.nextLine();
+		affiche("Votre question a bien été envoyée ! Merci de votre participation !\n\n");
+		controller.proposeQuestion(q, r1, r2, r3, r4);
+		
+	}
+	
+	public void showPropQuestion() {
+		List<String> propositions = controller.showProposition();
+		affiche("Question proposée : "+ propositions.get(0));
+		affiche("La bonne réponse : "+propositions.get(1));
+		affiche("Autre réponse : "+propositions.get(2));
+		affiche("Autre réponse : "+propositions.get(3));
+		affiche("Autre réponse : "+propositions.get(4));
+		affiche("Si vous voulez ajouter la question tapez \"add\"");
+		affiche("Si vous voulez supprimer la question tapez \"delete\"");
+		if(sc.next().equals("add")) {
+			addQuestion(propositions);
+			if(controller.showProposition().size()!=0) {
+				showPropQuestion();
+			} else {
+				controller.retourAffiche();
+			}
+		}else if(sc.next().equals("delete")) {
+			controller.deleteProposition(propositions.get(0), propositions.get(1));
+			affiche("Question supprimée !");
+			if(controller.showProposition().size()!=0) {
+				showPropQuestion();
+			} else {
+				controller.retourAffiche();
+			}
+		}
+		
+	}
+	
+	public void addQuestion(List<String> propositions) {
+		affiche("Tapez le sujet de la question (info, elec ou math) et le niveau de celle-ci (1, 2 ou 3)");
+		String sujet = sc.next();
+		int niveau = sc.nextInt();
+		if(sujet.equals("info")||sujet.equals("elec")||sujet.equals("math")) {
+			if(niveau==1||niveau==2||niveau==3) {
+				controller.addProposition(propositions.get(0), propositions.get(1), propositions.get(2), propositions.get(3), propositions.get(4), sujet, niveau);
+				controller.deleteProposition(propositions.get(0), propositions.get(1));
+				
+			} else {
+				
+				affiche("Niveau Incorrect ! Try Again");
+				addQuestion(propositions);
+			}
+		} else {
+			affiche("Sujet Incorrect ! Try Again");
+			addQuestion(propositions);
+		}
+	}
 	
 	public void intro(String c) {
 		String identifiant = sc.next();
 		String prenom = sc.next();
 		if(c.equals("C")) {
-			if(controller.verifconnecte(identifiant, prenom)) {
+			if(controller.verifConnecte(identifiant, prenom)) {
 				controller.PageSujet(identifiant);
 			}
 		}

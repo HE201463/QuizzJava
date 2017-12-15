@@ -23,18 +23,17 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Questions{
-	protected String question;
-	protected String bonneReponse;
-	protected String rep1;
-	protected String rep2;
-	protected String rep3;
-	protected String rep4;
-	//protected String insertTableSQL;
+	private String question;
+	private String bonneReponse;
+	private String rep1;
+	private String rep2;
+	private String rep3;
+	private String rep4;
 	
 	
-	protected List<String> questions = new ArrayList<String>(); // liste avec les questions
-	protected List<String> rep = new ArrayList<String>();// liste avec les 12 réponses
-	protected List<String> reponses = new ArrayList<String>(); // liste avec les 4 réponses qui vont etre mélangées
+	private List<String> questions = new ArrayList<String>(); // liste avec les questions
+	private List<String> rep = new ArrayList<String>();// liste avec les 12 réponses
+	private List<String> reponses = new ArrayList<String>(); // liste avec les 4 réponses qui vont etre mélangées
 	
 	/**
 	 * Ce constructeur se connecte à la DB et créé un tableau de questions(3 pour le moment), un tableau avec toutes les réponses 
