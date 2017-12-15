@@ -459,7 +459,7 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		bottom1.setVisible(false);
 		bottom2.setVisible(false);
 		quizz.setVisible(true);
-	
+	}
 	// Getter and Setter
 	public JPanel getSujet() {
 		return sujet;
@@ -510,19 +510,5 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		this.but = but;
 	}
 
-
-
-
-
-	public Box getQuizz() {
-		return quizz;
-	}
-
-
-
-
-
-	public void setQuizz(Box quizz) {
-		this.quizz = quizz;
-	}
+}
 	
