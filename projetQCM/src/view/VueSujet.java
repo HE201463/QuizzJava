@@ -20,51 +20,63 @@ import controller.ProjetController;
 import lombok.Getter;
 import lombok.Setter;
 import model.ProjetModel;
+
 @Getter
 @Setter
 public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 	
 	private JPanel sujet;
-	private JButton propQuestion;
-	private JButton ajoutQuestion;
 	private JButton niveau1;
 	private JButton niveau2;
 	private JButton niveau3;
 	private Box bottom2;
-	private Box proposeQuestion;
-	private Box ajouterQuestion;
 	private Box bottom1;
-	private Box quizz;
-	private JButton valider;
-	private JButton retour;
-	private JButton supprimer;
-	private JButton ajouter;
+	
+	//JTextField et JButton Box utilisés pour proposer une question
+	private Box proposeQuestion;
 	private JTextField propQuest;
 	private JTextField propRep1;
 	private JTextField propRep2;
 	private JTextField propRep3;
 	private JTextField propRep4;
-	private JTextField textQuest;
-	private JTextField textPoints;
-	
-	
-	private JTextArea addQuestion = new JTextArea();
+	private JButton propQuestion;
+	private JButton valider;
+	private JButton retour;
+
+	//JTextField et JButton Box utilisés pour ajouter une question
+	private Box ajouterQuestion;
+  private JButton ajoutQuestion;
+	private JButton supprimer;
+	private JButton ajouter;
+  private JTextArea addQuestion = new JTextArea();
 	private JTextArea addRep1 = new JTextArea();
 	private JTextArea addRep2 = new JTextArea();
 	private JTextArea addRep3 = new JTextArea();
 	private JTextArea addRep4 = new JTextArea();
 	private JTextArea addSujet = new JTextArea();
 	private JTextArea addNiveau = new JTextArea();
-
-
-
-
-
-	private String choix;
+  
+	
+		
+	private JTextField textPoints;
+	private JTextField math;
+	private JTextField info;
+	private JTextField elec;
+	
+	private String choix; //choix du sujet
+	
+	//La box, les 4 boutons réponses possibles + le JTextField de la question pour le quizz
+	private Box quizz;
+	private JTextField textQuest;
 	private JButton quizzReponse1;
 	private JButton quizzReponse2;
 	private JButton quizzReponse3;
 	private JButton quizzReponse4;
+
+	private JButton but;
+	private JTextField textChrono;
+	private boolean arret = false;
+	private long tempsFinal;
 	
 	public VueSujet(ProjetModel model, ProjetController controller) {
 		super(model, controller);
@@ -91,18 +103,18 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		Box niveau = Box.createVerticalBox();
 		bottom.add(niveau);
 		
-		JTextField math = new JTextField ("niv math: " + model.getJoueur().getNivMath());
+		math = new JTextField ("niv math: " + model.getJoueur().getNivMath());
 		niveau.add(math);
 		
-		JTextField info = new JTextField ("niv info: " + model.getJoueur().getNivInfo());
+		info = new JTextField ("niv info: " + model.getJoueur().getNivInfo());
 		niveau.add(info);
 		
-		JTextField elec = new JTextField ("niv elec: " + model.getJoueur().getNivElec());
+		elec = new JTextField ("niv elec: " + model.getJoueur().getNivElec());
 		niveau.add(elec);
 		
 		propQuestion = new JButton("Proposer une question");
 		main.add(propQuestion);
-		ajoutQuestion = new JButton("Voir les questions propos�es");
+		ajoutQuestion = new JButton("Voir les questions proposées");
 		if(model.getJoueur().getIdentifiant().equals("deMahieu")||model.getJoueur().getIdentifiant().equals("Goossens")) {
 			main.add(ajoutQuestion);
 		}
@@ -139,7 +151,7 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		question.add(texte);
 		propQuest = new JTextField("");
 		question.add(propQuest);
-		
+
 		JLabel rep1 = new JLabel("Bonne réponse ");
 		reponse1.add(rep1);
 		propRep1 = new JTextField("");
@@ -251,7 +263,6 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		textQuest.setBackground(Color.lightGray);
 		quizz.add(textQuest);
 		
-		
 		Box rep12 = Box.createHorizontalBox(); 
 		quizz.add(rep12);
 		Box rep34 = Box.createHorizontalBox(); 
@@ -267,6 +278,12 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		quizzReponse4 = new JButton (); 
 		rep34.add(quizzReponse4);
 		
+		textChrono = new JTextField("");
+		quizz.add(textChrono);
+		but = new JButton();
+		quizz.add(but);
+				
+
 		quizzReponse1.addActionListener(this);
 		quizzReponse2.addActionListener(this);
 		quizzReponse3.addActionListener(this);
@@ -284,13 +301,14 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		
 	}
 	
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == niveau1) {
 			affiche();
 			controller.choixQuestion(choix, 1);
 			controller.PageQuestions();
+			arret = true;
+			//new Thread (new Chrono()).start();
 		}
 		if(e.getSource() == niveau2) {
 			if(controller.niveau(choix, 2)) {
@@ -373,31 +391,39 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 				bottom2.setVisible(false);
 			}
 		}
-		
 		if(e.getSource() == quizzReponse1) {
 			controller.verification("rep" + 1);
-			questionSuivante();
+			controller.questionSuivante();
+			controller.recommence();
 		}
 		else if(e.getSource() == quizzReponse2) {
 			controller.verification("rep" + 2);
-			questionSuivante();
+			controller.questionSuivante();
+			controller.recommence();
 		}
 		else if(e.getSource() == quizzReponse3){
 			controller.verification("rep" + 3);
-			questionSuivante();
+			controller.questionSuivante();
+			controller.recommence();
 		}
 		else if(e.getSource() == quizzReponse4){
 			controller.verification("rep" + 4);
-			questionSuivante();
+			controller.questionSuivante();
+			controller.recommence();
 		}
 	}
 	
-	public void questionSuivante() {
+	/*public void questionSuivante() {
 		controller.questionSuivante();
-	}
+	}*/
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
+		textPoints.setText("Point total: " + model.getJoueur().getPoint());
+		math.setText("niv math: " + model.getJoueur().getNivMath());
+		info.setText("niv info: " + model.getJoueur().getNivInfo());
+		elec.setText("niv elec: " + model.getJoueur().getNivElec());
+
 		textQuest.setText(model.getQuest().getQuestion());
 		quizzReponse1.setText(model.getQuest().getRep1());
 		quizzReponse2.setText(model.getQuest().getRep2());
@@ -407,7 +433,7 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 
 	@Override
 	public void affiche(String msg) {
-		
+		textChrono.setText(msg);
 	}
 
 	@Override
@@ -433,8 +459,6 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		bottom1.setVisible(false);
 		bottom2.setVisible(false);
 		quizz.setVisible(true);
-	}
-
 	
 	// Getter and Setter
 	public JPanel getSujet() {
@@ -445,32 +469,12 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		this.sujet = sujet;
 	}
 
-
-
-
-
 	public Box getBottom2() {
 		return bottom2;
 	}
-
-
-
-
-
 	public void setBottom2(Box bottom2) {
 		this.bottom2 = bottom2;
 	}
-
-
-
-
-
-	
-
-
-
-
-
 	public JButton getPropQuestion() {
 		return propQuestion;
 	}
@@ -481,13 +485,29 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 	public Box getBottom1() {
 		return bottom1;
 	}
-
-
-
-
-
 	public void setBottom1(Box bottom1) {
 		this.bottom1 = bottom1;
+	}
+	public Box getQuizz() {
+		return quizz;
+	}
+	public void setQuizz(Box quizz) {
+		this.quizz = quizz;
+	}
+	
+	public JTextField getTextPoints() {
+		return textPoints;
+	}
+	public void setTextPoints(JTextField textPoints) {
+		this.textPoints = textPoints;
+	}
+
+	public JButton getBut() {
+		return but;
+	}
+
+	public void setBut(JButton but) {
+		this.but = but;
 	}
 
 
@@ -506,14 +526,3 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		this.quizz = quizz;
 	}
 	
-	
-	public JTextField getTextPoints() {
-		return textPoints;
-	}
-
-
-	public void setTextPoints(JTextField textPoints) {
-		this.textPoints = textPoints;
-	}
-	
-}

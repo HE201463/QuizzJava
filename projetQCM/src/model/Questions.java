@@ -29,7 +29,6 @@ public class Questions{
 	private String rep2;
 	private String rep3;
 	private String rep4;
-	private String insertTableSQL;
 	
 	
 	private List<String> questions = new ArrayList<String>(); // liste avec les questions
@@ -129,15 +128,9 @@ public class Questions{
 	public void changerNiv(String identifiant, String sujet, int niveau) throws SQLException, ClassNotFoundException {
 		Class.forName("org.postgresql.Driver");
 		Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
-		if (sujet.equals("info")) {
-			insertTableSQL = "UPDATE public.\"Joueur\" SET  nivinfo = ? where identifiant = ?";
-		} 
-		else if(sujet.equals("math")) {
-			insertTableSQL = "UPDATE public.\"Joueur\" SET  nivmath = ? where identifiant = ?";
-		}
-		else if(sujet.equals("elec")) {
-			insertTableSQL = "UPDATE public.\"Joueur\" SET  nivelec = ? where identifiant = ?";
-		}
+		String texte = "niv" + sujet;
+		//System.out.println("niv"+ sujet);
+		String insertTableSQL = "UPDATE public.\"Joueur\" SET " + texte + "= ? where identifiant = ?";
 		PreparedStatement preparedStatement = db.prepareStatement(insertTableSQL);
 		preparedStatement.setInt(1, niveau);
 		preparedStatement.setString(2, identifiant);

@@ -27,7 +27,7 @@ public class ReadInput extends ProjetVue implements Runnable{
 						intro(c);
 					}
 					else {
-						affiche("Mauvaise écriture");
+						affiche("Mauvaise Ã©criture");
 					}
 				}
 				else if(controller.getPage().equals("sujet")) {
@@ -75,11 +75,11 @@ public class ReadInput extends ProjetVue implements Runnable{
 	
 	public void showPropQuestion() {
 		List<String> propositions = controller.showProposition();
-		affiche("Question proposée : "+ propositions.get(0));
-		affiche("La bonne réponse : "+propositions.get(1));
-		affiche("Autre réponse : "+propositions.get(2));
-		affiche("Autre réponse : "+propositions.get(3));
-		affiche("Autre réponse : "+propositions.get(4));
+		affiche("Question proposÃ©e : "+ propositions.get(0));
+		affiche("La bonne rÃ©ponse : "+propositions.get(1));
+		affiche("Autre rÃ©ponse : "+propositions.get(2));
+		affiche("Autre rÃ©ponse : "+propositions.get(3));
+		affiche("Autre rÃ©ponse : "+propositions.get(4));
 		affiche("Si vous voulez ajouter la question tapez \"add\"");
 		affiche("Si vous voulez supprimer la question tapez \"delete\"");
 		if(sc.next().equals("add")) {
@@ -91,7 +91,7 @@ public class ReadInput extends ProjetVue implements Runnable{
 			}
 		}else if(sc.next().equals("delete")) {
 			controller.deleteProposition(propositions.get(0), propositions.get(1));
-			affiche("Question supprimée !");
+			affiche("Question supprimÃ©e !");
 			if(controller.showProposition().size()!=0) {
 				showPropQuestion();
 			} else {
@@ -139,16 +139,19 @@ public class ReadInput extends ProjetVue implements Runnable{
 	
 	public void sujet(String c) {
 		int niveau = sc.nextInt();
-		if(niveau < 0 || niveau > 4) {
+		if(niveau <= 0 || niveau >= 4) {
 			affiche("Niveau incorrect");
 		}
-		choix(c, niveau);
+		else {
+			choix(c, niveau);
+		}
 	}
 	
 	public void question(String c) {
 		controller.verification("rep" + c);
 		try {
 			controller.questionSuivante();
+			controller.recommence();
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
