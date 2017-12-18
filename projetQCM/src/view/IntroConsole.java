@@ -14,7 +14,7 @@ import model.ProjetModel;
 @Setter
 
 /**
- * Cette classe permet d'afficher en console l'introduction Ã  notre jeux.
+ * Cette classe permet d'afficher en console l'introduction à notre jeux.
  * Le joueur va pouvoir s'enregistrer ou se connecter.
  * @author B
  *

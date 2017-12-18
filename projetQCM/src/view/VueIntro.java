@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.Observable;
 
 import javax.swing.Box;
@@ -43,6 +45,7 @@ public class VueIntro extends ProjetVue implements ActionListener{
 	public VueIntro(ProjetModel model, ProjetController controller) {
 		super(model, controller);
 		intro = new JPanel();
+		intro.setBackground(Color.yellow);
 		Font f = new Font("Serif", Font.PLAIN, 20);
 		Box main = Box.createVerticalBox();
 		intro.add(main);
@@ -52,14 +55,12 @@ public class VueIntro extends ProjetVue implements ActionListener{
 		
 		JTextArea question = new JTextArea("Nom du jeux"); 
 		question.setFont(f);
-		//question.setPreferredSize (new Dimension (470, 50));
 		question.setBackground(c_vert);
 		question.setForeground(Color.WHITE);
 		question.setEditable (false); 
 		main.add(question);
 		
 		JTextArea consignes = new JTextArea("S'enregistrer pour un nouveau joueur\nSe connecter si tu as déjà joué"); 
-		//consignes.setPreferredSize (new Dimension (400, 50));
 		consignes.setFont(f);
 		consignes.setBackground(c_bleu);
 		consignes.setForeground(Color.WHITE);
@@ -75,18 +76,11 @@ public class VueIntro extends ProjetVue implements ActionListener{
 		Box bottom2 = Box.createHorizontalBox();
 		bottom2.setBackground(Color.MAGENTA);  //Cette ligne ne fonctionne pas 
 		main.add(bottom2);
-				
-		verif = new JTextArea ("pour verifier"); 
-		//verif.setPreferredSize (new Dimension (400, 50));
-		verif.setBackground(c_bleu);
-		verif.setFont(f);
-		verif.setForeground(Color.GRAY);
-		verif.setEditable (false); 
-		main.add(verif);
 		
 		JTextArea identifiantTexte = new JTextArea("Identifiant : "); 
-		//identifiantTexte.setPreferredSize (new Dimension (5, 10));
+		identifiantTexte.setEditable(false);
 		identifiantTexte.setFont(f);
+		identifiantTexte.setBackground(Color.GREEN);
 		bottom.add(identifiantTexte);
 		
 		identifiant = new JTextField ("deMahieu"); 
@@ -94,8 +88,9 @@ public class VueIntro extends ProjetVue implements ActionListener{
 		identifiant.setBackground(Color.CYAN);
 		bottom.add(identifiant);
 		
-		JTextArea prenomTexte = new JTextArea ("Prénom: "); 
-		//prenomTexte.setPreferredSize (new Dimension (5, 10));
+		JTextArea prenomTexte = new JTextArea ("Prénom : "); 
+		prenomTexte.setEditable(false);
+		prenomTexte.setBackground(Color.GREEN);
 		prenomTexte.setFont(f);
 		bottom1.add(prenomTexte);
 		
@@ -113,6 +108,32 @@ public class VueIntro extends ProjetVue implements ActionListener{
 		
 		connexion.addActionListener(this);
 		creation.addActionListener(this);
+		identifiant.addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				identifiant.setText("");				
+			}
+
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				
+			}
+			
+		});
+		prenom.addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				prenom.setText("");				
+			}
+
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				
+			}
+			
+		});
 		
 	}
 
@@ -146,8 +167,6 @@ public class VueIntro extends ProjetVue implements ActionListener{
 		}
 	}
 
-	
-	
 	
 	
 	

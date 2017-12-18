@@ -26,11 +26,11 @@ public class ReadInput extends ProjetVue implements Runnable{
 						intro(c);
 					}
 					else {
-						affiche("Mauvaise Ã©criture");
+						affiche("Mauvaise écriture");
 					}
 				}
 				else if(controller.getPage().equals("sujet")) {
-					if(c.equals("info") || c.equals("math") || c.equals("elec")) {
+					if(c.equals("informatique") || c.equals("mathématique") || c.equals("électronique")) {
 					sujet(c);
 					}
 					else {
@@ -46,7 +46,7 @@ public class ReadInput extends ProjetVue implements Runnable{
 				affiche("Format d'input incorrect");
 			}
 		}
-  }
+}
 	
 	public void intro(String c) {
 		String identifiant = sc.next();
