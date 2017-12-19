@@ -167,8 +167,8 @@ public class ReadInput extends ProjetVue implements Runnable{
 		}
 	}
 	/**
-	 * 
-	 * @param c
+	 * Cette méthode va vérifier si le joueur a choisi la bonne réponse et va passer à la question suivante
+	 * @param c réponse choisie par le joueur
 	 */
 	public void question(String c) {
 		controller.verification("rep" + c);
