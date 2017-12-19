@@ -6,15 +6,10 @@ import java.util.Observer;
 import java.util.Scanner;
 
 import controller.ProjetController;
-import lombok.Getter;
-import lombok.Setter;
 import model.ProjetModel;
 
-@Getter
-@Setter
-
 /**
- * Cette classe permet d'afficher en console l'introduction à notre jeux.
+ * Cette classe permet d'afficher en console l'introduction Ã  notre jeux.
  * Le joueur va pouvoir s'enregistrer ou se connecter.
  * @author B
  *

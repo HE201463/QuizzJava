@@ -5,39 +5,35 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import lombok.Getter;
-import lombok.Setter;
 /**
- * Cette classe va permettre d'obtenir les questions du QCM. Les questions vont être afficher dans la console et dans la partie GUI également.
+ * Cette classe va permettre d'obtenir les questions du QCM. Les questions vont àªtre afficher dans la console et dans la partie GUI également.
  * Groupe 12
  * @author Benoit de Mahieu
  * @author Jonathan Gossens
  *Classe: 2TL2
- *J'utilise aussi le Jar Lombok qui permet de générer les getter et setter sans les écrire
  */
-@Getter
-@Setter
 public class Questions{
-	protected String question;
-	protected String bonneReponse;
-	protected String rep1;
-	protected String rep2;
-	protected String rep3;
-	protected String rep4;
+	private String question;
+	private String bonneReponse;
+	private String rep1;
+	private String rep2;
+	private String rep3;
+	private String rep4;
 	
 	
-	protected List<String> questions = new ArrayList<String>(); // liste avec les questions
-	protected List<String> rep = new ArrayList<String>();// liste avec les 12 réponses
-	protected List<String> reponses = new ArrayList<String>(); // liste avec les 4 réponses qui vont etre mélangées
+	private List<String> questions = new ArrayList<String>(); // liste avec les questions
+	private List<String> rep = new ArrayList<String>();// liste avec les 12 réponses
+	private List<String> reponses = new ArrayList<String>(); // liste avec les 4 réponses qui vont etre mélangées
 	
 	/**
-	 * Ce constructeur se connecte à la DB et créé un tableau de questions(3 pour le moment), un tableau avec toutes les réponses 
+	 * Ce constructeur se connecte à  la DB et créé un tableau de questions(5 pour le moment), un tableau avec toutes les réponses 
 	 * et pour finir un tableau permettant de mélanger les réponses. 
-	 * @param j Ce paramètre va permettre de choisir entre les 3 questions sélectionnées dans la DB
+	 * @param j Ce paramà¨tre va permettre de choisir entre les 3 questions sélectionnées dans la DB
 	 * @throws ClassNotFoundException Cette exception arrive quand il n'y a pas de résultat retourné de la DB.
 	 * @throws SQLException Cette exception permet de signaler lorsque la connexion a la DB échoue.
 	 */
@@ -47,7 +43,7 @@ public class Questions{
 		
 	/**
 	 * Cette méthode me permet de comparer la réponse choisie par le joueur avec la bonne réponse.
-	 * @param rep rep correspond à la réponse renvoyé par le joueur(rep1, rep2, rep3 ou rep4)
+	 * @param rep rep correspond à  la réponse renvoyé par le joueur(rep1, rep2, rep3 ou rep4)
 	 * @return Retourne vrai si c'est la bonne réponse, faux dans le cas contraire
 	 * @throws ClassNotFoundException exception pour la connexion avec la DB
 	 * @throws SQLException exception au cas ou la requete ne fonctionne pas
@@ -71,6 +67,11 @@ public class Questions{
 		  rs.close();
 		  st.close();
 	}
+	/**
+	 * Cette méthode va comparer la réponse choisie par le joueur avec la bonne réponse
+	 * @param rep réponse choisie par le joueur
+	 * @return true si c'est la bonne réponse
+	 */
 	public boolean comparaison(String rep) {
 		if(rep.equals(bonneReponse)) {
 			return true;
@@ -80,7 +81,7 @@ public class Questions{
 	
 	/**
 	 * Création de la question choisis et du tableau avec les réponses correspondantes.
-	 * On a la bonne réponse qui est choisis à cet endroit.
+	 * On a la bonne réponse qui est choisis à  cet endroit.
 	 * @param j j est le choix de la question allant de 0->4 au final
 	 */
 	public void questionSuivante(int j) {
@@ -112,7 +113,13 @@ public class Questions{
 			bonneReponse = "rep4";
 		}
 	}
-	
+	/**
+	 * Changer les points du joueur lors de la réponse à une question
+	 * @param identifiant du joueur sur lequel il faut changer les points
+	 * @param points à changer
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public void changerPoints(String identifiant, int points) throws ClassNotFoundException, SQLException {
 		Class.forName("org.postgresql.Driver");
 		Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
@@ -123,17 +130,92 @@ public class Questions{
 		//execute insert SQL stetement
 		preparedStatement.executeUpdate();
 	}
-
+	/**
+	 * Cette méthode va permettre de changer le niveau dans un sujet pour le joueur
+	 * @param identifiant du joueur qui va changer de niveau
+	 * @param sujet dans lequel il faut changer de niveau
+	 * @param niveau à mettre
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
 	public void changerNiv(String identifiant, String sujet, int niveau) throws SQLException, ClassNotFoundException {
 		Class.forName("org.postgresql.Driver");
 		Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
 		String texte = "niv" + sujet;
+		//System.out.println("niv"+ sujet);
 		String insertTableSQL = "UPDATE public.\"Joueur\" SET " + texte + "= ? where identifiant = ?";
 		PreparedStatement preparedStatement = db.prepareStatement(insertTableSQL);
 		preparedStatement.setInt(1, niveau);
 		preparedStatement.setString(2, identifiant);
 		//execute insert SQL stetement
 		preparedStatement.executeUpdate();
+	}
+	/**
+	 * Cette méthode met la première question proposée dans une lise de String
+	 * @return la question proposée avec ses réponse
+	 */
+	public List<String> showProposition() {
+		List<String> test = new ArrayList<String>();
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
+			Statement st = db.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM public.\"Proposition\" ");
+			if(rs.next()) {
+				test.add(rs.getString(1));
+				test.add(rs.getString(2));
+				test.add(rs.getString(3));
+				test.add(rs.getString(4));
+				test.add(rs.getString(5));
+				rs.next();
+				rs.close();
+				st.close();
+				db.close();
+				return test;
+			}
+		} catch(Exception e) {
+			
+		}
+		return test;
+	}
+	/**
+	 * Supprime la question proposée dans la BDD
+	 * @param q question a supprimée
+	 * @param r réponse a supprimée
+	 */
+	public void deleteProposition(String q, String r) {
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
+			Statement st = db.createStatement();
+			st.executeQuery("Delete FROM public.\"Proposition\" WHERE question =\'" + q+"\' AND r1 =\'"+r+"\';");
+			st.close();
+			db.close();
+		} catch(Exception e) {
+			
+		}
+	}
+	/**
+	 * Ajoute la question proposée dans la BDD, dans la table des questions
+	 * @param q question à ajouter
+	 * @param r1 Bonne réponse
+	 * @param r2 Autre Réponse
+	 * @param r3 Autre Réponse
+	 * @param r4 Autre Réponse
+	 * @param sujet de la question
+	 * @param niveau de la question dans le sujet
+	 */
+	public void addProposition(String q, String r1, String r2, String r3, String r4, String sujet, int niveau) {
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
+			Statement st = db.createStatement();
+			st.executeQuery("INSERT INTO public.\"Questions\" (question, rep1, rep2, rep3, rep4, sujet, niveau) VALUES(\'"+ q + "\', \'"+ r1 + "\', \'"+ r2 + "\', \'"+ r3 + "\', \'"+ r4 + "\', \'"+ sujet + "\', "+ niveau +");");
+			st.close();
+			db.close();
+		} catch(Exception e) {
+			
+		}
 	}
 	
 	

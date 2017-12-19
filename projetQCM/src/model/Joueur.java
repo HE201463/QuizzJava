@@ -7,19 +7,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import lombok.Getter;
-import lombok.Setter;
-
-
 /**
  * Cette classe implémente un joueur qui a un identifiant, un prénom, des points et un level
  * Groupe 12
  * @author Jonathan Goossens 2TL2
  * @author Benoit de Mahieu 2TL2
  */
-
-@Getter
-@Setter
 public class Joueur {
 	private String identifiant;
 	private String prenom;

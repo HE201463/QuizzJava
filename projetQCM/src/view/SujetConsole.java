@@ -30,8 +30,11 @@ public class SujetConsole extends ProjetVue implements Observer{
 
 	@Override
 	public void affiche() {
-		System.out.println(model.toString(1));
-		System.out.println("Choisis un sujet : informatique, électronique, mathématique + 1, 2 ou 3 (un espace entre les deux)");
-		System.out.println("Pour proposer une question: question + 1 (un espace entre les deux)");
+		affiche(model.toString(1));
+		affiche("Choisis un sujet : informatique, électronique, mathématique + 1, 2 ou 3 (un espace entre les deux)");
+		affiche("Pour proposer une question: question");
+		if(model.getJoueur().getIdentifiant().equals("deMahieu")||model.getJoueur().getIdentifiant().equals("Goossens")) {
+			affiche("Pour voir les questions proposées: addQuestion");
+		}
 	}
 }

@@ -16,11 +16,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import controller.ProjetController;
-import lombok.Getter;
-import lombok.Setter;
 import model.ProjetModel;
-@Getter
-@Setter
+
 
 /**
  * Cette classe permet de créer l'interface de l'introduction. Le joueur va pouvoir s'enregistrer ou se connecter grâce à des boutons
@@ -45,65 +42,78 @@ public class VueIntro extends ProjetVue implements ActionListener{
 	public VueIntro(ProjetModel model, ProjetController controller) {
 		super(model, controller);
 		intro = new JPanel();
-		intro.setBackground(Color.yellow);
 		Font f = new Font("Serif", Font.PLAIN, 20);
+		Font g = new Font("Serif", Font.PLAIN, 16);
 		Box main = Box.createVerticalBox();
 		intro.add(main);
 			
-		Color c_bleu = new Color(0,191,255);
-		Color c_vert = new Color(144,238,144);
+		Color beige = new Color(245,245,220);
+		Color transparent = new Color(0,0,0,0);
+		Color AntiqueWhite3 = new Color(205,192,176);
 		
+		intro.setBackground(beige);
 		JTextArea question = new JTextArea("Nom du jeux"); 
 		question.setFont(f);
-		question.setBackground(c_vert);
-		question.setForeground(Color.WHITE);
+		question.setPreferredSize(new Dimension(300,50));
+		question.setBackground(transparent);
 		question.setEditable (false); 
 		main.add(question);
 		
 		JTextArea consignes = new JTextArea("S'enregistrer pour un nouveau joueur\nSe connecter si tu as déjà joué"); 
-		consignes.setFont(f);
-		consignes.setBackground(c_bleu);
-		consignes.setForeground(Color.WHITE);
+		consignes.setFont(g);
+		consignes.setPreferredSize(new Dimension(300,60));
+		consignes.setBackground(transparent);
 		consignes.setEditable (false); 
 		main.add(consignes);
 		
 		Box bottom = Box.createHorizontalBox(); 
 		main.add(bottom);
 		
+		JPanel espace = new JPanel();
+		espace.setPreferredSize(new Dimension(300,10));
+		espace.setBackground(transparent);
+		main.add(espace);
+		
 		Box bottom1 = Box.createHorizontalBox(); 
 		main.add(bottom1);
 		
+		JPanel espace1 = new JPanel();
+		espace1.setPreferredSize(new Dimension(300,20));
+		espace1.setBackground(transparent);
+		main.add(espace1);
+		
 		Box bottom2 = Box.createHorizontalBox();
-		bottom2.setBackground(Color.MAGENTA);  //Cette ligne ne fonctionne pas 
 		main.add(bottom2);
 		
 		JTextArea identifiantTexte = new JTextArea("Identifiant : "); 
-		identifiantTexte.setEditable(false);
+		identifiantTexte.setBackground(transparent);
 		identifiantTexte.setFont(f);
-		identifiantTexte.setBackground(Color.GREEN);
+		identifiantTexte.setEditable (false); 
 		bottom.add(identifiantTexte);
 		
+		//Entre ton identifiant
 		identifiant = new JTextField ("deMahieu"); 
 		identifiant.setPreferredSize (new Dimension (350, 20));
-		identifiant.setBackground(Color.CYAN);
+		identifiant.setBackground(AntiqueWhite3);
 		bottom.add(identifiant);
 		
 		JTextArea prenomTexte = new JTextArea ("Prénom : "); 
-		prenomTexte.setEditable(false);
-		prenomTexte.setBackground(Color.GREEN);
 		prenomTexte.setFont(f);
+		prenomTexte.setBackground(transparent);
+		prenomTexte.setEditable (false);
 		bottom1.add(prenomTexte);
 		
+		//Entre ton prénom
 		prenom = new JTextField ("Benoit");
 		prenom.setPreferredSize (new Dimension (350, 20));
-		prenom.setBackground(Color.lightGray);
+		prenom.setBackground(AntiqueWhite3);
 		bottom1.add(prenom);
 		
 		creation = new JButton ("S'enregistrer");
-		creation.setBackground(Color.MAGENTA);
+		creation.setBackground(AntiqueWhite3);
 		bottom2.add(creation);
 		connexion = new JButton ("Se connecter"); 
-		connexion.setBackground(Color.MAGENTA);
+		connexion.setBackground(AntiqueWhite3);
 		bottom2.add(connexion);
 		
 		connexion.addActionListener(this);
@@ -155,7 +165,7 @@ public class VueIntro extends ProjetVue implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == connexion) {
-			if(controller.verifconnecte(identifiant.getText(), prenom.getText())) {
+			if(controller.verifConnecte(identifiant.getText(), prenom.getText())) {
 				controller.PageSujet(identifiant.getText());
 			}			
 		}
@@ -167,6 +177,8 @@ public class VueIntro extends ProjetVue implements ActionListener{
 		}
 	}
 
+	
+	
 	
 	
 	
