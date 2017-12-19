@@ -21,7 +21,6 @@ public class ReadInput extends ProjetVue implements Runnable{
 		while(true){
 			try{
 				String c = sc.next();
-				System.out.println(controller.getPage());
 				if(controller.getPage().equals("intro")) {
 					if(c.equals("C") || c.equals("E")) {
 						intro(c);

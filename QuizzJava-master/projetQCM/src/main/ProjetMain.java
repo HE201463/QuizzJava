@@ -24,13 +24,12 @@ public class ProjetMain {
 				ctrlIntro.addview2(console);
 				ProjetVue vue = new VueIntro(model, ctrlIntro);
 				ctrlIntro.addview(vue);
-				
 				vue.setTitle("ProjetQCM");
-				vue.setLocation(700, 50); //(horizontal, vertical)
-				vue.setAlwaysOnTop(true);
+				//vue.setLocation(700, 50); //(horizontal, vertical)
 				vue.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				vue.setBackground(Color.BLUE);
 				vue.setSize(500,300);
+				vue.setLocationRelativeTo(null);
 				vue.setVisible(true);
 				vue.getContentPane().add(((VueIntro)vue).getIntro());
 			}

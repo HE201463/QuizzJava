@@ -268,11 +268,12 @@ public class ProjetController {
 		this.addview(vue);
 		console.affiche();
 		vue.setTitle("Sujet");
-		vue.setLocation(700, 50); //(horizontal, vertical)
-		//vue.setAlwaysOnTop(true);
+		//vue.setLocation(700, 50); //(horizontal, vertical)
+		vue.setLocationRelativeTo(null);
 		vue.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		vue.setBackground(Color.BLUE);
 		vue.setSize(600, 350);
+		vue.setLocationRelativeTo(null);
 		vue.setVisible(true);
 		vue.getContentPane().add(((VueSujet)vue).getSujet());
 	}
