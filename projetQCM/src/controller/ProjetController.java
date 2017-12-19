@@ -219,18 +219,6 @@ public class ProjetController {
 			JOptionPane.showMessageDialog(null, "Il faut valider le niveau " + (niveau-1) + " avant", "Erreur", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
-		
-		if(niv2(choix, niveau)) {
-			points = model.getJoueur().getPoint() - nombre;
-		
-		try {
-			model.getQuest().changerNiv(model.getJoueur().getIdentifiant(), choix, niveau);
-			model.getQuest().changerPoints(model.getJoueur().getIdentifiant(), points);
-			points = 0;
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		} 
-		}
 		return true;
 	}
 	
@@ -318,20 +306,38 @@ public class ProjetController {
 		((VueSujet)vue).getPropQuestion().setVisible(false);
 		((VueSujet)vue).getQuizz().setVisible(true);
 	}
-	
+	/**
+	 * Envoie une question proposée avec ses réponses
+	 * @return la question proposée avec ses réponses
+	 */
 	public List<String> showProposition() {
 		return model.showProposition();
 		
 	}
-	
+	/**
+	 * Demande la suppression de la question proposée 
+	 * @param q question à supprimé
+	 * @param r réponse à supprimer (Pour le where)
+	 */
 	public void deleteProposition(String q, String r) {
 		model.deleteProposition(q, r);
 	}
-	
+	/**
+	 * Demande l'ajout d la question proposée à la BDD
+	 * @param q question à ajouter
+	 * @param r1 Bonne réponse
+	 * @param r2 Autre réponse
+	 * @param r3 Autre réponse 
+	 * @param r4 Autre réponse
+	 * @param sujet Sujet de la question
+	 * @param niveau Niveau de la question
+	 */
 	public void addProposition(String q, String r1, String r2, String r3, String r4, String sujet, int niveau) {
 		model.addProposition(q, r1, r2, r3, r4, sujet, niveau);
 	}
-	
+	/**
+	 * Afficher la base de la page de sujet en console
+	 */
 	public void retourAffiche() {
 		console.affiche();
 	}
@@ -355,7 +361,7 @@ public class ProjetController {
 			while(arret) {
 				if(System.currentTimeMillis() > tempsFinal) {
 					((VueSujet)vue).affiche("0");
-					((VueSujet)vue).getBut().setText("0");
+					((VueSujet)vue).getChrono().setText("0");
 					if (i<nombreQuestion) {
 						recommence();
 						questionSuivante();
@@ -366,24 +372,11 @@ public class ProjetController {
 				}
 				else {
 					long reste = tempsFinal - System.currentTimeMillis();
-					((VueSujet)vue).getBut().setText(""+reste/1000);
+					((VueSujet)vue).getChrono().setText(""+reste/1000);
 					((VueSujet)vue).affiche(""+reste/1000);
 				}
 			}
 		}
-	}
-	
-	public List<String> showProposition() {
-		return model.showProposition();
-		
-	}
-	
-	public void deleteProposition(String q, String r) {
-		model.deleteProposition(q, r);
-	}
-	
-	public void addProposition(String q, String r1, String r2, String r3, String r4, String sujet, int niveau) {
-		model.addProposition(q, r1, r2, r3, r4, sujet, niveau);
 	}
 	
 	//Getter and Setter

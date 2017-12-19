@@ -12,7 +12,11 @@ import model.ProjetModel;
  *
  */
 public class SujetConsole extends ProjetVue implements Observer{
-
+	/**
+	 * Constructeur du SujetConcole
+	 * @param model
+	 * @param controller
+	 */
 	public SujetConsole(ProjetModel model, ProjetController controller) {
 		super(model, controller);
 	}
@@ -32,9 +36,9 @@ public class SujetConsole extends ProjetVue implements Observer{
 	public void affiche() {
 		affiche(model.toString(1));
 		affiche("Choisis un sujet : info, elec, math + 1, 2 ou 3 (un espace entre les deux)");
-		affiche("Pour proposer une question: question (un espace entre les deux)");
+		affiche("Pour proposer une question: question");
 		if(model.getJoueur().getIdentifiant().equals("deMahieu")||model.getJoueur().getIdentifiant().equals("Goossens")) {
-			affiche("Pour voir les questions proposées: addQuestion (un espace entre les deux)");
+			affiche("Pour voir les questions proposées: addQuestion");
 		}
 	}
 }

@@ -52,14 +52,12 @@ public class VueIntro extends ProjetVue implements ActionListener{
 		
 		JTextArea question = new JTextArea("Nom du jeux"); 
 		question.setFont(f);
-		//question.setPreferredSize (new Dimension (470, 50));
 		question.setBackground(c_vert);
 		question.setForeground(Color.WHITE);
 		question.setEditable (false); 
 		main.add(question);
 		
 		JTextArea consignes = new JTextArea("S'enregistrer pour un nouveau joueur\nSe connecter si tu as déjà joué"); 
-		//consignes.setPreferredSize (new Dimension (400, 50));
 		consignes.setFont(f);
 		consignes.setBackground(c_bleu);
 		consignes.setForeground(Color.WHITE);
@@ -77,7 +75,6 @@ public class VueIntro extends ProjetVue implements ActionListener{
 		main.add(bottom2);
 				
 		verif = new JTextArea ("pour verifier"); 
-		//verif.setPreferredSize (new Dimension (400, 50));
 		verif.setBackground(c_bleu);
 		verif.setFont(f);
 		verif.setForeground(Color.GRAY);
@@ -85,7 +82,6 @@ public class VueIntro extends ProjetVue implements ActionListener{
 		main.add(verif);
 		
 		JTextArea identifiantTexte = new JTextArea("Identifiant : "); 
-		//identifiantTexte.setPreferredSize (new Dimension (5, 10));
 		identifiantTexte.setFont(f);
 		bottom.add(identifiantTexte);
 		
@@ -94,8 +90,7 @@ public class VueIntro extends ProjetVue implements ActionListener{
 		identifiant.setBackground(Color.CYAN);
 		bottom.add(identifiant);
 		
-		JTextArea prenomTexte = new JTextArea ("Prénom: "); 
-		//prenomTexte.setPreferredSize (new Dimension (5, 10));
+		JTextArea prenomTexte = new JTextArea ("Prénom: ");
 		prenomTexte.setFont(f);
 		bottom1.add(prenomTexte);
 		

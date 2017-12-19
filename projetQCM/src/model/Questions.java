@@ -72,6 +72,11 @@ public class Questions{
 		  rs.close();
 		  st.close();
 	}
+	/**
+	 * Cette méthode va comparer la réponse choisie par le joueur avec la bonne réponse
+	 * @param rep réponse choisie par le joueur
+	 * @return true si c'est la bonne réponse
+	 */
 	public boolean comparaison(String rep) {
 		if(rep.equals(bonneReponse)) {
 			return true;
@@ -113,7 +118,13 @@ public class Questions{
 			bonneReponse = "rep4";
 		}
 	}
-	
+	/**
+	 * Changer les points du joueur lors de la réponse à une question
+	 * @param identifiant du joueur sur lequel il faut changer les points
+	 * @param points à changer
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public void changerPoints(String identifiant, int points) throws ClassNotFoundException, SQLException {
 		Class.forName("org.postgresql.Driver");
 		Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
@@ -124,7 +135,14 @@ public class Questions{
 		//execute insert SQL stetement
 		preparedStatement.executeUpdate();
 	}
-
+	/**
+	 * Cette méthode va permettre de changer le niveau dans un sujet pour le joueur
+	 * @param identifiant du joueur qui va changer de niveau
+	 * @param sujet dans lequel il faut changer de niveau
+	 * @param niveau à mettre
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
 	public void changerNiv(String identifiant, String sujet, int niveau) throws SQLException, ClassNotFoundException {
 		Class.forName("org.postgresql.Driver");
 		Connection db = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB", "postgres", "postgres");
@@ -137,7 +155,10 @@ public class Questions{
 		//execute insert SQL stetement
 		preparedStatement.executeUpdate();
 	}
-	
+	/**
+	 * Cette méthode met la première question proposée dans une lise de String
+	 * @return la question proposée avec ses réponse
+	 */
 	public List<String> showProposition() {
 		List<String> test = new ArrayList<String>();
 		try {
@@ -162,7 +183,11 @@ public class Questions{
 		}
 		return test;
 	}
-	
+	/**
+	 * Supprime la question proposée dans la BDD
+	 * @param q a supprimée
+	 * @param r a supprimée
+	 */
 	public void deleteProposition(String q, String r) {
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -175,7 +200,16 @@ public class Questions{
 			
 		}
 	}
-	
+	/**
+	 * Ajoute la question proposée dans la BDD, dans la table des questions
+	 * @param q à ajouter
+	 * @param r1 Bonne réponse
+	 * @param r2 Autre Réponse
+	 * @param r3 Autre Réponse
+	 * @param r4 Autre Réponse
+	 * @param sujet de la question
+	 * @param niveau de la question dans le sujet
+	 */
 	public void addProposition(String q, String r1, String r2, String r3, String r4, String sujet, int niveau) {
 		try {
 			Class.forName("org.postgresql.Driver");

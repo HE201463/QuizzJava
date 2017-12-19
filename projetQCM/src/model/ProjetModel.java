@@ -126,20 +126,42 @@ public class ProjetModel extends Observable{
 	public void proposerQuestion(String q, String r1, String r2, String r3, String r4) {
 		joueur.proposerQuestion(q, r1, r2, r3, r4);
 	}
-	
+	/**
+	 * Changer les points du joueur lors de la réponse à une question
+	 * @param identifiant du joueur sur lequel il faut changer les points
+	 * @param points à changer
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public void changerPoints(String identifiant, int points) throws ClassNotFoundException, SQLException {
 		quest.changerPoints(identifiant, points);
 	}
-
+	/**
+	 * Envoie une question proposée avec ses réponses
+	 * @return la question proposée avec ses réponses
+	 */
 	public List<String> showProposition() {
 		return quest.showProposition();
 		
 	}
-	
+	/**
+	 * Demande la suppression de la question proposée 
+	 * @param q question à supprimé
+	 * @param r réponse à supprimer (Pour le where)
+	 */
 	public void deleteProposition(String q, String r) {
 		quest.deleteProposition(q, r);
 	}
-	
+	/**
+	 * Demande l'ajout d la question proposée à la BDD
+	 * @param q question à ajouter
+	 * @param r1 Bonne réponse
+	 * @param r2 Autre réponse
+	 * @param r3 Autre réponse 
+	 * @param r4 Autre réponse
+	 * @param sujet Sujet de la question
+	 * @param niveau Niveau de la question
+	 */
 	public void addProposition(String q, String r1, String r2, String r3, String r4, String sujet, int niveau) {
 		quest.addProposition(q, r1, r2, r3, r4, sujet, niveau);
 	}
