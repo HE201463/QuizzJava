@@ -12,7 +12,11 @@ import model.ProjetModel;
  *
  */
 public class SujetConsole extends ProjetVue implements Observer{
-
+	/**
+	 * Constructeur du SujetConcole
+	 * @param model
+	 * @param controller
+	 */
 	public SujetConsole(ProjetModel model, ProjetController controller) {
 		super(model, controller);
 	}

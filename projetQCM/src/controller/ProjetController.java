@@ -361,7 +361,7 @@ public class ProjetController {
 			while(arret) {
 				if(System.currentTimeMillis() > tempsFinal) {
 					((VueSujet)vue).affiche("0");
-					((VueSujet)vue).getBut().setText("0");
+					((VueSujet)vue).getChrono().setText("0");
 					if (i<nombreQuestion) {
 						recommence();
 						questionSuivante();
@@ -372,7 +372,7 @@ public class ProjetController {
 				}
 				else {
 					long reste = tempsFinal - System.currentTimeMillis();
-					((VueSujet)vue).getBut().setText(""+reste/1000);
+					((VueSujet)vue).getChrono().setText(""+reste/1000);
 					((VueSujet)vue).affiche(""+reste/1000);
 				}
 			}
