@@ -21,17 +21,16 @@ public class ReadInput extends ProjetVue implements Runnable{
 		while(true){
 			try{
 				String c = sc.next();
-				System.out.println(controller.getPage());
 				if(controller.getPage().equals("intro")) {
 					if(c.equals("C") || c.equals("E")) {
 						intro(c);
 					}
 					else {
-						affiche("Mauvaise Ã©criture");
+						affiche("Mauvaise �criture");
 					}
 				}
 				else if(controller.getPage().equals("sujet")) {
-					if(c.equals("info") || c.equals("math") || c.equals("elec")) {
+					if(c.equals("informatique") || c.equals("math�matique") || c.equals("�lectronique")) {
 						sujet(c);
 					}
 					else if(c.equals("question")) {
@@ -39,7 +38,8 @@ public class ReadInput extends ProjetVue implements Runnable{
 					}
 					else if(c.equals("addQuestion") && controller.showProposition().size() != 0) {
 						showPropQuestion();
-					} if(c.equals("addQuestion") && controller.showProposition().size() == 0) {
+					} 
+					else if(c.equals("addQuestion") && controller.showProposition().size() == 0) {
 						affiche("Il n'y a pas de propositions de questions disponible !");
 					} 
 					else {
@@ -57,38 +57,38 @@ public class ReadInput extends ProjetVue implements Runnable{
 		}
 }
 	/**
-	 * Cette méthode permet au joueur de proposer une question en console, est appelée quand il tape question
+	 * Cette m�thode permet au joueur de proposer une question en console, est appel�e quand il tape question
 	 */
 	public void propQuestion() {
 		affiche("Proposez votre question");
 		sc.nextLine();
 		String q = sc.nextLine();
-		affiche("Tapez maintenant la bonne rÃ©ponse !");
+		affiche("Tapez maintenant la bonne r�ponse !");
 		String r1 = sc.nextLine();
-		affiche("Tapez une autre rÃ©ponse !");
+		affiche("Tapez une autre r�ponse !");
 		String r2 = sc.nextLine();
-		affiche("Tapez une autre rÃ©ponse !");
+		affiche("Tapez une autre r�ponse !");
 		String r3 = sc.nextLine();
-		affiche("Tapez une autre rÃ©ponse !");
+		affiche("Tapez une autre r�ponse !");
 		String r4 = sc.nextLine();
-		affiche("Votre question a bien Ã©tÃ© envoyÃ©e ! Merci de votre participation !\n\n");
+		affiche("Votre question a bien �t� envoy�e ! Merci de votre participation !\n\n");
 		controller.proposeQuestion(q, r1, r2, r3, r4);
 		
 	}
 	/**
-	 * Cette méthode sert à afficher les questions proposées en console
-	 * Elle est appelée quand le joueur tape addQuestion
+	 * Cette m�thode sert � afficher les questions propos�es en console
+	 * Elle est appel�e quand le joueur tape addQuestion
 	 */
 	public void showPropQuestion() {
 		List<String> propositions = controller.showProposition();
-		affiche("Question proposÃ©e : "+ propositions.get(0));
-		affiche("La bonne rÃ©ponse : "+propositions.get(1));
-		affiche("Autre rÃ©ponse : "+propositions.get(2));
-		affiche("Autre rÃ©ponse : "+propositions.get(3));
-		affiche("Autre rÃ©ponse : "+propositions.get(4));
+		affiche("Question propos�e : "+ propositions.get(0));
+		affiche("La bonne r�ponse : "+propositions.get(1));
+		affiche("Autre r�ponse : "+propositions.get(2));
+		affiche("Autre r�ponse : "+propositions.get(3));
+		affiche("Autre r�ponse : "+propositions.get(4));
 		affiche("Si vous voulez ajouter la question tapez \"add\"");
 		affiche("Si vous voulez supprimer la question tapez \"delete\"");
-		String scan= sc.next();
+		String scan = sc.next();
 		if(scan.equals("add")) {
 			addQuestion(propositions);
 			if(controller.showProposition().size()!=0) {
@@ -98,7 +98,7 @@ public class ReadInput extends ProjetVue implements Runnable{
 			}
 		}else if(scan.equals("delete")) {
 			controller.deleteProposition(propositions.get(0), propositions.get(1));
-			affiche("Question supprimÃ©e !");
+			affiche("Question supprim�e !");
 			if(controller.showProposition().size()!=0) {
 				showPropQuestion();
 			} else {
@@ -108,9 +108,9 @@ public class ReadInput extends ProjetVue implements Runnable{
 		
 	}
 	/**
-	 * Cette méthode sert à ajouter une question dans la BDD via la console !
-	 * Elle est appelée quand le joueur tape add 
-	 * @param propositions, Question proposées avec ses réponses
+	 * Cette m�thode sert � ajouter une question dans la BDD via la console !
+	 * Elle est appel�e quand le joueur tape add 
+	 * @param propositions, Question propos�es avec ses r�ponses
 	 */
 	public void addQuestion(List<String> propositions) {
 		affiche("Tapez le sujet de la question (info, elec ou math) et le niveau de celle-ci (1, 2 ou 3)");
@@ -131,12 +131,7 @@ public class ReadInput extends ProjetVue implements Runnable{
 			addQuestion(propositions);
 		}
 	}
-	/**
-	 * Cette méthode est appelée lorsque le joueur veut se connecter ou s'enregistrer en console
-	 * Elle permet de récupérer l'identifiant et le prenom !
-	 * Si le joueur tape C, c'est qu'il veut se connecter, s'il tape E, il veut s'enregistrer
-	 * @param c ce paramètre sera soit C soit E en fonction de ce que le joueur aura tapé !
-	 */
+	
 	public void intro(String c) {
 		String identifiant = sc.next();
 		String prenom = sc.next();
@@ -152,11 +147,7 @@ public class ReadInput extends ProjetVue implements Runnable{
 			}
 		}
 	}
-	/**
-	 * Cette méthode est utilisée pour le choix de sujet, lorsque le joueur tape le sujet en console avec le niveau
-	 * Si le niveau est plus petit que 1 ou qu'il est plus grand que 3, le niveau n'est pas bon
-	 * @param c sujet que le joueur a entré 
-	 */
+	
 	public void sujet(String c) {
 		int niveau = sc.nextInt();
 		if(niveau <= 0 || niveau >= 4) {
@@ -166,10 +157,7 @@ public class ReadInput extends ProjetVue implements Runnable{
 			choix(c, niveau);
 		}
 	}
-	/**
-	 * Cette méthode va vérifier si le joueur a choisi la bonne réponse et va passer à la question suivante
-	 * @param c réponse choisie par le joueur
-	 */
+	
 	public void question(String c) {
 		controller.verification("rep" + c);
 		try {
@@ -179,12 +167,7 @@ public class ReadInput extends ProjetVue implements Runnable{
 			e1.printStackTrace();
 		}
 	}
-	/**
-	 * Cette méthode permet de rentrer dans le bon sujet de question et dans le bon niveau
-	 * si je joueur à la bon niveau dans le sujet ou s'il a suffisamment de point pour l'acheter, lance les questions
-	 * @param choix sujet que le joueur a choisi
-	 * @param niveau Niveau des questions qui seront posées au joueur
-	 */
+	
 	public void choix(String choix, int niveau) {
 		if (niveau == 2) {
 			if(controller.niveau(choix, 2)) {

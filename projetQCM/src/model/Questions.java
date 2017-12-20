@@ -10,18 +10,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import lombok.Getter;
-import lombok.Setter;
 /**
- * Cette classe va permettre d'obtenir les questions du QCM. Les questions vont être afficher dans la console et dans la partie GUI également.
+ * Cette classe va permettre d'obtenir les questions du QCM. Les questions vont àªtre afficher dans la console et dans la partie GUI également.
  * Groupe 12
  * @author Benoit de Mahieu
  * @author Jonathan Gossens
  *Classe: 2TL2
- *J'utilise aussi le Jar Lombok qui permet de générer les getter et setter sans les écrire
  */
-@Getter
-@Setter
 public class Questions{
 	private String question;
 	private String bonneReponse;
@@ -36,9 +31,9 @@ public class Questions{
 	private List<String> reponses = new ArrayList<String>(); // liste avec les 4 réponses qui vont etre mélangées
 	
 	/**
-	 * Ce constructeur se connecte à la DB et créé un tableau de questions(3 pour le moment), un tableau avec toutes les réponses 
+	 * Ce constructeur se connecte à  la DB et créé un tableau de questions(5 pour le moment), un tableau avec toutes les réponses 
 	 * et pour finir un tableau permettant de mélanger les réponses. 
-	 * @param j Ce paramètre va permettre de choisir entre les 3 questions sélectionnées dans la DB
+	 * @param j Ce paramà¨tre va permettre de choisir entre les 3 questions sélectionnées dans la DB
 	 * @throws ClassNotFoundException Cette exception arrive quand il n'y a pas de résultat retourné de la DB.
 	 * @throws SQLException Cette exception permet de signaler lorsque la connexion a la DB échoue.
 	 */
@@ -48,7 +43,7 @@ public class Questions{
 		
 	/**
 	 * Cette méthode me permet de comparer la réponse choisie par le joueur avec la bonne réponse.
-	 * @param rep rep correspond à la réponse renvoyé par le joueur(rep1, rep2, rep3 ou rep4)
+	 * @param rep rep correspond à  la réponse renvoyé par le joueur(rep1, rep2, rep3 ou rep4)
 	 * @return Retourne vrai si c'est la bonne réponse, faux dans le cas contraire
 	 * @throws ClassNotFoundException exception pour la connexion avec la DB
 	 * @throws SQLException exception au cas ou la requete ne fonctionne pas
@@ -73,9 +68,9 @@ public class Questions{
 		  st.close();
 	}
 	/**
-	 * Cette m�thode va comparer la r�ponse choisie par le joueur avec la bonne r�ponse
-	 * @param rep r�ponse choisie par le joueur
-	 * @return true si c'est la bonne r�ponse
+	 * Cette méthode va comparer la réponse choisie par le joueur avec la bonne réponse
+	 * @param rep réponse choisie par le joueur
+	 * @return true si c'est la bonne réponse
 	 */
 	public boolean comparaison(String rep) {
 		if(rep.equals(bonneReponse)) {
@@ -86,7 +81,7 @@ public class Questions{
 	
 	/**
 	 * Création de la question choisis et du tableau avec les réponses correspondantes.
-	 * On a la bonne réponse qui est choisis à cet endroit.
+	 * On a la bonne réponse qui est choisis à  cet endroit.
 	 * @param j j est le choix de la question allant de 0->4 au final
 	 */
 	public void questionSuivante(int j) {
@@ -119,9 +114,9 @@ public class Questions{
 		}
 	}
 	/**
-	 * Changer les points du joueur lors de la r�ponse � une question
+	 * Changer les points du joueur lors de la réponse à une question
 	 * @param identifiant du joueur sur lequel il faut changer les points
-	 * @param points � changer
+	 * @param points à changer
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
@@ -136,10 +131,10 @@ public class Questions{
 		preparedStatement.executeUpdate();
 	}
 	/**
-	 * Cette m�thode va permettre de changer le niveau dans un sujet pour le joueur
+	 * Cette méthode va permettre de changer le niveau dans un sujet pour le joueur
 	 * @param identifiant du joueur qui va changer de niveau
 	 * @param sujet dans lequel il faut changer de niveau
-	 * @param niveau � mettre
+	 * @param niveau à mettre
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
@@ -156,8 +151,8 @@ public class Questions{
 		preparedStatement.executeUpdate();
 	}
 	/**
-	 * Cette m�thode met la premi�re question propos�e dans une lise de String
-	 * @return la question propos�e avec ses r�ponse
+	 * Cette méthode met la première question proposée dans une lise de String
+	 * @return la question proposée avec ses réponse
 	 */
 	public List<String> showProposition() {
 		List<String> test = new ArrayList<String>();
@@ -184,9 +179,9 @@ public class Questions{
 		return test;
 	}
 	/**
-	 * Supprime la question propos�e dans la BDD
-	 * @param q a supprim�e
-	 * @param r a supprim�e
+	 * Supprime la question proposée dans la BDD
+	 * @param q question a supprimée
+	 * @param r réponse a supprimée
 	 */
 	public void deleteProposition(String q, String r) {
 		try {
@@ -201,12 +196,12 @@ public class Questions{
 		}
 	}
 	/**
-	 * Ajoute la question propos�e dans la BDD, dans la table des questions
-	 * @param q � ajouter
-	 * @param r1 Bonne r�ponse
-	 * @param r2 Autre R�ponse
-	 * @param r3 Autre R�ponse
-	 * @param r4 Autre R�ponse
+	 * Ajoute la question proposée dans la BDD, dans la table des questions
+	 * @param q question à ajouter
+	 * @param r1 Bonne réponse
+	 * @param r2 Autre Réponse
+	 * @param r3 Autre Réponse
+	 * @param r4 Autre Réponse
 	 * @param sujet de la question
 	 * @param niveau de la question dans le sujet
 	 */

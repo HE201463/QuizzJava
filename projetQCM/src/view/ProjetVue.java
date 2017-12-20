@@ -5,12 +5,8 @@ import java.util.Observer;
 import javax.swing.JFrame;
 
 import controller.ProjetController;
-import lombok.Getter;
-import lombok.Setter;
 import model.ProjetModel;
 
-@Getter
-@Setter
 public abstract class ProjetVue extends JFrame implements Observer{
 	
 	protected ProjetModel model;

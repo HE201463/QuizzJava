@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.Observable;
 
 import javax.swing.Box;
@@ -14,15 +16,12 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import controller.ProjetController;
-import lombok.Getter;
-import lombok.Setter;
 import model.ProjetModel;
-@Getter
-@Setter
+
 
 /**
- * Cette classe permet de crÈer l'interface de l'introduction. Le joueur va pouvoir s'enregistrer ou se connecter gr‚ce ‡ des boutons
- * On a Ègalement le nom du jeux et l'explication a suivre pour jouer
+ * Cette classe permet de cr√©er l'interface de l'introduction. Le joueur va pouvoir s'enregistrer ou se connecter gr√¢ce √† des boutons
+ * On a √©galement le nom du jeux et l'explication a suivre pour jouer
  * @author B
  *
  */
@@ -36,78 +35,115 @@ public class VueIntro extends ProjetVue implements ActionListener{
 	private JTextArea verif;
 	
 	/**
-	 * Cette constructeur va crÈer la vue avec les boutons, JTextField et autre ÈlÈments.
-	 * @param model C'est le modËle utilisÈ pour la structure MVC
-	 * @param controller C'est le controller utilisÈ pour la structure MVC
+	 * Cette constructeur va cr√©er la vue avec les boutons, JTextField et autre √©l√©ments.
+	 * @param model C'est le mod√®le utilis√© pour la structure MVC
+	 * @param controller C'est le controller utilis√© pour la structure MVC
 	 */
 	public VueIntro(ProjetModel model, ProjetController controller) {
 		super(model, controller);
 		intro = new JPanel();
 		Font f = new Font("Serif", Font.PLAIN, 20);
+		Font g = new Font("Serif", Font.PLAIN, 16);
 		Box main = Box.createVerticalBox();
 		intro.add(main);
 			
-		Color c_bleu = new Color(0,191,255);
-		Color c_vert = new Color(144,238,144);
+		Color beige = new Color(245,245,220);
+		Color transparent = new Color(0,0,0,0);
+		Color AntiqueWhite3 = new Color(205,192,176);
 		
+		intro.setBackground(beige);
 		JTextArea question = new JTextArea("Nom du jeux"); 
 		question.setFont(f);
-		question.setBackground(c_vert);
-		question.setForeground(Color.WHITE);
+		question.setPreferredSize(new Dimension(300,50));
+		question.setBackground(transparent);
 		question.setEditable (false); 
 		main.add(question);
 		
-		JTextArea consignes = new JTextArea("S'enregistrer pour un nouveau joueur\nSe connecter si tu as dÈj‡ jouÈ"); 
-		consignes.setFont(f);
-		consignes.setBackground(c_bleu);
-		consignes.setForeground(Color.WHITE);
+		JTextArea consignes = new JTextArea("S'enregistrer pour un nouveau joueur\nSe connecter si tu as d√©j√† jou√©"); 
+		consignes.setFont(g);
+		consignes.setPreferredSize(new Dimension(300,60));
+		consignes.setBackground(transparent);
 		consignes.setEditable (false); 
 		main.add(consignes);
 		
 		Box bottom = Box.createHorizontalBox(); 
 		main.add(bottom);
 		
+		JPanel espace = new JPanel();
+		espace.setPreferredSize(new Dimension(300,10));
+		espace.setBackground(transparent);
+		main.add(espace);
+		
 		Box bottom1 = Box.createHorizontalBox(); 
 		main.add(bottom1);
 		
+		JPanel espace1 = new JPanel();
+		espace1.setPreferredSize(new Dimension(300,20));
+		espace1.setBackground(transparent);
+		main.add(espace1);
+		
 		Box bottom2 = Box.createHorizontalBox();
-		bottom2.setBackground(Color.MAGENTA);  //Cette ligne ne fonctionne pas 
 		main.add(bottom2);
-				
-		verif = new JTextArea ("pour verifier"); 
-		verif.setBackground(c_bleu);
-		verif.setFont(f);
-		verif.setForeground(Color.GRAY);
-		verif.setEditable (false); 
-		main.add(verif);
 		
 		JTextArea identifiantTexte = new JTextArea("Identifiant : "); 
+		identifiantTexte.setBackground(transparent);
 		identifiantTexte.setFont(f);
+		identifiantTexte.setEditable (false); 
 		bottom.add(identifiantTexte);
 		
+		//Entre ton identifiant
 		identifiant = new JTextField ("deMahieu"); 
 		identifiant.setPreferredSize (new Dimension (350, 20));
-		identifiant.setBackground(Color.CYAN);
+		identifiant.setBackground(AntiqueWhite3);
 		bottom.add(identifiant);
 		
-		JTextArea prenomTexte = new JTextArea ("PrÈnom: ");
+		JTextArea prenomTexte = new JTextArea ("Pr√©nom : "); 
 		prenomTexte.setFont(f);
+		prenomTexte.setBackground(transparent);
+		prenomTexte.setEditable (false);
 		bottom1.add(prenomTexte);
 		
+		//Entre ton pr√©nom
 		prenom = new JTextField ("Benoit");
 		prenom.setPreferredSize (new Dimension (350, 20));
-		prenom.setBackground(Color.lightGray);
+		prenom.setBackground(AntiqueWhite3);
 		bottom1.add(prenom);
 		
 		creation = new JButton ("S'enregistrer");
-		creation.setBackground(Color.MAGENTA);
+		creation.setBackground(AntiqueWhite3);
 		bottom2.add(creation);
 		connexion = new JButton ("Se connecter"); 
-		connexion.setBackground(Color.MAGENTA);
+		connexion.setBackground(AntiqueWhite3);
 		bottom2.add(connexion);
 		
 		connexion.addActionListener(this);
 		creation.addActionListener(this);
+		identifiant.addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				identifiant.setText("");				
+			}
+
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				
+			}
+			
+		});
+		prenom.addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				prenom.setText("");				
+			}
+
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				
+			}
+			
+		});
 		
 	}
 
