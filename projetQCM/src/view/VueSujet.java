@@ -30,7 +30,7 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 	private Box bottom1;
 	private Box middle;
 	
-	//JTextField et JButton Box utilisés pour proposer une question
+	//JTextField et JButton Box utilisï¿½s pour proposer une question
 	private Box proposeQuestion;
 	private JTextField propQuest;
 	private JTextField propRep1;
@@ -40,8 +40,8 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 	private JButton propQuestion;
 	private JButton valider;
 	private JButton retour;
-
-	//JTextField et JButton Box utilisés pour ajouter une question
+  
+	//JTextField et JButton Box utilisÃ©s pour ajouter une question
 	private Box ajouterQuestion;
 	private JButton ajoutQuestion;
 	private JButton supprimer;
@@ -56,15 +56,16 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 	private JTextField addNiveau;
   
 	
-		
+	//Champs pour afficher les points du joueur ainsi que sn niveau dans chaque sujet
 	private JTextField textPoints;
 	private JTextField math;
 	private JTextField info;
 	private JTextField elec;
 	
-	private String choix; //choix du sujet
+	//choix du sujet
+	private String choix; 
 	
-	//La box, les 4 boutons réponses possibles + le JTextField de la question pour le quizz
+	//La box, les 4 boutons rï¿½ponses possibles + le JTextField de la question pour le quizz
 	private Box quizz;
 	private JTextArea textQuest;
 	private JButton quizzReponse1;
@@ -72,6 +73,7 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 	private JButton quizzReponse3;
 	private JButton quizzReponse4;
 
+	//Pour le minuteur des questions
 	private JButton chrono;
 	private JTextField textChrono;
 	
@@ -133,13 +135,14 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		espace.setPreferredSize(new Dimension(300,10));
 		espace.setBackground(transparent);
 		main.add(espace);
-		
+    
+		//Boutons de propositions et d'ajout de questions
 		middle = Box.createHorizontalBox();
 		main.add(middle);
 		propQuestion = new JButton("Proposer une question");
 		propQuestion.setBackground(AntiqueWhite3);
 		middle.add(propQuestion);
-		ajoutQuestion = new JButton("Voir les questions proposées");
+		ajoutQuestion = new JButton("Voir les questions proposÃ©es");
 		ajoutQuestion.setBackground(AntiqueWhite3);
 		if(model.getJoueur().getIdentifiant().equals("deMahieu")||model.getJoueur().getIdentifiant().equals("Goossens")) {
 			middle.add(ajoutQuestion);
@@ -153,30 +156,64 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		bottom1 = Box.createHorizontalBox(); 
 		main.add(bottom1);
 		
+		//Tout le code d'affichage de la proposition de question
 		proposeQuestion = Box.createVerticalBox();
 		main.add(proposeQuestion);
 		proposeQuestion.setVisible(false);
-		
+		//Question que le joueur va proposer
 		Box question = Box.createHorizontalBox(); 
 		proposeQuestion.add(question);
-		
-		Box reponse1 = Box.createHorizontalBox(); 
-		proposeQuestion.add(reponse1);
-		Box reponse2 = Box.createHorizontalBox(); 
-		proposeQuestion.add(reponse2);
-		Box reponse3 = Box.createHorizontalBox(); 
-		proposeQuestion.add(reponse3);
-		Box reponse4 = Box.createHorizontalBox(); 
-		proposeQuestion.add(reponse4);
+    JLabel texte = new JLabel("Question proposÃ©e ");
+		texte.setFont(g);
+		question.add(texte);
+		propQuest = new JTextField("");
+		propQuest.setBackground(AntiqueWhite3);
+		question.add(propQuest);
 		
 		JPanel espace6 = new JPanel();
 		espace6.setPreferredSize(new Dimension(300,10));
 		espace6.setBackground(transparent);
 		proposeQuestion.add(espace6);
-		
-		Box bouton = Box.createHorizontalBox(); 
+
+		//Bonne rï¿½ponse
+		Box reponse1 = Box.createHorizontalBox(); 
+		proposeQuestion.add(reponse1);
+		JLabel rep1 = new JLabel("Bonne rÃ©ponse ");
+		reponse1.add(rep1);
+    rep1.setFont(g);
+		propRep1 = new JTextField("");
+		propRep1.setBackground(AntiqueWhite3);
+		reponse1.add(propRep1);
+		//Autre rÃ©ponse
+		Box reponse2 = Box.createHorizontalBox(); 
+		proposeQuestion.add(reponse2);
+		JLabel rep2 = new JLabel("Autre rÃ©ponse ");
+		reponse2.add(rep2);
+		rep2.setFont(g);
+		propRep2 = new JTextField("");
+		propRep2.setBackground(AntiqueWhite3);
+		reponse2.add(propRep2);
+		//Autre rÃ©ponse
+		Box reponse3 = Box.createHorizontalBox(); 
+		proposeQuestion.add(reponse3);
+		JLabel rep3 = new JLabel("Autre rÃ©ponse ");
+		reponse3.add(rep3);
+    rep3.setFont(g);
+		propRep3 = new JTextField("");
+		propRep3.setBackground(AntiqueWhite3);
+		reponse3.add(propRep3);
+		//Autre rÃ©ponse
+		Box reponse4 = Box.createHorizontalBox(); 
+		proposeQuestion.add(reponse4);
+		JLabel rep4 = new JLabel("Autre rÃ©ponse ");
+		reponse4.add(rep4);
+    rep4.setFont(g);
+		propRep4 = new JTextField("");
+		propRep4.setBackground(AntiqueWhite3);
+		reponse4.add(propRep4);
+		//Boutons qui permettent de proposer une question ou de revenir au menu principal !
+    Box bouton = Box.createHorizontalBox(); 
 		proposeQuestion.add(bouton);
-		
 		valider = new JButton("Valider");
 		valider.setBackground(AntiqueWhite3);
 		bouton.add(valider);
@@ -184,64 +221,72 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		retour.setBackground(AntiqueWhite3);
 		bouton.add(retour);
 		
-		
-		JLabel texte = new JLabel("Question proposée : ");
-		texte.setFont(g);
-		question.add(texte);
-		propQuest = new JTextField("");
-		propQuest.setBackground(AntiqueWhite3);
-		question.add(propQuest);
-
-		JLabel rep1 = new JLabel("Bonne réponse : ");
-		rep1.setFont(g);
-		reponse1.add(rep1);
-		propRep1 = new JTextField("");
-		propRep1.setBackground(AntiqueWhite3);
-		reponse1.add(propRep1);
-		JLabel rep2 = new JLabel("Autre réponse : ");
-		rep2.setFont(g);
-		reponse2.add(rep2);
-		propRep2 = new JTextField("");
-		propRep2.setBackground(AntiqueWhite3);
-		reponse2.add(propRep2);
-		JLabel rep3 = new JLabel("Autre réponse : ");
-		rep3.setFont(g);
-		reponse3.add(rep3);
-		propRep3 = new JTextField("");
-		propRep3.setBackground(AntiqueWhite3);
-		reponse3.add(propRep3);
-		JLabel rep4 = new JLabel("Autre réponse : ");
-		rep4.setFont(g);
-		reponse4.add(rep4);
-		propRep4 = new JTextField("");
-		propRep4.setBackground(AntiqueWhite3);
-		reponse4.add(propRep4);
-		
+		//Ce code permet d'afficher les questions proposï¿½es pour ermettre aux admins de les ajouter en BDD
 		ajouterQuestion = Box.createVerticalBox();
 		main.add(ajouterQuestion);
 		ajouterQuestion.setVisible(false);
-		
-		Box q = Box.createHorizontalBox(); 
-		ajouterQuestion.add(q);
-		
-		Box r1 = Box.createHorizontalBox(); 
-		ajouterQuestion.add(r1);
-		Box r2 = Box.createHorizontalBox(); 
-		ajouterQuestion.add(r2);
-		Box r3 = Box.createHorizontalBox(); 
-		ajouterQuestion.add(r3);
-		Box r4 = Box.createHorizontalBox(); 
-		ajouterQuestion.add(r4);
-		Box suj = Box.createHorizontalBox(); 
-		ajouterQuestion.add(suj);
-		Box niv = Box.createHorizontalBox(); 
-		ajouterQuestion.add(niv);
-		
+    
 		JPanel espace7 = new JPanel();
 		espace7.setPreferredSize(new Dimension(300,10));
 		espace7.setBackground(transparent);
 		ajouterQuestion.add(espace7);
-		
+		//Question proposï¿½e
+		Box q = Box.createHorizontalBox(); 
+		ajouterQuestion.add(q);
+		JLabel qProposee = new JLabel("Question proposÃ©e ");
+		q.add(qProposee);
+		addQuestion = new JTextField();
+		addQuestion.setBackground(AntiqueWhite3);
+		q.add(addQuestion);
+		//Bonne rï¿½ponse
+		Box r1 = Box.createHorizontalBox(); 
+		ajouterQuestion.add(r1);
+		JLabel r1Prop = new JLabel("Bonne rÃ©ponse ");
+		r1.add(r1Prop);
+		addRep1 = new JTextField();
+		addRep1.setBackground(AntiqueWhite3);
+		r1.add(addRep1);
+		//Autre rï¿½ponse
+		Box r2 = Box.createHorizontalBox(); 
+		ajouterQuestion.add(r2);
+		JLabel r2Prop = new JLabel("Autre rÃ©ponse ");
+		r2.add(r2Prop);
+		addRep2 = new JTextField();
+		addRep2.setBackground(AntiqueWhite3);
+		r2.add(addRep2);
+		//Autre rï¿½ponse
+		Box r3 = Box.createHorizontalBox(); 
+		ajouterQuestion.add(r3);
+		JLabel r3Prop = new JLabel("Autre rÃ©ponse ");
+		r3.add(r3Prop);
+		addRep3 = new JTextField();
+		addRep3.setBackground(AntiqueWhite3);
+		r3.add(addRep3);
+		//Autre rï¿½ponse
+		Box r4 = Box.createHorizontalBox(); 
+		ajouterQuestion.add(r4);
+		JLabel r4Prop = new JLabel("Autre rÃ©ponse ");
+		r4.add(r4Prop);
+		addRep4 = new JTextField();
+		addRep4.setBackground(AntiqueWhite3);
+		r4.add(addRep4);
+		//Permet Ã  l'admin de choisir le sujet de la question Ã  ajouter
+		Box suj = Box.createHorizontalBox(); 
+		ajouterQuestion.add(suj);
+		JLabel sujetProp = new JLabel("Sujet : ");
+		suj.add(sujetProp);
+		addSujet = new JTextField();
+		addSujet.setBackground(AntiqueWhite3);
+		suj.add(addSujet);
+		//Permet Ã  l'admin de choisir le niveau de la question Ã  ajouter
+		Box niv = Box.createHorizontalBox(); 
+		ajouterQuestion.add(niv);
+		JLabel nivProp = new JLabel("Niveau : ");
+		niv.add(nivProp);
+		addNiveau = new JTextField();
+		addNiveau.setBackground(AntiqueWhite3);
+		niv.add(addNiveau);
+		//Les diffÃ©rents boutons d'ajout ou de suppression des questions proposÃ©es
 		Box b = Box.createHorizontalBox(); 
 		ajouterQuestion.add(b);
 		retourSujet = new JButton("Retour");
@@ -253,45 +298,11 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		ajouter = new JButton("Ajouter");
 		ajouter.setBackground(AntiqueWhite3);
 		b.add(ajouter);
+
 		
-		
-		JLabel qProposee = new JLabel("Question proposée : ");
-		q.add(qProposee);
-		addQuestion = new JTextField();
-		addQuestion.setBackground(AntiqueWhite3);
-		q.add(addQuestion);
-		
-		
-		JLabel r1Prop = new JLabel("Bonne réponse : ");
-		r1.add(r1Prop);
-		addRep1 = new JTextField();
-		addRep1.setBackground(AntiqueWhite3);
-		r1.add(addRep1);
-		JLabel r2Prop = new JLabel("Autre réponse : ");
-		r2.add(r2Prop);
-		addRep2 = new JTextField();
-		addRep2.setBackground(AntiqueWhite3);
-		r2.add(addRep2);
-		JLabel r3Prop = new JLabel("Autre réponse : ");
-		r3.add(r3Prop);
-		addRep3 = new JTextField();
-		addRep3.setBackground(AntiqueWhite3);
-		r3.add(addRep3);
-		JLabel r4Prop = new JLabel("Autre réponse : ");
-		r4.add(r4Prop);
-		addRep4 = new JTextField();
-		addRep4.setBackground(AntiqueWhite3);
-		r4.add(addRep4);
-		JLabel sujetProp = new JLabel("Sujet : ");
-		suj.add(sujetProp);
-		addSujet = new JTextField();
-		addSujet.setBackground(AntiqueWhite3);
-		suj.add(addSujet);
-		JLabel nivProp = new JLabel("Niveau : ");
-		niv.add(nivProp);
-		addNiveau = new JTextField();
-		addNiveau.setBackground(AntiqueWhite3);
-		niv.add(addNiveau);
+		//Affichage du choix de sujet en une liste dï¿½roulante
+		bottom1 = Box.createHorizontalBox(); 
+		main.add(bottom1);
 		
 		
 		
@@ -305,8 +316,8 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		combo.setBackground(AntiqueWhite3);
 		combo.addItem("*");
 		combo.addItem("informatique");
-		combo.addItem("mathématique");
-		combo.addItem("électronique");
+		combo.addItem("mathï¿½matique");
+		combo.addItem("ï¿½lectronique");
 		bottom1.add(combo);
 		combo.addItemListener(this);
 		
@@ -315,11 +326,11 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		espace5.setBackground(transparent);
 		main.add(espace5);
 		
+		//Affichage du choix de niveau dans le sujet
 		bottom2 = Box.createHorizontalBox(); 
 		main.add(bottom2);
 		bottom2.setVisible(false);
-		
-		
+		//Boutons pour choisir le sujet
 		niveau1 = new JButton ("niveau1");
 		niveau1.setBackground(AntiqueWhite3);
 		bottom2.add(niveau1);
@@ -330,10 +341,12 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		niveau3.setBackground(AntiqueWhite3);
 		bottom2.add(niveau3);
 		
+		
+		//Afichage des questions
 		quizz = Box.createVerticalBox();
 		main.add(quizz);
 		quizz.setVisible(false);
-		
+    //Question posÃ©e
 		textQuest = new JTextArea (""); 
 		textQuest.setPreferredSize (new Dimension (250, 50));
 		textQuest.setEditable(false);
@@ -342,15 +355,15 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		textQuest.setFont(g);
 		textQuest.setBackground(AntiqueWhite3);
 		quizz.add(textQuest);
-		
+    //Espace ajoutÃ©
 		JPanel espace2 = new JPanel();
 		espace2.setPreferredSize(new Dimension(300,20));
 		espace2.setBackground(transparent);
 		quizz.add(espace2);
-		
+		//Box pour afficher les boutons de rï¿½ponse sur 2 hauteurs
 		Box rep12 = Box.createHorizontalBox(); 
 		quizz.add(rep12);
-		
+		//Espace ajoutÃ©
 		JPanel espace3 = new JPanel();
 		espace3.setPreferredSize(new Dimension(300,10));
 		espace3.setBackground(transparent);
@@ -358,44 +371,47 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		
 		Box rep34 = Box.createHorizontalBox(); 
 		quizz.add(rep34);
-		
-		
-		
+
+		//Les 2 premiers boutons de rï¿½ponse ï¿½ afficher
 		quizzReponse1 = new JButton ();
 		quizzReponse1.setBackground(AntiqueWhite3);
 		rep12.add(quizzReponse1);
 		quizzReponse2 = new JButton ();
 		quizzReponse2.setBackground(AntiqueWhite3);
 		rep12.add(quizzReponse2);
-		
+		//les 2 autres boutons de rï¿½ponse ï¿½ afficher
 		quizzReponse3 = new JButton (); 
 		quizzReponse3.setBackground(AntiqueWhite3);
 		rep34.add(quizzReponse3);
 		quizzReponse4 = new JButton (); 
 		quizzReponse4.setBackground(AntiqueWhite3);
 		rep34.add(quizzReponse4);
-		
+    //Espace ajoutÃ©
 		JPanel espace1 = new JPanel();
 		espace1.setPreferredSize(new Dimension(300,20));
 		espace1.setBackground(transparent);
 		quizz.add(espace1);
-		
+		//Affichage du minuteur
 		chrono = new JButton();
 		chrono.setBackground(AntiqueWhite3);
 		quizz.add(chrono);
 				
-
+		
+		//Les 4 boutons de rï¿½ponse pour qu'il se passe quelque chose lorsqu'on clique dessus
 		quizzReponse1.addActionListener(this);
 		quizzReponse2.addActionListener(this);
 		quizzReponse3.addActionListener(this);
 		quizzReponse4.addActionListener(this);
+		//Les 3 boutons de niveau pour qu'il se passe quelque chose lorsqu'on clique dessus
 		niveau1.addActionListener(this);
 		niveau2.addActionListener(this);
 		niveau3.addActionListener(this);
+		//Les boutons pour proposer une question
 		propQuestion.addActionListener(this);
-		ajoutQuestion.addActionListener(this);
 		valider.addActionListener(this);
 		retour.addActionListener(this);
+		//Les boutons pour ajouter une question
+		ajoutQuestion.addActionListener(this);
 		retourSujet.addActionListener(this);
 		supprimer.addActionListener(this);
 		ajouter.addActionListener(this);
@@ -459,6 +475,11 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 			bottom1.setVisible(true);
 			bottom2.setVisible(false);
 			quizz.setVisible(false);
+			propQuest.setText("");
+			propRep1.setText("");
+			propRep2.setText("");
+			propRep3.setText("");
+			propRep4.setText("");
 		}
 		if (e.getSource() == valider) {
 			controller.proposeQuestion(propQuest.getText(), propRep1.getText(), propRep2.getText(), propRep3.getText(), propRep4.getText());
@@ -467,6 +488,11 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 			bottom1.setVisible(true);
 			middle.setVisible(true);
 			bottom2.setVisible(false);
+			propQuest.setText("");
+			propRep1.setText("");
+			propRep2.setText("");
+			propRep3.setText("");
+			propRep4.setText("");
 		}
 		if(e.getSource() == supprimer) {
 			controller.deleteProposition(addQuestion.getText(), addRep1.getText());
@@ -565,7 +591,7 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 	}
 	
 	/**
-	 * Cette méthode permet d'afficher l'interface vers les questions
+	 * Cette mï¿½thode permet d'afficher l'interface vers les questions
 	 */
 	@Override
 	public void affiche() {	
@@ -575,9 +601,11 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		middle.setVisible(false);
 		quizz.setVisible(true);
 	}
-	
-	
-	
+  
+  
+  
+  
+  
 	
 	// Getter and Setter
 	public JPanel getSujet() {
@@ -630,7 +658,7 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 	}
 
 	public Box getMiddle() {
-		return middle;
+		return middle;	
 	}
 
 	public void setMiddle(Box middle) {

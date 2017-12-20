@@ -20,8 +20,8 @@ import model.ProjetModel;
 
 
 /**
- * Cette classe permet de crÈer l'interface de l'introduction. Le joueur va pouvoir s'enregistrer ou se connecter gr‚ce ‡ des boutons
- * On a Ègalement le nom du jeux et l'explication a suivre pour jouer
+ * Cette classe permet de cr√©er l'interface de l'introduction. Le joueur va pouvoir s'enregistrer ou se connecter gr√¢ce √† des boutons
+ * On a √©galement le nom du jeux et l'explication a suivre pour jouer
  * @author B
  *
  */
@@ -35,9 +35,9 @@ public class VueIntro extends ProjetVue implements ActionListener{
 	private JTextArea verif;
 	
 	/**
-	 * Cette constructeur va crÈer la vue avec les boutons, JTextField et autre ÈlÈments.
-	 * @param model C'est le modËle utilisÈ pour la structure MVC
-	 * @param controller C'est le controller utilisÈ pour la structure MVC
+	 * Cette constructeur va cr√©er la vue avec les boutons, JTextField et autre √©l√©ments.
+	 * @param model C'est le mod√®le utilis√© pour la structure MVC
+	 * @param controller C'est le controller utilis√© pour la structure MVC
 	 */
 	public VueIntro(ProjetModel model, ProjetController controller) {
 		super(model, controller);
@@ -59,7 +59,7 @@ public class VueIntro extends ProjetVue implements ActionListener{
 		question.setEditable (false); 
 		main.add(question);
 		
-		JTextArea consignes = new JTextArea("S'enregistrer pour un nouveau joueur\nSe connecter si tu as dÈj‡ jouÈ"); 
+		JTextArea consignes = new JTextArea("S'enregistrer pour un nouveau joueur\nSe connecter si tu as d√©j√† jou√©"); 
 		consignes.setFont(g);
 		consignes.setPreferredSize(new Dimension(300,60));
 		consignes.setBackground(transparent);
@@ -97,13 +97,13 @@ public class VueIntro extends ProjetVue implements ActionListener{
 		identifiant.setBackground(AntiqueWhite3);
 		bottom.add(identifiant);
 		
-		JTextArea prenomTexte = new JTextArea ("PrÈnom : "); 
+		JTextArea prenomTexte = new JTextArea ("Pr√©nom : "); 
 		prenomTexte.setFont(f);
 		prenomTexte.setBackground(transparent);
 		prenomTexte.setEditable (false);
 		bottom1.add(prenomTexte);
 		
-		//Entre ton prÈnom
+		//Entre ton pr√©nom
 		prenom = new JTextField ("Benoit");
 		prenom.setPreferredSize (new Dimension (350, 20));
 		prenom.setBackground(AntiqueWhite3);
