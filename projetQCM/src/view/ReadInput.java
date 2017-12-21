@@ -113,10 +113,10 @@ public class ReadInput extends ProjetVue implements Runnable{
 	 * @param propositions, Question proposï¿½es avec ses rï¿½ponses
 	 */
 	public void addQuestion(List<String> propositions) {
-		affiche("Tapez le sujet de la question (info, elec ou math) et le niveau de celle-ci (1, 2 ou 3)");
+		affiche("Tapez le sujet de la question (informatique, élecctronique ou mathématique) et le niveau de celle-ci (1, 2 ou 3)");
 		String sujet = sc.next();
 		int niveau = sc.nextInt();
-		if(sujet.equals("info")||sujet.equals("elec")||sujet.equals("math")) {
+		if(sujet.equals("informatique")||sujet.equals("électronique")||sujet.equals("mathématique")) {
 			if(niveau==1||niveau==2||niveau==3) {
 				controller.addProposition(propositions.get(0), propositions.get(1), propositions.get(2), propositions.get(3), propositions.get(4), sujet, niveau);
 				controller.deleteProposition(propositions.get(0), propositions.get(1));
