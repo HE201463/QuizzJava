@@ -1,0 +1,98 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 10.0
+-- Dumped by pg_dump version 10.0
+
+-- Started on 2017-12-20 10:21:01
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 197 (class 1259 OID 24576)
+-- Name: Questions; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "Questions" (
+    question character varying NOT NULL,
+    rep1 character varying NOT NULL,
+    rep2 character varying(200),
+    rep3 character varying(200),
+    rep4 character varying(200),
+    sujet character varying NOT NULL,
+    niveau integer NOT NULL,
+    type "char" NOT NULL
+);
+
+
+ALTER TABLE "Questions" OWNER TO postgres;
+
+--
+-- TOC entry 2799 (class 0 OID 24576)
+-- Dependencies: 197
+-- Data for Name: Questions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "Questions" VALUES ('"a" au carré moins "b" au carré est égal à :', ' (a + b) (a - b)', '(a + b)²', '(a - b)²', 'Rien', 'mathématique', 2, 'f');
+INSERT INTO "Questions" VALUES ('Comment appelle-t-on deux droites qui se coupent de manière quelconque ?', 'Des sécantes', 'Des bissectrices', 'Des parallèles', 'Des médiatrices', 'mathématique', 1, 'f');
+INSERT INTO "Questions" VALUES ('X²>0 est défini sur...', 'R*', ']0, +infini[', 'R', ']-infini, 0[', 'mathématique', 3, 'f');
+INSERT INTO "Questions" VALUES ('L''aire d''un cube est plus petite que son volume quand le coté C du cube...', 'C>6', 'C>2', 'C>4', 'C>8', 'mathématique', 3, 'f');
+INSERT INTO "Questions" VALUES ('Que signifie UDP ?', 'user data protocole', NULL, NULL, NULL, 'informatique', 1, 'o');
+INSERT INTO "Questions" VALUES ('Le langage JavaScript est un langage', 'interprété par le navigateur', 'compilé par le navigateur', 'compilé par le serveur', 'Aucune des autres réponses', 'informatique', 1, 'f');
+INSERT INTO "Questions" VALUES ('le nombre binaire 1011 vaut en décimal', '11', '9', '33', '7', 'informatique', 1, 'f');
+INSERT INTO "Questions" VALUES ('Un clavier français est un clavier ?', 'AZERTY', 'QWERTY', 'Type 12', 'Type 02', 'informatique', 1, 'f');
+INSERT INTO "Questions" VALUES ('Quelle norme est également appelée "FireWire 2" ou "FireWire Gigabit"', 'IEEE 1394b', 'IEEE 802.13b', 'IEEE 802.11b', 'IEEE 1349b', 'informatique', 3, 'f');
+INSERT INTO "Questions" VALUES ('(3x+7y)² =', '9x²+42xy+49y²', '3x²+7y²', '9x²+21xy+49 y²', '9x²+49x²', 'mathématique', 3, 'f');
+INSERT INTO "Questions" VALUES ('-3^4 =', '-81', '81', '12', '-12', 'mathématique', 2, 'f');
+INSERT INTO "Questions" VALUES ('(-3)^4 =', '81', '-81', '12', '-12', 'mathématique', 2, 'f');
+INSERT INTO "Questions" VALUES ('Soit ABC un triangle tel que AB = 8 cm, CAB = 70° et ABC = 45°. Quelle est la mesure de ACB ? ', 'ACB = 65°', 'ACB = 85°', 'On ne peut pas savoir', 'un tel triangle n’existe pas.', 'mathématique', 2, 'f');
+INSERT INTO "Questions" VALUES ('Les 3 connections d''un transistor bipolaire sont', 'Base collecteur émetteur', 'Base collecteur source', 'Base émetteur drain', 'Source collecteur émetteur', 'électronique', 1, 'f');
+INSERT INTO "Questions" VALUES ('Le point d''intersection des bissectrices est ', ' Le centre du cercle inscrit', ' L''orthocentre', 'Le centre du cercle circonscrit', 'Le centre de gravité', 'mathématique', 2, 'f');
+INSERT INTO "Questions" VALUES ('Comment appelle t''on la droite qui part du milieu d''un côté jusqu''au sommet opposé dans un triangle ', 'Une médiane', 'Une bissectrice', 'Une hauteur', 'Une médiatrice', 'mathématique', 1, 'f');
+INSERT INTO "Questions" VALUES ('Comment appelle-t-on une droite qui passe par le sommet d''un triangle et est orthogonale au coté opposé à celui-ci', 'Une hauteur', 'une médiatrice', 'une médiane', 'Une bissectrice', 'mathématique', 1, 'f');
+INSERT INTO "Questions" VALUES ('Dans un triangle, comment appelle t''on la droite qui coupe un angle en 2 angles égaux', 'Une bissectrice', 'Une médiane', 'Une hauteur', 'Une médiatrice', 'mathématique', 1, 'f');
+INSERT INTO "Questions" VALUES ('Dans un triangle, comment appelle t''on la droite qui coupe un côté en deux tout en étant perpendiculaire à ce côté', 'Une médiatrice', 'Une médiane', 'Une hauteur', 'Une bissectrice', 'mathématique', 1, 'f');
+INSERT INTO "Questions" VALUES ('Que se passe-t-il pour une fraction si son numérateur et son dénominateur sont premiers entre eux ?', 'Irréductible', 'Réductible a l''infini', 'Le résultat vaut 1', 'Le résultat vaut 0', 'mathématique', 1, 'f');
+INSERT INTO "Questions" VALUES ('Dans quel cas deux nombres entiers sont premiers entre eux ?', 'Si leur PGCD vaut 1', 'Si leur PGCD vaut 0', 'Si leur PGCD = l''un des deux nombres', 'Si leur PGCD < que les deux nombres', 'mathématique', 1, 'f');
+INSERT INTO "Questions" VALUES ('Pour tout nombre entier n, qu''obtient-on pour 1 x n = ?', 'n', 'n²', '1', '2n', 'mathématique', 1, 'f');
+INSERT INTO "Questions" VALUES ('Combien y''a t-il d''octets dans un ko (kilo-octet) ?', '1024', '1000', '1048', '2048', 'informatique', 1, 'f');
+INSERT INTO "Questions" VALUES ('Quel est le tag à utiliser pour placer une image ?', '<img src="" alt="">', '<image src="" alt="">', '<img source="" alt="">', '<image source="" alt="">', 'informatique', 1, 'f');
+INSERT INTO "Questions" VALUES ('Dans un circuit électrique, un nœud est :', 'Une connexion entre au moins 3 dipôles', 'Un point quelconque d''un circuit', 'Une connexion entre 2 et seulement 2 dipôles', 'Une connexion entre deux résistances', 'électronique', 1, 'f');
+INSERT INTO "Questions" VALUES ('Dans un circuit électrique, une branche est une portion de circuit :', 'comprise entre 2 nœuds consécutifs', 'fermée sur elle-même', 'comprise entre 2 nœuds quelconques', 'entre une alimentation et une résistance', 'électronique', 1, 'f');
+INSERT INTO "Questions" VALUES ('Dans un circuit électrique, une maille est :', 'Une portion de circuit fermée sur elle-même', 'Un ensemble quelconque de branches', 'Une portion de circuit comprise entre 2 nœuds', 'Une connexion entre au moins 3 dipôles', 'électronique', 1, 'f');
+INSERT INTO "Questions" VALUES ('La mesure directe de l''intensité d''un courant s''effectue avec : ', 'un ampèremètre', 'un voltmètre', 'un oscilloscope', 'un ohmmètre', 'électronique', 1, 'f');
+INSERT INTO "Questions" VALUES ('Quelle est la grandeur physique ayant pour unité le volt ?', 'La tension', 'Le courant', 'La puissance', 'L''énergie', 'électronique', 1, 'f');
+INSERT INTO "Questions" VALUES ('Quelle est la grandeur physique ayant pour unité le watt ?', 'La puissance', 'Le courant', 'La masse', 'L''énergie', 'électronique', 1, 'f');
+INSERT INTO "Questions" VALUES ('Quelle est la grandeur physique ayant pour unité l''ampère ?', 'Le courant', 'La puissance', 'La masse', 'L''énergie', 'électronique', 1, 'f');
+INSERT INTO "Questions" VALUES ('Quelle est la tension approximative dans le sens direct d''une diode ?', '0,7V', '0,07V', '1V', '0,01V', 'électronique', 1, 'f');
+
+
+--
+-- TOC entry 2677 (class 2606 OID 57353)
+-- Name: Questions Questions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Questions"
+    ADD CONSTRAINT "Questions_pkey" PRIMARY KEY (question);
+
+
+-- Completed on 2017-12-20 10:21:02
+
+--
+-- PostgreSQL database dump complete
+--
+
