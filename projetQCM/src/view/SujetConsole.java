@@ -14,8 +14,8 @@ import model.ProjetModel;
 public class SujetConsole extends ProjetVue implements Observer{
 	/**
 	 * Constructeur du SujetConcole
-	 * @param model
-	 * @param controller
+	 * @param model Modele du pattern MVC
+	 * @param controller Controlleur du pattern MVC
 	 */
 	public SujetConsole(ProjetModel model, ProjetController controller) {
 		super(model, controller);
@@ -24,7 +24,7 @@ public class SujetConsole extends ProjetVue implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		System.out.println(model.toString(2));
-		affiche("Choisis la bonne rÃ©ponse en tappant 1, 2, 3 ou 4 (tu as 10 secondes)");
+		affiche("Choisis la bonne réponse en tappant 1, 2, 3 ou 4 (tu as 10 secondes)");
 	}
 
 	@Override
@@ -35,10 +35,10 @@ public class SujetConsole extends ProjetVue implements Observer{
 	@Override
 	public void affiche() {
 		affiche(model.toString(1));
-		affiche("Choisis un sujet : informatique, Ã©lectronique, mathÃ©matique + 1, 2 ou 3 (un espace entre les deux)");
+		affiche("Choisis un sujet : informatique, électronique, mathématique + 1, 2 ou 3 (un espace entre les deux)");
 		affiche("Pour proposer une question: question");
 		if(model.getJoueur().getIdentifiant().equals("deMahieu")||model.getJoueur().getIdentifiant().equals("Goossens")) {
-			affiche("Pour voir les questions proposÃ©es: addQuestion");
+			affiche("Pour voir les questions proposées: addQuestion");
 		}
 	}
 }

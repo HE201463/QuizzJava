@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Cette classe va permettre d'obtenir les questions du QCM. Les questions vont Ã Âªtre afficher dans la console et dans la partie GUI Ã©galement.
+ * Cette classe va permettre d'obtenir les questions du QCM. Les questions vont être afficher dans la console et dans la partie GUI également.
  * Groupe 12
  * @author Benoit de Mahieu
  * @author Jonathan Gossens
@@ -27,24 +27,23 @@ public class Questions{
 	
 	
 	private List<String> questions = new ArrayList<String>(); // liste avec les questions
-	private List<String> rep = new ArrayList<String>();// liste avec les 12 rÃ©ponses
-	private List<String> reponses = new ArrayList<String>(); // liste avec les 4 rÃ©ponses qui vont etre mÃ©langÃ©es
+	private List<String> rep = new ArrayList<String>();// liste avec les 12 réponses
+	private List<String> reponses = new ArrayList<String>(); // liste avec les 4 réponses qui vont etre mélangées
 	
 	/**
-	 * Ce constructeur se connecte Ã Â  la DB et crÃ©Ã© un tableau de questions(5 pour le moment), un tableau avec toutes les rÃ©ponses 
-	 * et pour finir un tableau permettant de mÃ©langer les rÃ©ponses. 
-	 * @param j Ce paramÃ Â¨tre va permettre de choisir entre les 3 questions sÃ©lectionnÃ©es dans la DB
-	 * @throws ClassNotFoundException Cette exception arrive quand il n'y a pas de rÃ©sultat retournÃ© de la DB.
-	 * @throws SQLException Cette exception permet de signaler lorsque la connexion a la DB Ã©choue.
+	 * Ce constructeur se connecte à la DB et créé un tableau de questions(5 pour le moment), un tableau avec toutes les réponses 
+	 * et pour finir un tableau permettant de mélanger les réponses. 
+	 * @throws ClassNotFoundException Cette exception arrive quand il n'y a pas de résultat retourné de la DB.
+	 * @throws SQLException Cette exception permet de signaler lorsque la connexion a la DB échoue.
 	 */
 	public Questions() throws ClassNotFoundException, SQLException {
 		
 	}
 		
 	/**
-	 * Cette mÃ©thode me permet de comparer la rÃ©ponse choisie par le joueur avec la bonne rÃ©ponse.
-	 * @param rep rep correspond Ã Â  la rÃ©ponse renvoyÃ© par le joueur(rep1, rep2, rep3 ou rep4)
-	 * @return Retourne vrai si c'est la bonne rÃ©ponse, faux dans le cas contraire
+	 * Cette méthode me permet de comparer la réponse choisie par le joueur avec la bonne réponse.
+	 * @param sujet Choix du sujet 
+	 * @param niveau Niveau maximum de question dans le sujet
 	 * @throws ClassNotFoundException exception pour la connexion avec la DB
 	 * @throws SQLException exception au cas ou la requete ne fonctionne pas
 	 */
@@ -68,9 +67,9 @@ public class Questions{
 		  st.close();
 	}
 	/**
-	 * Cette mÃ©thode va comparer la rÃ©ponse choisie par le joueur avec la bonne rÃ©ponse
-	 * @param rep rÃ©ponse choisie par le joueur
-	 * @return true si c'est la bonne rÃ©ponse
+	 * Cette méthode va comparer la réponse choisie par le joueur avec la bonne réponse
+	 * @param rep réponse choisie par le joueur
+	 * @return true si c'est la bonne réponse
 	 */
 	public boolean comparaison(String rep) {
 		if(rep.equals(bonneReponse)) {
@@ -80,9 +79,9 @@ public class Questions{
 	}
 	
 	/**
-	 * CrÃ©ation de la question choisis et du tableau avec les rÃ©ponses correspondantes.
-	 * On a la bonne rÃ©ponse qui est choisis Ã Â  cet endroit.
-	 * @param j j est le choix de la question allant de 0->4 au final
+	 * Création de la question choisis et du tableau avec les réponses correspondantes.
+	 * On a la bonne réponse qui est choisis à cet endroit.
+	 * @param j j est le choix de la question allant de 0 à 4 au final
 	 */
 	public void questionSuivante(int j) {
 		question = questions.get(j);
@@ -114,11 +113,11 @@ public class Questions{
 		}
 	}
 	/**
-	 * Changer les points du joueur lors de la rÃ©ponse Ã  une question
+	 * Changer les points du joueur lors de la réponse à  une question
 	 * @param identifiant du joueur sur lequel il faut changer les points
-	 * @param points Ã  changer
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
+	 * @param points à  changer
+	 * @throws ClassNotFoundException exception pour la connexion avec la DB
+	 * @throws SQLException exception au cas ou la requete ne fonctionne pas
 	 */
 	public void changerPoints(String identifiant, int points) throws ClassNotFoundException, SQLException {
 		Class.forName("org.postgresql.Driver");
@@ -131,12 +130,12 @@ public class Questions{
 		preparedStatement.executeUpdate();
 	}
 	/**
-	 * Cette mÃ©thode va permettre de changer le niveau dans un sujet pour le joueur
+	 * Cette méthode va permettre de changer le niveau dans un sujet pour le joueur
 	 * @param identifiant du joueur qui va changer de niveau
 	 * @param sujet dans lequel il faut changer de niveau
-	 * @param niveau Ã  mettre
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
+	 * @param niveau à  mettre
+	 * @throws ClassNotFoundException exception pour la connexion avec la DB
+	 * @throws SQLException exception au cas ou la requete ne fonctionne pas
 	 */
 	public void changerNiv(String identifiant, String sujet, int niveau) throws SQLException, ClassNotFoundException {
 		Class.forName("org.postgresql.Driver");
@@ -151,8 +150,8 @@ public class Questions{
 		preparedStatement.executeUpdate();
 	}
 	/**
-	 * Cette mÃ©thode met la premiÃ¨re question proposÃ©e dans une lise de String
-	 * @return la question proposÃ©e avec ses rÃ©ponse
+	 * Cette méthode met la première question proposée dans une lise de String
+	 * @return la question proposée avec ses réponse
 	 */
 	public List<String> showProposition() {
 		List<String> test = new ArrayList<String>();
@@ -179,9 +178,9 @@ public class Questions{
 		return test;
 	}
 	/**
-	 * Supprime la question proposÃ©e dans la BDD
-	 * @param q question a supprimÃ©e
-	 * @param r rÃ©ponse a supprimÃ©e
+	 * Supprime la question proposée dans la BDD
+	 * @param q question a supprimée
+	 * @param r réponse a supprimée
 	 */
 	public void deleteProposition(String q, String r) {
 		try {
@@ -196,12 +195,12 @@ public class Questions{
 		}
 	}
 	/**
-	 * Ajoute la question proposÃ©e dans la BDD, dans la table des questions
-	 * @param q question Ã  ajouter
-	 * @param r1 Bonne rÃ©ponse
-	 * @param r2 Autre RÃ©ponse
-	 * @param r3 Autre RÃ©ponse
-	 * @param r4 Autre RÃ©ponse
+	 * Ajoute la question proposée dans la BDD, dans la table des questions
+	 * @param q question à ajouter
+	 * @param r1 Bonne réponse
+	 * @param r2 Autre Réponse
+	 * @param r3 Autre Réponse
+	 * @param r4 Autre Réponse
 	 * @param sujet de la question
 	 * @param niveau de la question dans le sujet
 	 */

@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Observable;
 /**
- * Cette classe hérite de Observable, elle est utilisé pour instancié des joueurs et les questions
+ * Cette classe hérite de Observable, elle est utilisée pour instancié des joueurs et les questions
  * Elle permet de lier les différents model entre eux
  * @author Jonathan Goossens 2TL2
  * @author Benoit de Mahieu 2TL2
@@ -27,7 +27,7 @@ public class ProjetModel extends Observable{
 	}
 	
 	/**
-	 * Cette méthode utilise la méthode connecter de la classe joueur qui pourra donc Ãªtre utilisée dans le controller
+	 * Cette méthode utilise la méthode connecter de la classe joueur qui pourra donc être utilisée dans le controller
 	 * @param identifiant pour se connecter
 	 */
 	public void connecter(String identifiant) {
@@ -35,8 +35,8 @@ public class ProjetModel extends Observable{
 	}
 	
 	/**
-	 * Cette méthode utilise la méthode verifIdentifier de la classe joueur qui pourra donc Ãªtre utilisée dans le controller
-	 * @param identifiant Ã  vérifier
+	 * Cette méthode utilise la méthode verifIdentifier de la classe joueur qui pourra donc être utilisée dans le controller
+	 * @param identifiant à  vérifier
 	 * @return true si le pseudo est en BDD, false par défaut
 	 */
 	public boolean verifIdentifier(String identifiant) {
@@ -45,7 +45,7 @@ public class ProjetModel extends Observable{
 	}
 	
 	/**
-	 * Cette méthode utilise la méthode verifConnecter de la classe joueur qui pourra donc Ãªtre utilisée dans le controller
+	 * Cette méthode utilise la méthode verifConnecter de la classe joueur qui pourra donc être utilisée dans le controller
 	 * @param identifiant unique du joueur
 	 * @param prenom qui permet la vérification de la combinaison avec le pseudo 
 	 * @return true si la combinaison est bonne, false par défaut
@@ -56,9 +56,9 @@ public class ProjetModel extends Observable{
 	}
 	
 	/**
-	 * Cette méthode utilise la méthode enregistrer de la classe joueur qui pourra donc Ãªtre utilisée dans le controller
-	 * @param identifiant Ã  ajouter dans la BDD
-	 * @param prenom qui sera associé Ã  l'identifiant
+	 * Cette méthode utilise la méthode enregistrer de la classe joueur qui pourra donc être utilisée dans le controller
+	 * @param identifiant à  ajouter dans la BDD
+	 * @param prenom qui sera associé à  l'identifiant
 	 */
 	public void enregistrer(String identifiant, String prenom) {
 		joueur.enregistrer(identifiant, prenom);
@@ -66,10 +66,10 @@ public class ProjetModel extends Observable{
 	}
 	
 	/**
-	 * Cette méthode renvoie une représentation textuelle des classes Joueur et Questions avec un paramÃ¨tre qui permet de choisir
-	 * quelle classe va Ãªtre représentée !
-	 * @param i 
-	 * @return la représentation du Joueur si le paramÃ¨tre est égal 1, la représentation des Questions sinon
+	 * Cette méthode renvoie une représentation textuelle des classes Joueur et Questions avec un paramètre qui permet de choisir
+	 * quelle classe va être représentée !
+	 * @param i Choisir quel String afficher
+	 * @return la représentation du Joueur si le paramètre est égal 1, la représentation des Questions sinon
 	 */
 	public String toString(int i) {
 		if(i==1)
@@ -81,8 +81,8 @@ public class ProjetModel extends Observable{
 	}
 	
 	/**
-	 * Cette méthode utilise la méthode questionSuivante de la classe Questions qui pourra donc Ãªtre utilisée dans le controller
-	 * @param i
+	 * Cette méthode utilise la méthode questionSuivante de la classe Questions qui pourra donc être utilisée dans le controller
+	 * @param i Question suivante de 0 à 4
 	 */
 	public void questionSuivante(int i) {
 		quest.questionSuivante(i);
@@ -91,16 +91,18 @@ public class ProjetModel extends Observable{
 	}
 	
 	/**
-	 * Cette méthode utilise la méthode choixQuestion de la classe Questions qui pourra donc Ãªtre utilisée dans le controller
+	 * Cette méthode utilise la méthode choixQuestion de la classe Questions qui pourra donc être utilisée dans le controller
 	 * @param sujet de question que le joueur va choisir
 	 * @param niveau de question qui sera posée dans le sujet choisi
+	 * @throws ClassNotFoundException exception pour la connexion avec la DB
+	 * @throws SQLException exception au cas ou la requete ne fonctionne pas
 	 */
 	public void choixQuestion(String sujet, int niveau) throws ClassNotFoundException, SQLException {
 		quest.choixQuestion(sujet, niveau);
 	}
 	
 	/**
-	 * Cette méthode utilise la méthode comparaison de la classe Questions qui pourra donc Ãªtre utilisée dans le controller
+	 * Cette méthode utilise la méthode comparaison de la classe Questions qui pourra donc être utilisée dans le controller
 	 * @param choix de la réponse 
 	 * @return true si le bonne réponse a été choisie, false sinon
 	 */
@@ -110,9 +112,9 @@ public class ProjetModel extends Observable{
 	}
 	
 	/**
-	 * Cette méthode utilise la méthode proposerQuestion de la classe joueur qui pourra donc Ãªtre utilisée dans le controller
+	 * Cette méthode utilise la méthode proposerQuestion de la classe joueur qui pourra donc être utilisée dans le controller
 	 * @param q La question proposée par le Joueur
-	 * @param r1 La bonne réponse Ã  la question
+	 * @param r1 La bonne réponse à  la question
 	 * @param r2 Une autre réponse
 	 * @param r3 Une autre réponse
 	 * @param r4 Une autre réponse
@@ -124,8 +126,8 @@ public class ProjetModel extends Observable{
 	 * Changer les points du joueur lors de la réponse à une question
 	 * @param identifiant du joueur sur lequel il faut changer les points
 	 * @param points à changer
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
+	 * @throws ClassNotFoundException exception pour la connexion avec la DB
+	 * @throws SQLException exception au cas ou la requete ne fonctionne pas
 	 */
 	public void changerPoints(String identifiant, int points) throws ClassNotFoundException, SQLException {
 		quest.changerPoints(identifiant, points);

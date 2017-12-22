@@ -9,7 +9,7 @@ import controller.ProjetController;
 import model.ProjetModel;
 
 /**
- * Cette classe permet d'afficher en console l'introduction Ã  notre jeux.
+ * Cette classe permet d'afficher en console l'introduction à notre jeux.
  * Le joueur va pouvoir s'enregistrer ou se connecter.
  * @author B
  *
@@ -34,7 +34,7 @@ public class IntroConsole extends ProjetVue implements Observer{
 	
 	@Override
 	public void affiche() {
-		System.out.println("Bienvenue dans ce jeu ...");
+		System.out.println("Bienvenue dans ce Super Quizz ...");
 		System.out.println("Tape E + un identifiant et un prenom pour t'enregistrer");
 		System.out.println("Tape C + ton identifiant et ton prenom pour te connecter");
 		System.out.println("ATTENTION : identifiant et prenom en un seul mot et avec un espace entre chaque");
