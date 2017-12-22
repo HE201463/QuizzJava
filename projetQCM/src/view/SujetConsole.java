@@ -24,7 +24,7 @@ public class SujetConsole extends ProjetVue implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		System.out.println(model.toString(2));
-		affiche("Choisis la bonne réponse en tappant 1, 2, 3 ou 4 (tu as 10 secondes)");
+		affiche("Choisis la bonne réponse en tappant 1, 2, 3 ou 4 (tu as 20 secondes)");
 	}
 
 	@Override

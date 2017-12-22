@@ -87,6 +87,7 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		sujet.add(main);
 		
 		Font g = new Font("Serif", Font.PLAIN, 16);
+		Font f = new Font("Serif", Font.PLAIN, 20);
 		
 		Color beige = new Color(245,245,220);
 		Color transparent = new Color(0,0,0,0);
@@ -99,11 +100,11 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		
 		JTextField textPrenom = new JTextField (model.getJoueur().getPrenom()); 
 		textPrenom.setBackground(AntiqueWhite3);
-		textPrenom.setFont(g);
+		textPrenom.setFont(f);
 		textPrenom.setEditable (false);
 		textPrenom.setHorizontalAlignment(JLabel.CENTER);
 		bottom.add(textPrenom);
-		textPoints = new JTextField ("Point total: " + model.getJoueur().getPoint()); 
+		textPoints = new JTextField ("Point total : " + model.getJoueur().getPoint()); 
 		textPoints.setBackground(AntiqueWhite3);
 		textPoints.setFont(g);
 		textPoints.setEditable (false);
@@ -348,7 +349,7 @@ public class VueSujet extends ProjetVue implements ActionListener, ItemListener{
 		quizz.setVisible(false);
     //Question posée
 		textQuest = new JTextArea (""); 
-		textQuest.setPreferredSize (new Dimension (250, 50));
+		textQuest.setPreferredSize (new Dimension (250, 80));
 		textQuest.setEditable(false);
 		textQuest.setLineWrap(true);
 		textQuest.setWrapStyleWord(true);

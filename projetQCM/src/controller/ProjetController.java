@@ -272,7 +272,7 @@ public class ProjetController {
 		vue.setLocationRelativeTo(null);
 		vue.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		vue.setBackground(Color.BLUE);
-		vue.setSize(600, 350);
+		vue.setSize(600, 400);
 		vue.setLocationRelativeTo(null);
 		vue.setVisible(true);
 		vue.getContentPane().add(((VueSujet)vue).getSujet());
