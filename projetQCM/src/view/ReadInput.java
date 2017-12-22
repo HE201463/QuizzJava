@@ -26,11 +26,11 @@ public class ReadInput extends ProjetVue implements Runnable{
 						intro(c);
 					}
 					else {
-						affiche("Mauvaise ï¿½criture");
+						affiche("Mauvaise écriture");
 					}
 				}
 				else if(controller.getPage().equals("sujet")) {
-					if(c.equals("informatique") || c.equals("mathï¿½matique") || c.equals("ï¿½lectronique")) {
+					if(c.equals("informatique") || c.equals("mathématique") || c.equals("électronique")) {
 						sujet(c);
 					}
 					else if(c.equals("question")) {
@@ -57,35 +57,35 @@ public class ReadInput extends ProjetVue implements Runnable{
 		}
 }
 	/**
-	 * Cette mï¿½thode permet au joueur de proposer une question en console, est appelï¿½e quand il tape question
+	 * Cette méthode permet au joueur de proposer une question en console, est appelée quand il tape question
 	 */
 	public void propQuestion() {
 		affiche("Proposez votre question");
 		sc.nextLine();
 		String q = sc.nextLine();
-		affiche("Tapez maintenant la bonne rï¿½ponse !");
+		affiche("Tapez maintenant la bonne réponse !");
 		String r1 = sc.nextLine();
-		affiche("Tapez une autre rï¿½ponse !");
+		affiche("Tapez une autre réponse !");
 		String r2 = sc.nextLine();
-		affiche("Tapez une autre rï¿½ponse !");
+		affiche("Tapez une autre réponse !");
 		String r3 = sc.nextLine();
-		affiche("Tapez une autre rï¿½ponse !");
+		affiche("Tapez une autre réponse !");
 		String r4 = sc.nextLine();
-		affiche("Votre question a bien ï¿½tï¿½ envoyï¿½e ! Merci de votre participation !\n\n");
+		affiche("Votre question a bien été envoyée ! Merci de votre participation !\n\n");
 		controller.proposeQuestion(q, r1, r2, r3, r4);
 		
 	}
 	/**
-	 * Cette mï¿½thode sert ï¿½ afficher les questions proposï¿½es en console
-	 * Elle est appelï¿½e quand le joueur tape addQuestion
+	 * Cette méthode sert à afficher les questions proposées en console
+	 * Elle est appelée quand le joueur tape addQuestion
 	 */
 	public void showPropQuestion() {
 		List<String> propositions = controller.showProposition();
-		affiche("Question proposï¿½e : "+ propositions.get(0));
-		affiche("La bonne rï¿½ponse : "+propositions.get(1));
-		affiche("Autre rï¿½ponse : "+propositions.get(2));
-		affiche("Autre rï¿½ponse : "+propositions.get(3));
-		affiche("Autre rï¿½ponse : "+propositions.get(4));
+		affiche("Question proposée : "+ propositions.get(0));
+		affiche("La bonne réponse : "+propositions.get(1));
+		affiche("Autre réponse : "+propositions.get(2));
+		affiche("Autre réponse : "+propositions.get(3));
+		affiche("Autre réponse : "+propositions.get(4));
 		affiche("Si vous voulez ajouter la question tapez \"add\"");
 		affiche("Si vous voulez supprimer la question tapez \"delete\"");
 		String scan = sc.next();
@@ -98,7 +98,7 @@ public class ReadInput extends ProjetVue implements Runnable{
 			}
 		}else if(scan.equals("delete")) {
 			controller.deleteProposition(propositions.get(0), propositions.get(1));
-			affiche("Question supprimï¿½e !");
+			affiche("Question supprimée !");
 			if(controller.showProposition().size()!=0) {
 				showPropQuestion();
 			} else {
@@ -108,9 +108,9 @@ public class ReadInput extends ProjetVue implements Runnable{
 		
 	}
 	/**
-	 * Cette mï¿½thode sert ï¿½ ajouter une question dans la BDD via la console !
-	 * Elle est appelï¿½e quand le joueur tape add 
-	 * @param propositions, Question proposï¿½es avec ses rï¿½ponses
+	 * Cette méthode sert à ajouter une question dans la BDD via la console !
+	 * Elle est appelée quand le joueur tape add 
+	 * @param propositions, Question proposées avec ses réponses
 	 */
 	public void addQuestion(List<String> propositions) {
 		affiche("Tapez le sujet de la question (info, elec ou math) et le niveau de celle-ci (1, 2 ou 3)");

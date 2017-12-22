@@ -13,10 +13,10 @@ import view.SujetConsole;
 import view.VueSujet;
 
 /**
- * Cette classe est le controller du modÃ¨le MVC, il sert Ã Â  lier les vues aux diffÃ©rents modÃ¨les.
+ * Cette classe est le controller du modèle MVC, il sert à  lier les vues aux différents modèles.
  * @author Jonathan Goossens 2TL2
  * @author Benoit de Mahieu 2TL2
- * On utilise aussi le Jar Lombok qui permet de gÃ©nÃ©rer les getter et setter sans les Ã©crire
+ * On utilise aussi le Jar Lombok qui permet de générer les getter et setter sans les écrire
  */
 
 public class ProjetController {
@@ -35,53 +35,53 @@ public class ProjetController {
 	private long tempsFinal;
 	/**
 	 * Constructeur qui instancie le model de ce pattern MVC
-	 * @param model Ã Â  instancier
+	 * @param model à  instancier
 	 */
 	public ProjetController(ProjetModel model) {
 		this.model = model;
 	}
 	
 	/**
-	 * Cette mÃ©thode instancie une vue GUI
-	 * @param vue Ã Â  instancier
+	 * Cette méthode instancie une vue GUI
+	 * @param vue à  instancier
 	 */
 	public void addview(ProjetVue vue) {
 		this.vue = vue;
 	}
 	
 	/**
-	 * Cette mÃ©thode instancie une vue console
-	 * @param vue console Ã Â  instancier
+	 * Cette méthode instancie une vue console
+	 * @param vue console à  instancier
 	 */
 	public void addview2(ProjetVue console) {
 		this.console = console;
 	}
 	
 	/**
-	 * Cette mÃ©thode va vÃ©rifier la rÃ©ponse Ã Â  la question et fait donc appel Ã Â  la mÃ©thode comparaison de la classe ProjetModel
-	 * @param choix de la rÃ©ponse Ã Â  la question
+	 * Cette méthode va vérifier la réponse à  la question et fait donc appel à  la méthode comparaison de la classe ProjetModel
+	 * @param choix de la réponse à  la question
 	 */
 	public void verification(String choix) {
 		if(model.comparaison(choix)) {
-			console.affiche("Bonne rÃ©ponse");
+			console.affiche("Bonne réponse");
 			points = model.getJoueur().getPoint() + 1;
 			model.getJoueur().setPoint(points);
 		}
 		else {
-			console.affiche("Mauvaise rÃ©ponse");
+			console.affiche("Mauvaise réponse");
 		}
 	}
 	
 	/**
-	 * Cette mÃ©thode utilise la mÃ©thode verifIdentifier de la classe ProjetModel pour pouvoir l'utiliser dans la vue
-	 * @param identifiant Ã Â  vÃ©rifier
-	 * @return false si le pseudo est en BDD et affiche que l'identifiant existe dÃ©jÃ Â  
+	 * Cette méthode utilise la méthode verifIdentifier de la classe ProjetModel pour pouvoir l'utiliser dans la vue
+	 * @param identifiant à  vérifier
+	 * @return false si le pseudo est en BDD et affiche que l'identifiant existe déjà  
 	 * @return true dans les autres cas et affiche que l'identifiant est correct
 	 */
 	public boolean verifIdentite(String identifiant) {
 		if(model.verifIdentifier(identifiant)) {
-			console.affiche("Cette identifiant existe dÃ©jÃ Â ");
-			JOptionPane.showMessageDialog(null, "Cette identifiant existe dÃ©jÃ Â ", "Erreur", JOptionPane.ERROR_MESSAGE);
+			console.affiche("Cette identifiant existe déjà ");
+			JOptionPane.showMessageDialog(null, "Cette identifiant existe déjà ", "Erreur", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 		else {
@@ -91,11 +91,11 @@ public class ProjetController {
 	}
 	
 	/**
-	 * Cette mÃ©thode utilise la mÃ©thode verifConnecter de la classe ProjetModel pour pouvoir l'utiliser dans la vue
+	 * Cette méthode utilise la méthode verifConnecter de la classe ProjetModel pour pouvoir l'utiliser dans la vue
 	 * @param identifiant unique du joueur
-	 * @param prenom qui permet la vÃ©rification de la combinaison avec le pseudo 
+	 * @param prenom qui permet la vérification de la combinaison avec le pseudo 
 	 * @return true si la combinaison est bonne et affiche que le compte est correct
-	 * @return false dans les autres cas et affiche que l'identifiant ou le prÃ©nom est incorrect
+	 * @return false dans les autres cas et affiche que l'identifiant ou le prénom est incorrect
 	 */
 	public boolean verifConnecte(String identifiant, String prenom) {
 		if(model.verifConnecter(identifiant, prenom)) {
@@ -109,7 +109,7 @@ public class ProjetController {
 		}
 	}
 	/**
-	 * Cette mÃ©thode utilise la mÃ©thode questionSuivante de la classe ProjetModel pour pouvoir l'utiliser dans la vue
+	 * Cette méthode utilise la méthode questionSuivante de la classe ProjetModel pour pouvoir l'utiliser dans la vue
 	 * 
 	 */
 	public void questionSuivante() {
@@ -119,7 +119,7 @@ public class ProjetController {
 			vue.affiche();
 		}
 		else {
-			console.affiche("C'est terminÃ©");
+			console.affiche("C'est terminé");
 			arret = false;
 			try {
 				model.changerPoints(model.getJoueur().getIdentifiant(), model.getJoueur().getPoint());
@@ -140,7 +140,7 @@ public class ProjetController {
 	}
 	
 	/**
-	 * Cette mÃ©thode vÃ©rifie le nombre de point du joueur et son niveau. Selon ces paramÃ¨tres il pourra passer au niveau suivant.
+	 * Cette méthode vérifie le nombre de point du joueur et son niveau. Selon ces paramètres il pourra passer au niveau suivant.
 	 * @param choix Ce choix est le sujet qu'il a choisis d'augmenter (info, math ou elec pour le moment)
 	 * @param niveau Le niveau est celui qu'il veut augmenter (2 ou 3)
 	 * @return return true si le niveau est insuffisant et qu'il n'a pas assez de points pour le passer
@@ -153,13 +153,13 @@ public class ProjetController {
 			if (model.getJoueur().getNivInfo() < niveau && model.getJoueur().getPoint() > nombre)return 3;
 			if(model.getJoueur().getNivInfo() > niveau) return 4;
 		}
-		if (choix.equals("mathÃ©matique")) {
+		if (choix.equals("mathématique")) {
 			if (model.getJoueur().getNivMath() < niveau && model.getJoueur().getPoint() < nombre)return 1;
 			if (model.getJoueur().getNivMath() == niveau-1 && model.getJoueur().getPoint() > nombre)return 2;
 			if (model.getJoueur().getNivMath() < niveau && model.getJoueur().getPoint() > nombre)return 3;
 			if(model.getJoueur().getNivMath() > niveau) return 4;
 		}
-		if (choix.equals("Ã©lectronique")) {
+		if (choix.equals("électronique")) {
 			if (model.getJoueur().getNivElec() < niveau && model.getJoueur().getPoint() < nombre)return 1;
 			if (model.getJoueur().getNivElec() == niveau-1 && model.getJoueur().getPoint() > nombre)return 2;
 			if (model.getJoueur().getNivInfo() < niveau && model.getJoueur().getPoint() > nombre)return 3;
@@ -169,8 +169,8 @@ public class ProjetController {
 	}
 	
 	/**
-	 * Cette mÃ©thode va permettre de signaler si le joueur n'a pas assez de points, si c'est le cas soustraire le nombre de points
-	 * ou alors de poser des questions d'un niveau diffÃ©rents a 1
+	 * Cette méthode va permettre de signaler si le joueur n'a pas assez de points, si c'est le cas soustraire le nombre de points
+	 * ou alors de poser des questions d'un niveau différents a 1
 	 * @param choix Ce choix est le sujet qu'il a choisis d'augmenter (info, math ou elec pour le moment)
 	 * @param niveau Le niveau est celui qu'il veut augmenter (2 ou 3)
 	 * @return
@@ -209,7 +209,7 @@ public class ProjetController {
 	}
 	
 	/**
-	 * Cette mÃ©thode change le niveau du joueur dans la DB
+	 * Cette méthode change le niveau du joueur dans la DB
 	 * @param choix Ce choix est le sujet qu'il a choisis d'augmenter (info, math ou elec pour le moment)
 	 * @param niveau Le niveau est celui qu'il veut augmenter (2 ou 3)
 	 */
@@ -217,17 +217,17 @@ public class ProjetController {
 		if(choix.equals("informatique")) {
 			model.getJoueur().setNivInfo(niveau);
 		}
-		if(choix.equals("mathÃ©matique")) {
+		if(choix.equals("mathématique")) {
 			model.getJoueur().setNivMath(niveau);
 		}
-		if(choix.equals("Ã©lectronique")) {
+		if(choix.equals("électronique")) {
 			model.getJoueur().setNivElec(niveau);
 		}
 	}
 	/**
-	 * Cette mÃ©thode utilise la mÃ©thode choixQuestion de la classe ProjetModel pour pouvoir l'utiliser dans la vue
-	 * @param sujet choisi pour Ãªtre interrogÃ© dessus
-	 * @param niveau de question qui sera posÃ©e dans le sujet choisi
+	 * Cette méthode utilise la méthode choixQuestion de la classe ProjetModel pour pouvoir l'utiliser dans la vue
+	 * @param sujet choisi pour être interrogé dessus
+	 * @param niveau de question qui sera posée dans le sujet choisi
 	 */
 	public void choixQuestion(String sujet, int niveau) {
 		try {
@@ -239,12 +239,12 @@ public class ProjetController {
 	
 	
 	/**
-	 * Cette mÃ©thode utilise la mÃ©thode proposerQuestion de la classe ProjetModel qui pourra donc Ã Âªtre utilisÃ©e dans la vue
-	 * @param q La question proposÃ©e par le Joueur
-	 * @param r1 La bonne rÃ©ponse Ã Â  la question
-	 * @param r2 Une autre rÃ©ponse
-	 * @param r3 Une autre rÃ©ponse
-	 * @param r4 Une autre rÃ©ponse
+	 * Cette méthode utilise la méthode proposerQuestion de la classe ProjetModel qui pourra donc àªtre utilisée dans la vue
+	 * @param q La question proposée par le Joueur
+	 * @param r1 La bonne réponse à  la question
+	 * @param r2 Une autre réponse
+	 * @param r3 Une autre réponse
+	 * @param r4 Une autre réponse
 	 */
 	public void proposeQuestion(String question, String r1, String r2, String r3, String r4) {
 		model.proposerQuestion(question, r1, r2, r3, r4);
@@ -254,9 +254,9 @@ public class ProjetController {
 	
 	
 	/**
-	 * Cette mÃ©thode va crÃ©er la page de choix de sujet en utilisant les constructeurs des classes SujetConsole et VueSujet
-	 * Des modifiication Ã Â  la vue GUI sont faites ici
-	 * @param identifiant qui permettra de rÃ©cupÃ©rer le prÃ©nom, les points et les niveaux du joueur
+	 * Cette méthode va créer la page de choix de sujet en utilisant les constructeurs des classes SujetConsole et VueSujet
+	 * Des modifiication à  la vue GUI sont faites ici
+	 * @param identifiant qui permettra de récupérer le prénom, les points et les niveaux du joueur
 	 */
 	public void PageSujet(String identifiant) {
 		page = "sujet";
@@ -272,15 +272,15 @@ public class ProjetController {
 		vue.setLocationRelativeTo(null);
 		vue.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		vue.setBackground(Color.BLUE);
-		vue.setSize(600, 350);
+		vue.setSize(600, 400);
 		vue.setLocationRelativeTo(null);
 		vue.setVisible(true);
 		vue.getContentPane().add(((VueSujet)vue).getSujet());
 	}
 	
 	/**
-	 * Cette mÃ©thode va crÃ©er la page d'affichage des questions en utilisant les constructeurs des classes QuestionConsole et VueQuestion
-	 * Des modifications Ã Â  la vue GUI sont faites ici
+	 * Cette méthode va créer la page d'affichage des questions en utilisant les constructeurs des classes QuestionConsole et VueQuestion
+	 * Des modifications à  la vue GUI sont faites ici
    * C'est ici que je lance le thread pour le compte a rebours.
 	 */
 	public void PageQuestions() {
@@ -293,28 +293,28 @@ public class ProjetController {
 		((VueSujet)vue).getQuizz().setVisible(true);
 	}
 	/**
-	 * Envoie une question proposÃ©e avec ses rÃ©ponses
-	 * @return la question proposÃ©e avec ses rÃ©ponses
+	 * Envoie une question proposée avec ses réponses
+	 * @return la question proposée avec ses réponses
 	 */
 	public List<String> showProposition() {
 		return model.showProposition();
 		
 	}
 	/**
-	 * Demande la suppression de la question proposÃ©e 
-	 * @param q question Ã  supprimÃ©
-	 * @param r rÃ©ponse Ã  supprimer (Pour le where)
+	 * Demande la suppression de la question proposée 
+	 * @param q question à supprimé
+	 * @param r réponse à supprimer (Pour le where)
 	 */
 	public void deleteProposition(String q, String r) {
 		model.deleteProposition(q, r);
 	}
 	/**
-	 * Demande l'ajout d la question proposÃ©e Ã  la BDD
-	 * @param q question Ã  ajouter
-	 * @param r1 Bonne rÃ©ponse
-	 * @param r2 Autre rÃ©ponse
-	 * @param r3 Autre rÃ©ponse 
-	 * @param r4 Autre rÃ©ponse
+	 * Demande l'ajout d la question proposée à la BDD
+	 * @param q question à ajouter
+	 * @param r1 Bonne réponse
+	 * @param r2 Autre réponse
+	 * @param r3 Autre réponse 
+	 * @param r4 Autre réponse
 	 * @param sujet Sujet de la question
 	 * @param niveau Niveau de la question
 	 */
@@ -329,15 +329,15 @@ public class ProjetController {
 	}
 
 	/**
-	 * Cette mÃ©thode permet de mettre ou de remettre le compteur Ã Â 10
+	 * Cette méthode permet de mettre ou de remettre le compteur à 10
 	 */
 	public void recommence() {
-		tempsFinal = System.currentTimeMillis() + 10000;
+		tempsFinal = System.currentTimeMillis() + 20000;
 	}
 	
 	/**
-	 * Cette classe est utilisÃ©e par le thread initiÃ© par la mÃ©thode PageQuestions
-	 * Elle permet de lancer le chronomÃ¨tre et de passer a la question suivante.
+	 * Cette classe est utilisée par le thread initié par la méthode PageQuestions
+	 * Elle permet de lancer le chronomètre et de passer a la question suivante.
 	 * @author B
 	 *
 	 */
